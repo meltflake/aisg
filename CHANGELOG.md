@@ -1,25 +1,25 @@
 # Changelog
 
-## 2026-02-17
+## 0.0.2 — 2026-02-17
 
-- 19 份政策文档完整中文翻译 PDF（共 207 页），基于原始 PDF 和官方网页全文翻译
-- 政策库页面新增"原文"和"翻译"双链接按钮
-- 添加 PDF 生成脚本 (scripts/generate_pdf.py)
-- 添加 12 份新政策文档（从 7 扩展到 19），涵盖预算案、行业监管、国际合作
-- 切换主题为 AstroWind
-- 移除首页公告横幅
-- 修正首页统计数字（19 政策 / 5 阶段 / 16 指标 / 26 参考资料）
+### Refactor: Separate data from templates
 
-## 2026-02-16
+- Extracted all hardcoded page data into `src/data/` TypeScript modules:
+  - `src/data/policies.ts` — 19 policy documents across 5 categories with full metadata
+  - `src/data/tracker.ts` — 16 tracker metrics across 5 sections
+  - `src/data/references.ts` — 26 reference links across 6 categories
+  - `src/data/stats.ts` — homepage statistics and feature items
+- Updated all 4 pages to import from data files instead of hardcoding:
+  - `src/pages/index.astro` — imports stats and features
+  - `src/pages/policies/index.astro` — imports policy categories
+  - `src/pages/tracker/index.astro` — imports tracker sections
+  - `src/pages/references/index.astro` — imports reference sections
+- Added TypeScript interfaces for all data types
+- Tracker rows now use named fields (`name`, `value`, `source`, `sourceUrl`) instead of array indices
+- No visual changes — same HTML output
+- Bumped version to 0.0.2
 
-- 项目初始化，基于 PRD v2.0
-- 5 个内容模块：政策库、演进分析、执行追踪、挑战分析、参考资料
-- 部署到 meltflake.com/aisg/
+## 0.0.1 — Initial release
 
----
-
-> 每次添加/修改政策数据后，同步更新首页 `index.astro` 的统计数字和描述文案。
-
----
-
-> 每次修改后必须验证：1) npm run build 无错误 2) 检查所有外部链接可用 3) 首页数字与实际数据一致
+- AstroWind-based site with hardcoded data in .astro pages
+- Pages: homepage, policies, tracker, references, evolution, challenges
