@@ -1,0 +1,167 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Headline from '~/components/ui/Headline.astro';
+import { regions, regionDetails, insights, dataDate, dataDisclaimer } from '~/data/benchmarking';
+---
+
+<Layout metadata={{ title: '国际对标' }}>
+  <section class="px-4 py-16 sm:px-6 mx-auto lg:px-8 max-w-6xl">
+    <Headline title="🌏 国际对标" subtitle="新加坡与全球先进经济体的 AI 战略对比" />
+
+    <!-- 总览对比表 -->
+    <div class="mb-12">
+      <h2 class="text-xl font-bold mb-4">📊 总览对比表</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse min-w-[900px]">
+          <thead>
+            <tr class="bg-slate-100 dark:bg-slate-800">
+              <th class="text-left p-3 border border-slate-200 dark:border-slate-700">地区</th>
+              <th class="text-left p-3 border border-slate-200 dark:border-slate-700">核心战略</th>
+              <th class="text-left p-3 border border-slate-200 dark:border-slate-700">年份</th>
+              <th class="text-left p-3 border border-slate-200 dark:border-slate-700">投资规模</th>
+              <th class="text-left p-3 border border-slate-200 dark:border-slate-700">治理模式</th>
+              <th class="text-left p-3 border border-slate-200 dark:border-slate-700">核心优势</th>
+              <th class="text-left p-3 border border-slate-200 dark:border-slate-700">AI 排名</th>
+            </tr>
+          </thead>
+          <tbody>
+            {regions.map((r, i) => (
+              <tr class={i === 0 ? 'bg-blue-50 dark:bg-blue-900/20 font-semibold' : 'hover:bg-slate-50 dark:hover:bg-slate-800/50'}>
+                <td class="p-3 border border-slate-200 dark:border-slate-700 whitespace-nowrap">{r.flag} {r.name}</td>
+                <td class="p-3 border border-slate-200 dark:border-slate-700">{r.strategy}</td>
+                <td class="p-3 border border-slate-200 dark:border-slate-700">{r.strategyYear}</td>
+                <td class="p-3 border border-slate-200 dark:border-slate-700">{r.investment}</td>
+                <td class="p-3 border border-slate-200 dark:border-slate-700">{r.governance}</td>
+                <td class="p-3 border border-slate-200 dark:border-slate-700">{r.strength}</td>
+                <td class="p-3 border border-slate-200 dark:border-slate-700 text-muted">{r.aiRanking || '—'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 关键洞察 -->
+    <div class="mb-12">
+      <h2 class="text-xl font-bold mb-4">💡 关键洞察</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {insights.map((insight) => (
+          <div class="p-5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <h3 class="font-bold text-lg mb-2">{insight.title}</h3>
+            <p class="text-muted text-sm">{insight.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- 各地区详情 -->
+    <div class="mb-12">
+      <h2 class="text-xl font-bold mb-6">🔍 各地区详情</h2>
+      <div class="space-y-8">
+        {regionDetails.map((region) => (
+          <details class="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
+            <summary class="p-4 bg-slate-50 dark:bg-slate-800 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 font-bold text-lg">
+              {region.flag} {region.name} — {region.fullName}
+            </summary>
+            <div class="p-5 space-y-5">
+              <!-- 概述 -->
+              <p class="text-muted">{region.overview}</p>
+
+              <!-- 核心战略 -->
+              <div>
+                <h4 class="font-semibold mb-2">📋 核心战略</h4>
+                <div class="space-y-1">
+                  {region.strategies.map((s) => (
+                    <div class="flex gap-2 text-sm">
+                      <span class="font-mono text-blue-600 dark:text-blue-400 whitespace-nowrap">{s.year}</span>
+                      <span><strong>{s.name}</strong> — {s.description}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <!-- 投资 -->
+              <div>
+                <h4 class="font-semibold mb-2">💰 投资规模</h4>
+                <div class="overflow-x-auto">
+                  <table class="w-full text-sm border-collapse">
+                    <thead>
+                      <tr class="bg-slate-100 dark:bg-slate-800">
+                        <th class="text-left p-2 border border-slate-200 dark:border-slate-700">项目</th>
+                        <th class="text-left p-2 border border-slate-200 dark:border-slate-700">金额</th>
+                        <th class="text-left p-2 border border-slate-200 dark:border-slate-700">备注</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {region.investment.map((inv) => (
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                          <td class="p-2 border border-slate-200 dark:border-slate-700">{inv.item}</td>
+                          <td class="p-2 border border-slate-200 dark:border-slate-700 font-semibold">{inv.amount}</td>
+                          <td class="p-2 border border-slate-200 dark:border-slate-700 text-muted">{inv.note}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- 治理 -->
+              <div>
+                <h4 class="font-semibold mb-2">⚖️ 治理模式</h4>
+                <p class="text-sm text-muted">{region.governance}</p>
+              </div>
+
+              <!-- 关键举措 -->
+              <div>
+                <h4 class="font-semibold mb-2">🎯 关键举措</h4>
+                <ul class="list-disc list-inside text-sm space-y-1">
+                  {region.keyInitiatives.map((item) => <li>{item}</li>)}
+                </ul>
+              </div>
+
+              <!-- 优势与劣势 -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <h4 class="font-semibold mb-2 text-green-600 dark:text-green-400">✅ 相对新加坡的优势</h4>
+                  <ul class="text-sm space-y-1">
+                    {region.strengths.map((s) => <li class="text-green-700 dark:text-green-300">• {s}</li>)}
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-2 text-red-600 dark:text-red-400">❌ 相对新加坡的劣势</h4>
+                  <ul class="text-sm space-y-1">
+                    {region.weaknesses.map((w) => <li class="text-red-700 dark:text-red-300">• {w}</li>)}
+                  </ul>
+                </div>
+              </div>
+
+              <!-- 关键机构 -->
+              <div>
+                <h4 class="font-semibold mb-2">🏛️ 关键机构</h4>
+                <div class="space-y-1 text-sm">
+                  {region.keyBodies.map((body) => (
+                    <div><strong>{body.name}</strong> — {body.role}</div>
+                  ))}
+                </div>
+              </div>
+
+              <!-- 来源 -->
+              <div>
+                <h4 class="font-semibold mb-2 text-muted">📚 参考来源</h4>
+                <ul class="text-xs text-muted space-y-0.5">
+                  {region.sources.map((src) => <li>• {src}</li>)}
+                </ul>
+              </div>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+
+    <!-- 数据说明 -->
+    <div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+      <p class="text-sm text-muted">⚠️ {dataDisclaimer}</p>
+      <p class="text-xs text-muted mt-1">数据更新日期：{dataDate}</p>
+    </div>
+  </section>
+</Layout>

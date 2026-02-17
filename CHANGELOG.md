@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.0.8 — 2026-02-17
+
+### Feature: 国际对标 (International Benchmarking) page
+
+- **New page: 国际对标** (`/benchmarking/`) — Compare Singapore's AI strategy with 9 global economies
+  - Overview comparison table with 10 regions (Singapore highlighted)
+  - 4 key insight cards (governance divergence, investment gap, talent, SG positioning)
+  - 9 detailed region profiles with expandable cards:
+    - Hong Kong, Taiwan, UAE, Israel, South Korea, Estonia, Switzerland, Finland, Canada
+    - Each includes: strategies, investment table, governance, initiatives, strengths/weaknesses vs SG, key bodies, sources
+  - Data disclaimer and update date footer
+- New data file: `src/data/benchmarking.ts` with full TypeScript interfaces
+- Added "国际对标" as top-level nav link between "AI 追踪" and "参考资源"
+- Added to footer under "更多"
+- Bumped version to 0.0.8
+
 ## 0.0.6 — 2026-02-17
 
 ### Feature: AI 创业生态 (AI Startup Ecosystem) page
