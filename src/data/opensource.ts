@@ -106,7 +106,7 @@ export const papers = [
     titleZh: 'SEA-Guard：面向东南亚的文化本地化多语言安全护栏',
     arxivId: '2602.01618',
     url: 'https://arxiv.org/abs/2602.01618',
-    translationUrl: '/aisg/papers/sea-guard-zh.md',
+    translationUrl: '/aisg/papers/sea-guard-zh.pdf',
     year: 2026,
   },
   {
@@ -114,7 +114,7 @@ export const papers = [
     titleZh: 'SEA-SafeguardBench：东南亚语言与文化 AI 安全评测基准',
     arxivId: '2512.05501',
     url: 'https://arxiv.org/abs/2512.05501',
-    translationUrl: '/aisg/papers/sea-safeguardbench-zh.md',
+    translationUrl: '/aisg/papers/sea-safeguardbench-zh.pdf',
     year: 2025,
   },
   {
@@ -122,7 +122,7 @@ export const papers = [
     titleZh: 'SEA-LION：东南亚语言统一网络',
     arxivId: '2504.05747',
     url: 'https://arxiv.org/abs/2504.05747',
-    translationUrl: '/aisg/papers/sea-lion-zh.md',
+    translationUrl: '/aisg/papers/sea-lion-zh.pdf',
     year: 2025,
   },
   {
@@ -130,7 +130,7 @@ export const papers = [
     titleZh: 'SEA-HELM：东南亚语言模型综合评测',
     arxivId: '2502.14301',
     url: 'https://arxiv.org/abs/2502.14301',
-    translationUrl: '/aisg/papers/sea-helm-zh.md',
+    translationUrl: '/aisg/papers/sea-helm-zh.pdf',
     year: 2025,
   },
 ];
