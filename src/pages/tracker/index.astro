@@ -7,46 +7,46 @@ const sections = [
     icon: '💰',
     title: '投资与资金',
     rows: [
-      ['国家 AI 总投资', '> S$1B（10 亿新元）', 'NAIS 2.0, 2023'],
-      ['AI Singapore 初始拨款', 'S$150M（1.5 亿新元）', 'NRF, 2017'],
-      ['RIE2025 研发投入', 'S$25B（含 AI 相关）', 'MTI, 2020'],
+      ['国家 AI 总投资', '> S$1B（10 亿新元）', 'NAIS 2.0, 2023', 'https://file.go.gov.sg/nais2023.pdf'],
+      ['AI Singapore 初始拨款', 'S$150M（1.5 亿新元）', 'NRF, 2017', 'https://aisingapore.org/'],
+      ['RIE2025 研发投入', 'S$25B（含 AI 相关）', 'MTI, 2020', 'https://www.nrf.gov.sg/rie-ecosystem/rie2025plan/'],
     ],
   },
   {
     icon: '👩‍💻',
     title: '人才培养',
     rows: [
-      ['AI 从业者目标', '15,000 名 AI 专才', 'NAIS 2.0, 2023'],
-      ['AI 学徒计划毕业生', '~500+', 'AISG, 2023'],
-      ['AI for Everyone 课程参与', '~100,000+', 'AISG, 2023'],
-      ['大学 AI 相关课程', 'NUS/NTU/SMU/SUTD 均设 AI 方向', '各校官网'],
+      ['AI 从业者目标', '15,000 名 AI 专才', 'NAIS 2.0, 2023', 'https://file.go.gov.sg/nais2023.pdf'],
+      ['AI 学徒计划毕业生', '~500+', 'AISG AIAP, 2023', 'https://aisingapore.org/aiap/'],
+      ['AI for Everyone 课程参与', '~100,000+', 'AISG, 2023', 'https://aisingapore.org/'],
+      ['大学 AI 相关课程', 'NUS/NTU/SMU/SUTD 均设 AI 方向', '各校官网', ''],
     ],
   },
   {
     icon: '🔬',
     title: '研究产出',
     rows: [
-      ['AI 论文发表量', '全球 Top 15', 'Stanford AI Index, 2024'],
-      ['SEA Lion 大模型', '东南亚首个多语言开源大模型', 'AISG, 2024'],
-      ['100 Experiments', '完成 100+ AI 项目', 'AISG'],
+      ['AI 论文发表量', '全球 Top 15', 'Stanford AI Index, 2024', 'https://aiindex.stanford.edu/'],
+      ['SEA Lion 大模型', '东南亚首个多语言开源大模型', 'AISG, 2024', 'https://sea-lion.ai/'],
+      ['100 Experiments', '完成 100+ AI 项目', 'AISG', 'https://aisingapore.org/'],
     ],
   },
   {
     icon: '🏢',
     title: '产业采用',
     rows: [
-      ['企业 AI 采用率', '~42%（中小企业偏低）', 'IMDA Survey, 2023'],
-      ['AI 初创公司数量', '~600+', '估算，综合来源'],
-      ['国际 AI 企业亚太总部', 'Google, Microsoft, AWS 等设 AI Hub', 'EDB'],
+      ['企业 AI 采用率', '~42%（中小企业偏低）', 'IMDA Survey, 2023', 'https://www.imda.gov.sg/'],
+      ['AI 初创公司数量', '~600+', '估算，综合来源', ''],
+      ['国际 AI 企业亚太总部', 'Google, Microsoft, AWS 等设 AI Hub', 'EDB', 'https://www.edb.gov.sg/en/our-industries/artificial-intelligence-in-singapore.html'],
     ],
   },
   {
     icon: '🖥️',
     title: '基础设施',
     rows: [
-      ['国家 AI 计算集群', '规划中（含 NVIDIA DGX）', 'NAIS 2.0'],
-      ['数据中心容量', '东南亚最大（暂停新建审批后有限恢复）', 'IMDA, 2024'],
-      ['5G 覆盖率', '> 95% 独立组网', 'IMDA, 2024'],
+      ['国家 AI 计算集群', '规划中（含 NVIDIA DGX）', 'NAIS 2.0', 'https://file.go.gov.sg/nais2023.pdf'],
+      ['数据中心容量', '东南亚最大（暂停新建审批后有限恢复）', 'IMDA, 2024', 'https://www.imda.gov.sg/'],
+      ['5G 覆盖率', '> 95% 独立组网', 'IMDA, 2024', 'https://www.imda.gov.sg/'],
     ],
   },
 ];
@@ -74,7 +74,9 @@ const sections = [
                   <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
                     <td class="p-3 border border-slate-200 dark:border-slate-700">{row[0]}</td>
                     <td class="p-3 border border-slate-200 dark:border-slate-700 font-semibold">{row[1]}</td>
-                    <td class="p-3 border border-slate-200 dark:border-slate-700 text-muted">{row[2]}</td>
+                    <td class="p-3 border border-slate-200 dark:border-slate-700 text-muted">
+                      {row[3] ? <a href={row[3]} target="_blank" rel="noopener" class="text-blue-600 dark:text-blue-400 hover:underline">{row[2]} ↗</a> : row[2]}
+                    </td>
                   </tr>
                 ))}
               </tbody>
