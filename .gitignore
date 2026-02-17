@@ -21,4 +21,4 @@ pnpm-debug.log*
 
 pnpm-lock.yaml
 
-.astro
+.astro__pycache__/
