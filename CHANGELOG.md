@@ -16,6 +16,19 @@
 - Added to footer under "更多"
 - Bumped version to 0.0.8
 
+## 0.0.7 — 2026-02-17
+
+### Update: Tracker 数据大更新
+
+- 投资与资金：政府 AI 专项从 S$1B 更新为 S$2B+（含 NAIRD S$1B、企业计算 S$150M）；新增科技巨头基础设施 US$26B+、AI 创业融资 US$8.4B+、Budget 2026 税收激励
+- 人才培养：新增 SkillsFuture 105K 人、TeSA 21K/340K、AIAP 详细数据、Google AI 技能计划、职场 AI 使用率、AI Springboard
+- 研究产出：新增 NTU/NUS 排名、SEA-LION v4、100 Experiments、ICLR 2025、DBS AI 模型
+- 产业采用：新增数字经济 GDP 占比、大企业/中小企业 AI 采用率、独角兽 32 家、东盟 AI 交易份额
+- 基础设施：新增 NSCC ASPIRE 2A+、国家 AI 计算网格、商用 GPU 集群、NVIDIA 营收、数据中心市场、5G 覆盖
+- 国际排名：新增 Tortoise 第 3、Oxford 第 2、WIPO 第 5 等排名数据
+- Tracker 从 16 项扩展至 42 项指标，6 大分类
+- Bumped version to 0.0.7
+
 ## 0.0.6 — 2026-02-17
 
 ### Feature: AI 创业生态 (AI Startup Ecosystem) page

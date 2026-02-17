@@ -1,8 +1,8 @@
 export const stats = [
   { title: '核心政策', amount: '19' },
-  { title: '演进阶段', amount: '5' },
-  { title: '追踪指标', amount: '16' },
-  { title: '参考资料', amount: '26' },
+  { title: '追踪指标', amount: '42' },
+  { title: '专题页面', amount: '15' },
+  { title: '对标地区', amount: '10' },
 ];
 
 export const features = [
@@ -12,28 +12,28 @@ export const features = [
     icon: 'tabler:file-text',
   },
   {
-    title: '📈 政策演进分析',
-    description: '从 2014 年智慧国家倡议到 2024 年生成式 AI 治理框架，五个阶段全景时间线。',
+    title: '📈 发展时间线',
+    description: '从 2014 年智慧国家倡议到 2026 年 NAIRD，完整里程碑时间线与政策演进脉络。',
     icon: 'tabler:trending-up',
   },
   {
     title: '📊 落地执行追踪',
-    description: '16+ 关键指标追踪：投资、人才、研究、采用率、基础设施，数据来源为官方公开信息。',
+    description: '42 项关键指标追踪：投资（S$2B+ 政府 / US$26B+ 私营）、人才、研究、采用率、基础设施。',
     icon: 'tabler:chart-bar',
   },
   {
-    title: '⚠️ 挑战与约束分析',
-    description: '6 大核心挑战深度分析：人才、数据、伦理、依赖、落地、竞争。',
-    icon: 'tabler:alert-triangle',
+    title: '🔬 开源与研究',
+    description: '官方开源项目（SEA-LION、AI Verify）与产学研生态（Colossal-AI、BLIP），含 4 篇论文中文翻译。',
+    icon: 'tabler:code',
   },
   {
-    title: '📚 参考资料库',
-    description: '30+ 精选外部资源：官方文件、研究报告、新闻报道分类整理。',
-    icon: 'tabler:books',
+    title: '🚀 创业生态',
+    description: '650+ AI 创业公司、9 家独角兽、US$8.4B+ 融资，五大垂直领域全景。',
+    icon: 'tabler:rocket',
   },
   {
-    title: '🌏 持续更新',
-    description: '跟踪最新政策动态，定期更新内容，保持信息时效性。',
-    icon: 'tabler:refresh',
+    title: '🌍 国际对标',
+    description: '10 个经济体 AI 政策横向对比：港台、中东、欧洲、北美，投资规模与治理模式分析。',
+    icon: 'tabler:world',
   },
 ];
