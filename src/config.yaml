@@ -1,19 +1,19 @@
 site:
-  name: 新加坡 AI 科技政策观察
+  name: SG AI 政策观察
   site: 'https://meltflake.com'
   base: '/aisg'
   trailingSlash: false
 
 metadata:
   title:
-    default: 新加坡 AI 科技政策观察
-    template: '%s — 新加坡 AI 科技政策观察'
+    default: SG AI 政策观察
+    template: '%s — SG AI 政策观察'
   description: '持续整理新加坡 AI 相关政策、治理框架与落地执行情况。'
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: 新加坡 AI 科技政策观察
+    site_name: SG AI 政策观察
     images:
       - url: '~/assets/images/default.png'
         width: 1200
