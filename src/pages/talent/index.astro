@@ -1,0 +1,56 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Headline from '~/components/ui/Headline.astro';
+import { programmes } from '~/data/talent';
+---
+
+<Layout metadata={{ title: '人才培养' }}>
+  <section class="px-4 py-16 sm:px-6 mx-auto lg:px-8 max-w-6xl">
+    <Headline title="🎓 AI 人才培养" subtitle="新加坡全方位 AI 人才发展体系，从学生到博士、从入门到专家，覆盖 AI 人才成长全链路。" />
+
+    <div class="grid gap-8 md:grid-cols-2">
+      {programmes.map((prog) => (
+        <div class="bg-white dark:bg-slate-900 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-shadow overflow-hidden">
+          <div class="p-6">
+            <div class="flex items-start justify-between mb-3">
+              <div>
+                <h3 class="text-xl font-bold">{prog.icon} {prog.name}</h3>
+                <p class="text-sm text-muted">{prog.nameEn}</p>
+              </div>
+              {prog.status && (
+                <span class="text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded whitespace-nowrap">{prog.status}</span>
+              )}
+            </div>
+            <p class="text-sm mb-4">{prog.description}</p>
+
+            {/* Key stats */}
+            <div class="grid grid-cols-2 gap-2 mb-4">
+              {prog.stats.map((stat) => (
+                <div class="bg-slate-50 dark:bg-slate-800 rounded p-2 text-center">
+                  <div class="text-lg font-bold text-blue-600 dark:text-blue-400">{stat.value}</div>
+                  <div class="text-xs text-muted">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Highlights */}
+            <ul class="text-sm space-y-1">
+              {prog.highlights.map((h) => (
+                <li class="flex items-start gap-2">
+                  <span class="text-blue-600 dark:text-blue-400 mt-0.5">•</span>
+                  <span>{h}</span>
+                </li>
+              ))}
+            </ul>
+
+            {prog.url && (
+              <a href={prog.url} target="_blank" rel="noopener" class="inline-block mt-4 text-sm text-blue-600 dark:text-blue-400 hover:underline">了解更多 →</a>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <p class="mt-12 text-sm text-muted text-center">数据来源：AI Singapore 官网。项目详情和招募状态请以官网为准。</p>
+  </section>
+</Layout>

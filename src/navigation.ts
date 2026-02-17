@@ -4,23 +4,22 @@ import { SITE_VERSION } from './version';
 export const headerData = {
   links: [
     {
-      text: '政策库',
-      href: getPermalink('/policies'),
+      text: '政策观察',
+      links: [
+        { text: '政策文件', href: getPermalink('/policies') },
+        { text: '发展时间线', href: getPermalink('/timeline') },
+        { text: '生态地图', href: getPermalink('/ecosystem') },
+      ],
     },
     {
-      text: '政策演进',
-      href: getPermalink('/evolution'),
+      text: 'AI 追踪',
+      links: [
+        { text: '关键指标', href: getPermalink('/tracker') },
+        { text: '人才培养', href: getPermalink('/talent') },
+      ],
     },
     {
-      text: '执行追踪',
-      href: getPermalink('/tracker'),
-    },
-    {
-      text: '挑战分析',
-      href: getPermalink('/challenges'),
-    },
-    {
-      text: '参考资料',
+      text: '参考资源',
       href: getPermalink('/references'),
     },
   ],
@@ -30,18 +29,24 @@ export const headerData = {
 export const footerData = {
   links: [
     {
-      title: '核心内容',
+      title: '政策观察',
       links: [
-        { text: '政策库', href: getPermalink('/policies') },
-        { text: '政策演进', href: getPermalink('/evolution') },
-        { text: '执行追踪', href: getPermalink('/tracker') },
+        { text: '政策文件', href: getPermalink('/policies') },
+        { text: '发展时间线', href: getPermalink('/timeline') },
+        { text: '生态地图', href: getPermalink('/ecosystem') },
       ],
     },
     {
-      title: '深度分析',
+      title: 'AI 追踪',
       links: [
-        { text: '挑战分析', href: getPermalink('/challenges') },
-        { text: '参考资料', href: getPermalink('/references') },
+        { text: '关键指标', href: getPermalink('/tracker') },
+        { text: '人才培养', href: getPermalink('/talent') },
+      ],
+    },
+    {
+      title: '更多',
+      links: [
+        { text: '参考资源', href: getPermalink('/references') },
       ],
     },
   ],

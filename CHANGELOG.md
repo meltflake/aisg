@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.0.3 — 2026-02-17
+
+### Feature: Grouped dropdown navigation & 3 new pages
+
+- **Navigation refactor**: Flat nav → grouped dropdown menus
+  - 政策观察 ▾ (政策文件, 发展时间线, 生态地图)
+  - AI 追踪 ▾ (关键指标, 人才培养)
+  - 参考资源 (flat link)
+- **New page: 发展时间线** (`/timeline/`) — Vertical timeline of Singapore AI milestones from 2014–2027
+- **New page: 生态地图** (`/ecosystem/`) — AI ecosystem map with 8 categories covering research, governance, tech, talent, products, innovation, international, and industry partners
+- **New page: 人才培养** (`/talent/`) — 8 talent development programmes with key stats cards (AIAP, LADP, PhD Fellowship, AMP, LearnAI, NAISC, IOAI, AI Goes to School)
+- New data files: `src/data/timeline.ts`, `src/data/ecosystem.ts`, `src/data/talent.ts`
+- Updated footer to match new navigation structure
+- Bumped version to 0.0.3
+
 ## 0.0.2 — 2026-02-17
 
 ### Refactor: Separate data from templates
