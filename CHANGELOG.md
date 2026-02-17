@@ -1,23 +1,18 @@
 # Changelog
 
-## 2026-02-17 — Switch to AstroWind Theme
+## 2026-02-17
 
-### What changed
-- **Theme**: Migrated from Astro minimal template + custom CSS to AstroWind (Tailwind CSS)
-- **Structure**: All content now in dedicated page routes instead of content collections
-  - `/policies/` — 7 policy cards with full details inline
-  - `/evolution/` — 5-phase timeline with visual indicators
-  - `/tracker/` — Data tables for 16+ execution metrics
-  - `/challenges/` — 6 challenge analysis cards
-  - `/references/` — 30+ categorized reference links
-- **Navigation**: Chinese nav bar (政策库、政策演进、执行追踪、挑战分析、参考资料)
-- **Homepage**: Hero section + Features grid + Stats + CTA
-- **Config**: site=`https://meltflake.com`, base=`/aisg/`, language=zh-CN
-- **Removed**: All AstroWind demo pages (homes, landing, pricing, about, contact, services)
-- **Removed**: Demo blog posts from `src/data/post/`
-- **Kept**: GitHub Actions deploy workflow, blog routing (for future use)
+- 添加 12 份新政策文档（从 7 扩展到 19），涵盖预算案、行业监管、国际合作
+- 切换主题为 AstroWind
+- 移除首页公告横幅
+- 修正首页统计数字（19 政策 / 5 阶段 / 16 指标 / 26 参考资料）
 
-### Decisions
-- Policies are rendered as inline data in the page component rather than using content collections, since AstroWind's content schema differs from the original. This keeps it simple.
-- Blog system is kept enabled but empty, available for future articles.
-- Force-pushed to main (clean history, no relation to old template).
+## 2026-02-16
+
+- 项目初始化，基于 PRD v2.0
+- 5 个内容模块：政策库、演进分析、执行追踪、挑战分析、参考资料
+- 部署到 meltflake.com/aisg/
+
+---
+
+> 每次添加/修改政策数据后，同步更新首页 `index.astro` 的统计数字和描述文案。
