@@ -16,7 +16,8 @@ export const headerData = {
       links: [
         { text: '关键指标', href: getPermalink('/tracker') },
         { text: '人才培养', href: getPermalink('/talent') },
-        { text: '开源与研究', href: getPermalink('/opensource') },
+        { text: '官方开源与研究', href: getPermalink('/opensource') },
+        { text: '产学研开源生态', href: getPermalink('/community-opensource') },
       ],
     },
     {
@@ -42,7 +43,8 @@ export const footerData = {
       links: [
         { text: '关键指标', href: getPermalink('/tracker') },
         { text: '人才培养', href: getPermalink('/talent') },
-        { text: '开源与研究', href: getPermalink('/opensource') },
+        { text: '官方开源与研究', href: getPermalink('/opensource') },
+        { text: '产学研开源生态', href: getPermalink('/community-opensource') },
       ],
     },
     {

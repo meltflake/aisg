@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.0.5 — 2026-02-17
+
+### Feature: Split 开源与研究 into two pages
+
+- Renamed existing page nav text from "开源与研究" to "官方开源与研究"
+- Added intro text clarifying scope (AISG & government-funded projects)
+- **New page: 产学研开源生态** (`/community-opensource/`) — community open source ecosystem
+  - University projects: Colossal-AI, OpenMMLab, NExT-GPT, Show-o/ShowUI, VideoSys, TSLANet
+  - Corporate lab projects: LAVIS/BLIP, CodeGen, BAGEL, VideoLLaMA3, Sailor LLM, OAT, Zero-Bubble
+  - Startup projects: Jan
+  - Summary info box and data disclaimer
+- New data file: `src/data/community-opensource.ts`
+- Updated header and footer navigation with both pages
+- Bumped version to 0.0.5
+
 ## 0.0.4 — 2026-02-17
 
 ### Feature: 开源与研究 (Open Source & Research) page
