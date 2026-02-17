@@ -1,0 +1,162 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Headline from '~/components/ui/Headline.astro';
+import { ecosystemStats, unicorns, verticals, exits, investors } from '~/data/startups';
+---
+
+<Layout metadata={{ title: 'AI 创业生态' }}>
+  <section class="px-4 py-16 sm:px-6 mx-auto lg:px-8 max-w-6xl">
+    <Headline title="🚀 AI 创业生态" subtitle="新加坡 650+ AI 创业公司，全球第 3 大 AI 枢纽" />
+
+    {/* Overview Stats */}
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
+      <div class="bg-white dark:bg-slate-900 rounded-lg shadow border border-slate-200 dark:border-slate-700 p-4 text-center">
+        <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{ecosystemStats.totalStartups}</div>
+        <div class="text-xs text-muted mt-1">AI 创业公司</div>
+      </div>
+      <div class="bg-white dark:bg-slate-900 rounded-lg shadow border border-slate-200 dark:border-slate-700 p-4 text-center">
+        <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">全球第 {ecosystemStats.globalRank}</div>
+        <div class="text-xs text-muted mt-1">AI 枢纽排名</div>
+      </div>
+      <div class="bg-white dark:bg-slate-900 rounded-lg shadow border border-slate-200 dark:border-slate-700 p-4 text-center">
+        <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{ecosystemStats.seaFundingShare}</div>
+        <div class="text-xs text-muted mt-1">东南亚 AI 融资占比</div>
+      </div>
+      <div class="bg-white dark:bg-slate-900 rounded-lg shadow border border-slate-200 dark:border-slate-700 p-4 text-center">
+        <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{ecosystemStats.totalVCRaised}</div>
+        <div class="text-xs text-muted mt-1">VC 融资总额</div>
+      </div>
+      <div class="bg-white dark:bg-slate-900 rounded-lg shadow border border-slate-200 dark:border-slate-700 p-4 text-center">
+        <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{ecosystemStats.unicorns}</div>
+        <div class="text-xs text-muted mt-1">独角兽</div>
+      </div>
+      <div class="bg-white dark:bg-slate-900 rounded-lg shadow border border-slate-200 dark:border-slate-700 p-4 text-center">
+        <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{ecosystemStats.govCommitment}</div>
+        <div class="text-xs text-muted mt-1">政府 AI 承诺投入</div>
+      </div>
+    </div>
+
+    {/* Unicorns */}
+    <div class="mb-12">
+      <h2 class="text-xl font-bold mb-4">🦄 独角兽</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-slate-100 dark:bg-slate-800">
+              <th class="text-left p-3 border border-slate-200 dark:border-slate-700">公司</th>
+              <th class="text-left p-3 border border-slate-200 dark:border-slate-700">领域</th>
+              <th class="text-left p-3 border border-slate-200 dark:border-slate-700">融资</th>
+              <th class="text-left p-3 border border-slate-200 dark:border-slate-700">估值</th>
+              <th class="text-left p-3 border border-slate-200 dark:border-slate-700">状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            {unicorns.map((u) => (
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                <td class="p-3 border border-slate-200 dark:border-slate-700 font-semibold">
+                  <a href={u.url} target="_blank" rel="noopener" class="text-blue-600 dark:text-blue-400 hover:underline">{u.name} ↗</a>
+                </td>
+                <td class="p-3 border border-slate-200 dark:border-slate-700">{u.sector}</td>
+                <td class="p-3 border border-slate-200 dark:border-slate-700 font-semibold">{u.raised}</td>
+                <td class="p-3 border border-slate-200 dark:border-slate-700 font-semibold text-green-600 dark:text-green-400">{u.valuation}</td>
+                <td class="p-3 border border-slate-200 dark:border-slate-700">
+                  {u.status === '已上市 (NASDAQ)' ? (
+                    <span class="text-xs font-medium bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-2 py-1 rounded">{u.status}</span>
+                  ) : (
+                    <span class="text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded">{u.status}</span>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {/* By Vertical */}
+    <div class="mb-12">
+      <h2 class="text-xl font-bold mb-6">📂 按领域分类</h2>
+      <div class="space-y-8">
+        {verticals.map((v) => (
+          <div>
+            <h3 class="text-lg font-bold mb-3">{v.icon} {v.name}</h3>
+            <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {v.startups.map((s) => (
+                <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-4">
+                  <div class="flex items-start justify-between mb-2">
+                    <h4 class="font-semibold">
+                      {s.url ? (
+                        <a href={s.url} target="_blank" rel="noopener" class="text-blue-600 dark:text-blue-400 hover:underline">{s.name} ↗</a>
+                      ) : (
+                        s.name
+                      )}
+                    </h4>
+                    {s.highlight && (
+                      <span class="text-xs font-medium bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200 px-2 py-0.5 rounded whitespace-nowrap ml-2">{s.highlight}</span>
+                    )}
+                  </div>
+                  <p class="text-sm text-muted mb-2">{s.description}</p>
+                  <div class="flex gap-3 text-xs text-muted">
+                    {s.raised && <span class="font-semibold text-green-600 dark:text-green-400">💰 {s.raised}</span>}
+                    {s.investors && <span>🏛️ {s.investors}</span>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* Exits */}
+    <div class="mb-12">
+      <h2 class="text-xl font-bold mb-4">🏆 重要退出与收购</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-slate-100 dark:bg-slate-800">
+              <th class="text-left p-3 border border-slate-200 dark:border-slate-700">公司</th>
+              <th class="text-left p-3 border border-slate-200 dark:border-slate-700">描述</th>
+              <th class="text-left p-3 border border-slate-200 dark:border-slate-700">收购方</th>
+              <th class="text-left p-3 border border-slate-200 dark:border-slate-700">金额</th>
+              <th class="text-left p-3 border border-slate-200 dark:border-slate-700">年份</th>
+              <th class="text-left p-3 border border-slate-200 dark:border-slate-700">备注</th>
+            </tr>
+          </thead>
+          <tbody>
+            {exits.map((e) => (
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                <td class="p-3 border border-slate-200 dark:border-slate-700 font-semibold">{e.name}</td>
+                <td class="p-3 border border-slate-200 dark:border-slate-700">{e.description}</td>
+                <td class="p-3 border border-slate-200 dark:border-slate-700">{e.acquirer}</td>
+                <td class="p-3 border border-slate-200 dark:border-slate-700 font-semibold text-green-600 dark:text-green-400">{e.amount}</td>
+                <td class="p-3 border border-slate-200 dark:border-slate-700">{e.year || '—'}</td>
+                <td class="p-3 border border-slate-200 dark:border-slate-700 text-muted">{e.note}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {/* Investors */}
+    <div class="mb-12">
+      <h2 class="text-xl font-bold mb-4">💰 投资者生态</h2>
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {investors.map((inv) => (
+          <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-4">
+            <h4 class="font-bold text-lg mb-1">{inv.name}</h4>
+            <span class="text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-0.5 rounded">{inv.type}</span>
+            <p class="text-sm mt-2"><span class="text-muted">投资记录：</span>{inv.stats}</p>
+            <p class="text-sm"><span class="text-muted">重点领域：</span>{inv.focus}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* Footer */}
+    <p class="mt-8 text-sm text-muted text-center">
+      ⚠️ 数据截至 {ecosystemStats.dataDate}，部分为估算值。融资金额来源于公开报道，实际数字可能有出入。欢迎提供更新数据。
+    </p>
+  </section>
+</Layout>

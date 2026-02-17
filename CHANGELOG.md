@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.0.6 — 2026-02-17
+
+### Feature: AI 创业生态 (AI Startup Ecosystem) page
+
+- **New page: AI 创业生态** (`/startups/`) — Singapore AI startup ecosystem overview
+  - Overview stats: 650+ startups, global rank #3, $8.4B+ VC raised, 9 unicorns
+  - Unicorn table with valuations (Grab, Trax, Advance Intelligence, Biofourmis, etc.)
+  - 5 vertical sections: 金融科技, 医疗健康, 企业 SaaS, AI 基础设施, 机器人与自动驾驶
+  - Notable exits & acquisitions table (Manus/Meta $2B+, etc.)
+  - Investor ecosystem cards (SGInnovate, Temasek, GIC, Antler, etc.)
+- New data file: `src/data/startups.ts`
+- Added "AI 创业生态" to AI 追踪 dropdown nav and footer
+- Bumped version to 0.0.6
+
 ## 0.0.5 — 2026-02-17
 
 ### Feature: Split 开源与研究 into two pages

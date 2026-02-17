@@ -18,6 +18,7 @@ export const headerData = {
         { text: '人才培养', href: getPermalink('/talent') },
         { text: '官方开源与研究', href: getPermalink('/opensource') },
         { text: '产学研开源生态', href: getPermalink('/community-opensource') },
+        { text: 'AI 创业生态', href: getPermalink('/startups') },
       ],
     },
     {
@@ -45,6 +46,7 @@ export const footerData = {
         { text: '人才培养', href: getPermalink('/talent') },
         { text: '官方开源与研究', href: getPermalink('/opensource') },
         { text: '产学研开源生态', href: getPermalink('/community-opensource') },
+        { text: 'AI 创业生态', href: getPermalink('/startups') },
       ],
     },
     {
