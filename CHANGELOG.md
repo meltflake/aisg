@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.0.4 — 2026-02-17
+
+### Feature: 开源与研究 (Open Source & Research) page
+
+- **New page: 开源与研究** (`/opensource/`) — AI Singapore open source projects, model ecosystem, and research papers
+  - SEA-LION model ecosystem stats (56 models, version breakdown v1–v4)
+  - SEA-Guard safety models section (4 models, early stage)
+  - AI Verify governance framework with features and partners
+  - Open source project cards (TagUI, SEA-LION, PeekingDuck, SGNLP, Speech Lab, Synergos)
+  - Research papers listing (4 papers with arXiv links)
+  - Honest context comparison with global models
+- New data file: `src/data/opensource.ts`
+- Added "开源与研究" to AI 追踪 dropdown nav and footer
+- Bumped version to 0.0.4
+
 ## 0.0.3 — 2026-02-17
 
 ### Feature: Grouped dropdown navigation & 3 new pages

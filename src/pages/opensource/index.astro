@@ -1,0 +1,196 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Headline from '~/components/ui/Headline.astro';
+import {
+  seaLionStats,
+  seaLionVersions,
+  modelComparison,
+  seaGuardStats,
+  seaGuardModels,
+  aiVerify,
+  openSourceProjects,
+  papers,
+  dataDisclaimer,
+} from '~/data/opensource';
+---
+
+<Layout metadata={{ title: '开源与研究' }}>
+  <section class="px-4 py-16 sm:px-6 mx-auto lg:px-8 max-w-6xl">
+    <Headline title="🔬 开源与研究" subtitle="AI Singapore 的开源项目、模型生态与研究论文" />
+
+    <!-- SEA-LION 模型生态 -->
+    <div class="mb-16">
+      <h2 class="text-2xl font-bold mb-6">🦁 SEA-LION 模型生态</h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div class="bg-white dark:bg-slate-900 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 p-4 text-center">
+          <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{seaLionStats.totalModels}</div>
+          <div class="text-xs text-muted">模型总数</div>
+        </div>
+        <div class="bg-white dark:bg-slate-900 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 p-4 text-center">
+          <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{seaLionStats.totalDownloads.toLocaleString()}</div>
+          <div class="text-xs text-muted">总下载量</div>
+        </div>
+        <div class="bg-white dark:bg-slate-900 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 p-4 text-center">
+          <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{seaLionStats.totalLikes}</div>
+          <div class="text-xs text-muted">总点赞数</div>
+        </div>
+        <div class="bg-white dark:bg-slate-900 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 p-4 text-center">
+          <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{seaLionStats.topModelDownloads.toLocaleString()}</div>
+          <div class="text-xs text-muted">最热门模型下载</div>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto mb-6">
+        <table class="w-full text-sm bg-white dark:bg-slate-900 rounded-lg shadow-md border border-slate-200 dark:border-slate-700">
+          <thead>
+            <tr class="border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
+              <th class="px-4 py-3 text-left font-semibold">版本</th>
+              <th class="px-4 py-3 text-right font-semibold">模型数</th>
+              <th class="px-4 py-3 text-right font-semibold">下载量</th>
+              <th class="px-4 py-3 text-right font-semibold">点赞</th>
+              <th class="px-4 py-3 text-left font-semibold">时期</th>
+            </tr>
+          </thead>
+          <tbody>
+            {seaLionVersions.map((v) => (
+              <tr class="border-b border-slate-100 dark:border-slate-800">
+                <td class="px-4 py-2 font-medium">{v.version}</td>
+                <td class="px-4 py-2 text-right">{v.models}</td>
+                <td class="px-4 py-2 text-right">{v.downloads.toLocaleString()}</td>
+                <td class="px-4 py-2 text-right">{v.likes}</td>
+                <td class="px-4 py-2 text-muted">{v.period}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4 mb-4 text-sm text-amber-800 dark:text-amber-200">
+        💡 {modelComparison}
+      </div>
+
+      <a href={seaLionStats.huggingfaceUrl} target="_blank" rel="noopener" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+        🤗 在 HuggingFace 上查看全部模型 →
+      </a>
+    </div>
+
+    <!-- SEA-Guard 安全模型 -->
+    <div class="mb-16">
+      <h2 class="text-2xl font-bold mb-6">🛡️ SEA-Guard 安全模型</h2>
+
+      <div class="bg-white dark:bg-slate-900 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 p-6">
+        <div class="flex flex-wrap gap-6 mb-4">
+          <div>
+            <span class="text-2xl font-bold text-blue-600 dark:text-blue-400">{seaGuardStats.totalModels}</span>
+            <span class="text-sm text-muted ml-1">个模型</span>
+          </div>
+          <div>
+            <span class="text-2xl font-bold text-blue-600 dark:text-blue-400">{seaGuardStats.totalDownloads}</span>
+            <span class="text-sm text-muted ml-1">次下载</span>
+          </div>
+        </div>
+        <p class="text-sm text-muted mb-4">{seaGuardStats.note}</p>
+        <div class="space-y-2">
+          {seaGuardModels.map((m) => (
+            <div class="flex items-center justify-between text-sm bg-slate-50 dark:bg-slate-800 rounded px-3 py-2">
+              <span class="font-medium">{m.name}</span>
+              <span class="text-xs text-muted">{m.type}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Verify 治理框架 -->
+    <div class="mb-16">
+      <h2 class="text-2xl font-bold mb-6">✅ AI Verify 治理框架</h2>
+
+      <div class="bg-white dark:bg-slate-900 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 p-6">
+        <p class="text-lg font-semibold mb-1">{aiVerify.name}</p>
+        <p class="text-sm text-muted mb-4">{aiVerify.description} · 开源于 {aiVerify.openSourceDate}</p>
+
+        <ul class="text-sm space-y-2 mb-6">
+          {aiVerify.features.map((f) => (
+            <li class="flex items-start gap-2">
+              <span class="text-green-600 dark:text-green-400 mt-0.5">✓</span>
+              <span>{f}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div class="mb-4">
+          <p class="text-xs font-semibold text-muted mb-2">合作伙伴</p>
+          <div class="flex flex-wrap gap-2">
+            {aiVerify.partners.map((p) => (
+              <span class="text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded">{p}</span>
+            ))}
+          </div>
+        </div>
+
+        <a href={aiVerify.githubUrl} target="_blank" rel="noopener" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+          GitHub →
+        </a>
+      </div>
+    </div>
+
+    <!-- 开源项目 -->
+    <div class="mb-16">
+      <h2 class="text-2xl font-bold mb-6">📦 开源项目</h2>
+
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {openSourceProjects.map((proj) => (
+          <div class="bg-white dark:bg-slate-900 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 p-5 hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-2">
+              <h3 class="font-bold">{proj.name}</h3>
+              <div class="flex items-center gap-2">
+                <span class="text-xs bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">{proj.language}</span>
+                {proj.stars && (
+                  <span class="text-xs text-muted">⭐ {proj.stars.toLocaleString()}</span>
+                )}
+              </div>
+            </div>
+            <p class="text-sm text-muted mb-3">{proj.description}</p>
+            {proj.url ? (
+              <a href={proj.url} target="_blank" rel="noopener" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">GitHub →</a>
+            ) : (
+              <span class="text-xs text-muted">暂无公开仓库</span>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- 研究论文 -->
+    <div class="mb-16">
+      <h2 class="text-2xl font-bold mb-6">📄 研究论文</h2>
+
+      <div class="space-y-4">
+        {papers.map((paper) => (
+          <div class="bg-white dark:bg-slate-900 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 p-5">
+            <div class="flex items-start justify-between">
+              <div>
+                <h3 class="font-bold text-sm mb-1">{paper.titleZh}</h3>
+                <p class="text-xs text-muted italic mb-2">{paper.title}</p>
+                <div class="flex items-center gap-3">
+                  <span class="text-xs bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">{paper.year}</span>
+                  <a href={paper.url} target="_blank" rel="noopener" class="text-xs text-blue-600 dark:text-blue-400 hover:underline">
+                    arXiv: {paper.arxivId} →
+                  </a>
+                  {paper.translationUrl && (
+                    <a href={paper.translationUrl} target="_blank" rel="noopener" class="text-xs text-green-600 dark:text-green-400 hover:underline">
+                      中文翻译 →
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- 数据说明 -->
+    <p class="mt-12 text-sm text-muted text-center">{dataDisclaimer}</p>
+  </section>
+</Layout>

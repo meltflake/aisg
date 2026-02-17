@@ -16,6 +16,7 @@ export const headerData = {
       links: [
         { text: '关键指标', href: getPermalink('/tracker') },
         { text: '人才培养', href: getPermalink('/talent') },
+        { text: '开源与研究', href: getPermalink('/opensource') },
       ],
     },
     {
@@ -41,6 +42,7 @@ export const footerData = {
       links: [
         { text: '关键指标', href: getPermalink('/tracker') },
         { text: '人才培养', href: getPermalink('/talent') },
+        { text: '开源与研究', href: getPermalink('/opensource') },
       ],
     },
     {
