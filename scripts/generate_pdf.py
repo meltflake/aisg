@@ -1,118 +1,93 @@
 #!/usr/bin/env python3
-"""Generate Chinese translation PDF from markdown content using WeasyPrint."""
+"""Generate Chinese PDF from markdown content using WeasyPrint."""
 
-import argparse
 import sys
 import markdown
 from weasyprint import HTML
 
-def generate_pdf(title, org, date, content_md, output_path):
-    """Generate a well-formatted Chinese PDF."""
-    # Convert markdown to HTML
-    content_html = markdown.markdown(content_md, extensions=['tables', 'fenced_code', 'toc'])
-    
-    html = f"""<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<style>
-@page {{
+CSS = """
+@page {
     size: A4;
-    margin: 2.5cm 2cm 2.5cm 2cm;
-    @top-center {{
-        content: "{title} — 中文翻译版";
-        font-size: 8pt;
+    margin: 2.5cm 2cm;
+    @top-center {
+        content: string(doc-title);
+        font-size: 9pt;
         color: #666;
-        font-family: 'Noto Serif CJK SC', 'Noto Sans CJK SC', serif;
-    }}
-    @bottom-center {{
+    }
+    @bottom-center {
         content: "第 " counter(page) " 页";
-        font-size: 8pt;
+        font-size: 9pt;
         color: #666;
-        font-family: 'Noto Serif CJK SC', 'Noto Sans CJK SC', serif;
-    }}
-}}
-@page :first {{
-    @top-center {{ content: none; }}
-    @bottom-center {{ content: none; }}
-}}
-body {{
-    font-family: 'Noto Serif CJK SC', 'Noto Sans CJK SC', 'SimSun', serif;
+    }
+}
+@page :first {
+    @top-center { content: none; }
+    @bottom-center { content: none; }
+}
+body {
+    font-family: "Noto Serif CJK SC", "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", serif;
     font-size: 11pt;
     line-height: 1.8;
-    color: #333;
-}}
-.cover {{
-    page-break-after: always;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh;
+    color: #1a1a1a;
+}
+h1 {
+    string-set: doc-title content();
+    font-size: 22pt;
     text-align: center;
-}}
-.cover h1 {{
-    font-size: 28pt;
-    color: #1a365d;
-    margin-bottom: 0.5em;
-    line-height: 1.3;
-}}
-.cover .org {{
-    font-size: 14pt;
+    margin-top: 3cm;
+    margin-bottom: 0.5cm;
+    page-break-after: avoid;
+}
+.cover-meta {
+    text-align: center;
     color: #555;
-    margin-bottom: 0.3em;
-}}
-.cover .date {{
-    font-size: 12pt;
-    color: #777;
-    margin-bottom: 1.5em;
-}}
-.cover .badge {{
-    display: inline-block;
-    background: #e2e8f0;
-    color: #2d3748;
-    padding: 0.3em 1em;
-    border-radius: 4px;
     font-size: 11pt;
-}}
-h1 {{ font-size: 20pt; color: #1a365d; margin-top: 1.5em; margin-bottom: 0.5em; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.2em; }}
-h2 {{ font-size: 16pt; color: #2a4365; margin-top: 1.2em; margin-bottom: 0.4em; }}
-h3 {{ font-size: 13pt; color: #2c5282; margin-top: 1em; margin-bottom: 0.3em; }}
-h4 {{ font-size: 11.5pt; color: #2b6cb0; margin-top: 0.8em; margin-bottom: 0.3em; }}
-p {{ margin-bottom: 0.6em; text-align: justify; }}
-ul, ol {{ margin-bottom: 0.6em; padding-left: 1.5em; }}
-li {{ margin-bottom: 0.3em; }}
-table {{ border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 10pt; }}
-th, td {{ border: 1px solid #ccc; padding: 6px 10px; text-align: left; }}
-th {{ background: #f0f4f8; font-weight: bold; }}
-blockquote {{ border-left: 3px solid #cbd5e0; padding-left: 1em; color: #555; margin: 1em 0; }}
-code {{ background: #f7fafc; padding: 1px 4px; font-size: 10pt; border-radius: 2px; }}
-</style>
-</head>
-<body>
-<div class="cover">
-    <h1>{title}</h1>
-    <div class="org">{org}</div>
-    <div class="date">{date}</div>
-    <div class="badge">中文翻译版</div>
-</div>
-{content_html}
-</body>
-</html>"""
-    
-    HTML(string=html).write_pdf(output_path)
-    print(f"Generated: {output_path}")
+    margin-bottom: 1cm;
+}
+.cover-note {
+    text-align: center;
+    color: #888;
+    font-size: 10pt;
+    border-top: 1px solid #ccc;
+    padding-top: 0.5cm;
+    margin-top: 2cm;
+}
+h2 { font-size: 16pt; margin-top: 1.2cm; border-bottom: 1px solid #ddd; padding-bottom: 3pt; page-break-after: avoid; }
+h3 { font-size: 13pt; margin-top: 0.8cm; page-break-after: avoid; }
+h4 { font-size: 11pt; font-weight: bold; margin-top: 0.5cm; }
+p { margin: 0.3cm 0; text-align: justify; }
+ul, ol { margin: 0.3cm 0; padding-left: 1.5em; }
+li { margin: 0.15cm 0; }
+table { width: 100%; border-collapse: collapse; margin: 0.5cm 0; font-size: 10pt; }
+th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+th { background: #f5f5f5; font-weight: bold; }
+blockquote { border-left: 3px solid #ddd; margin: 0.5cm 0; padding: 0.3cm 1cm; color: #555; background: #fafafa; }
+code { font-family: monospace; font-size: 10pt; background: #f5f5f5; padding: 1px 4px; }
+.english-note { color: #666; font-size: 10pt; }
+hr { border: none; border-top: 1px solid #ddd; margin: 1cm 0; }
+"""
+
+def generate_pdf(md_content, output_path):
+    html_body = markdown.markdown(md_content, extensions=['tables', 'fenced_code'])
+    full_html = f"""<!DOCTYPE html>
+<html><head><meta charset="utf-8"></head>
+<body>{html_body}</body></html>"""
+    HTML(string=full_html).write_pdf(output_path, stylesheets=[],
+        presentational_hints=True)
+    # Re-do with CSS
+    full_html2 = f"""<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>{CSS}</style></head>
+<body>{html_body}</body></html>"""
+    HTML(string=full_html2).write_pdf(output_path)
+    return output_path
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--title', required=True)
-    parser.add_argument('--org', required=True)
-    parser.add_argument('--date', required=True)
-    parser.add_argument('--input', required=True, help='Markdown file path')
-    parser.add_argument('--output', required=True, help='Output PDF path')
-    args = parser.parse_args()
-    
-    with open(args.input, 'r') as f:
+    if len(sys.argv) < 3:
+        print("Usage: generate_pdf.py <input.md> <output.pdf>")
+        sys.exit(1)
+    with open(sys.argv[1]) as f:
         content = f.read()
-    
-    generate_pdf(args.title, args.org, args.date, content, args.output)
+    generate_pdf(content, sys.argv[2])
+    import os
+    size = os.path.getsize(sys.argv[2])
+    print(f"Generated {sys.argv[2]} ({size:,} bytes)")
