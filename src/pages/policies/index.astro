@@ -1,0 +1,105 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Headline from '~/components/ui/Headline.astro';
+
+const policies = [
+  {
+    order: 1,
+    title: '智慧国家倡议',
+    titleEn: 'Smart Nation Initiative',
+    date: '2014',
+    source: '总理办公室 (PMO)',
+    sourceUrl: 'https://www.smartnation.gov.sg/',
+    summary: '新加坡数字化转型总体框架，为后续 AI 战略奠定基础。',
+    content: `2014 年，新加坡总理李显龙宣布 Smart Nation Initiative，这是全面数字化转型的总体战略框架。核心目标包括利用数字技术改善市民生活、创造更多经济机会、建设更紧密联系的社区。虽非专门的 AI 政策，但为后续 AI 战略提供了制度基础和政策框架。`,
+  },
+  {
+    order: 2,
+    title: '国家人工智能战略 1.0',
+    titleEn: 'National AI Strategy (NAIS 1.0)',
+    date: '2019-11',
+    source: '智慧国家与数字政府办公室 (SNDGO)',
+    sourceUrl: 'https://www.smartnation.gov.sg/initiatives/artificial-intelligence/',
+    pdfUrl: 'https://www.smartnation.gov.sg/files/publications/national-ai-strategy.pdf',
+    summary: '新加坡首份国家级 AI 战略，确立五大重点领域和三大推动力。',
+    content: `NAIS 1.0 标志着 AI 从技术议题上升为国家战略。五大重点领域：智能交通与物流、智慧城市、医疗健康、教育、安全与保障。三大推动力：三重螺旋合作、AI 人才管道、数据架构与可信 AI。催生了 AI Singapore 项目和 100 Experiments 计划。`,
+  },
+  {
+    order: 3,
+    title: '国家人工智能战略 2.0',
+    titleEn: 'National AI Strategy 2.0 (NAIS 2.0)',
+    date: '2023-12',
+    source: '智慧国家与数字政府办公室 (SNDGO)',
+    sourceUrl: 'https://www.smartnation.gov.sg/nais/',
+    pdfUrl: 'https://www.smartnation.gov.sg/files/publications/national-ai-strategy-2.0.pdf',
+    summary: '升级版国家 AI 战略，提出 AI for Public Good、AI for Growth 双轨目标。',
+    content: `NAIS 2.0 将 AI 战略从"重点应用"升级为"系统性赋能"。双轨目标：AI for Public Good 和 AI for Growth。涵盖十五大行动，追加拨款至 10 亿新元以上，建设国家 AI 计算基础设施。`,
+  },
+  {
+    order: 4,
+    title: 'AI 治理模型框架',
+    titleEn: 'Model AI Governance Framework',
+    date: '2019-01',
+    source: '资讯通信媒体发展局 (IMDA)',
+    sourceUrl: 'https://www.pdpc.gov.sg/help-and-resources/2020/01/model-ai-governance-framework',
+    pdfUrl: 'https://www.pdpc.gov.sg/-/media/files/pdpc/pdf-files/resource-for-organisation/ai/sgmodelaigovframework2.pdf',
+    summary: '亚洲首个 AI 治理框架，提出可解释、透明、以人为本的 AI 治理原则。',
+    content: `2019 年在达沃斯发布，亚洲首个 AI 治理框架。四大核心原则：内部治理结构与措施、决策中的人类参与、运营管理、利益相关方互动与沟通。被 OECD 引用为最佳实践。`,
+  },
+  {
+    order: 5,
+    title: 'AI Verify 测试框架',
+    titleEn: 'AI Verify',
+    date: '2022-05',
+    source: '资讯通信媒体发展局 (IMDA)',
+    sourceUrl: 'https://aiverifyfoundation.sg/',
+    summary: '全球首个 AI 治理测试框架和工具包，支持企业自测 AI 系统合规性。',
+    content: `全球首个 AI 治理测试框架与工具包。11 项可测试指标，开源工具包，与国际标准对齐。2023 年成立 AI Verify Foundation 推动全球协作。将 AI 治理从"原则"推向"可操作"。`,
+  },
+  {
+    order: 6,
+    title: '生成式 AI 治理框架',
+    titleEn: 'Proposed Model AI Governance Framework for Generative AI',
+    date: '2024-01',
+    source: '资讯通信媒体发展局 (IMDA)',
+    sourceUrl: 'https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/press-releases/2024/singapore-publishes-proposed-gen-ai-governance-framework',
+    summary: '专门针对生成式 AI 的治理框架提案，应对大模型带来的新挑战。',
+    content: `全球较早的专门针对生成式 AI 的治理框架提案。九大维度：问责制、数据治理、可信开发与部署、事件报告、测试与保证、安全、内容来源、使用者素养、辅助措施。采用多利益相关方方法，强调"沙盒式"治理。`,
+  },
+  {
+    order: 7,
+    title: '个人数据保护法',
+    titleEn: 'Personal Data Protection Act (PDPA)',
+    date: '2012',
+    source: '个人数据保护委员会 (PDPC)',
+    sourceUrl: 'https://www.pdpc.gov.sg/overview-of-pdpa/the-legislation/personal-data-protection-act',
+    summary: '新加坡核心数据保护法律，2020 年修订加入 AI 相关条款。',
+    content: `核心数据保护法律，2012 年通过，2020 年重大修订。引入合法利益例外（Business Improvement Exception）、数据可携带权、加强执法力度。为 AI 数据使用划定法律边界。`,
+  },
+];
+---
+
+<Layout metadata={{ title: 'AI 政策库' }}>
+  <section class="px-4 py-16 sm:px-6 mx-auto lg:px-8 max-w-6xl">
+    <Headline title="📋 AI 政策库" subtitle="新加坡核心 AI 相关政策文档汇编，涵盖国家战略、治理框架、行业指南等。" />
+
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {policies.map((policy) => (
+        <div class="bg-white dark:bg-slate-900 rounded-lg shadow-md p-6 border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-shadow">
+          <h3 class="text-lg font-bold mb-1">{policy.title}</h3>
+          <p class="text-sm text-muted mb-2">{policy.titleEn}</p>
+          <div class="flex gap-2 mb-3 flex-wrap">
+            <span class="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded">{policy.source}</span>
+            <span class="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-2 py-1 rounded">{policy.date}</span>
+          </div>
+          <p class="text-sm mb-3">{policy.summary}</p>
+          <p class="text-sm text-muted mb-3">{policy.content}</p>
+          <div class="flex gap-2">
+            {policy.sourceUrl && <a href={policy.sourceUrl} target="_blank" rel="noopener" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">🔗 来源</a>}
+            {policy.pdfUrl && <a href={policy.pdfUrl} target="_blank" rel="noopener" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">📄 PDF</a>}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</Layout>

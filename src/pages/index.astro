@@ -1,0 +1,98 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import Stats from '~/components/widgets/Stats.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: '新加坡 AI 政策洞察站',
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    actions={[
+      {
+        variant: 'primary',
+        text: '浏览政策库',
+        href: '/aisg/policies/',
+        icon: 'tabler:file-text',
+      },
+      { text: '政策演进', href: '/aisg/evolution/' },
+    ]}
+  >
+    <Fragment slot="title">
+      🇸🇬 中文世界最好的<br /><span class="text-accent dark:text-white">新加坡 AI 政策</span>信息枢纽
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      全面追踪新加坡人工智能战略、政策法规与落地执行。涵盖 7 份核心政策文档、政策演进全景分析、16+ 关键执行指标。
+    </Fragment>
+  </Hero>
+
+  <Features
+    id="features"
+    tagline="核心内容"
+    title="五大板块，深度解读新加坡 AI 政策"
+    subtitle="从政策文件到执行追踪，从挑战分析到参考资料，一站式获取全景信息。"
+    items={[
+      {
+        title: '📋 AI 政策库',
+        description: '7 份核心政策文档，含中英标题、来源机构、摘要与原文链接。从 Smart Nation 到生成式 AI 治理框架。',
+        icon: 'tabler:file-text',
+      },
+      {
+        title: '📈 政策演进分析',
+        description: '从 2014 年智慧国家倡议到 2024 年生成式 AI 治理框架，五个阶段全景时间线。',
+        icon: 'tabler:trending-up',
+      },
+      {
+        title: '📊 落地执行追踪',
+        description: '16+ 关键指标追踪：投资、人才、研究、采用率、基础设施，数据来源为官方公开信息。',
+        icon: 'tabler:chart-bar',
+      },
+      {
+        title: '⚠️ 挑战与约束分析',
+        description: '6 大核心挑战深度分析：人才、数据、伦理、依赖、落地、竞争。',
+        icon: 'tabler:alert-triangle',
+      },
+      {
+        title: '📚 参考资料库',
+        description: '30+ 精选外部资源：官方文件、研究报告、新闻报道分类整理。',
+        icon: 'tabler:books',
+      },
+      {
+        title: '🌏 持续更新',
+        description: '跟踪最新政策动态，定期更新内容，保持信息时效性。',
+        icon: 'tabler:refresh',
+      },
+    ]}
+  />
+
+  <Stats
+    stats={[
+      { title: '核心政策', amount: '7' },
+      { title: '演进阶段', amount: '5' },
+      { title: '追踪指标', amount: '16+' },
+      { title: '参考资料', amount: '30+' },
+    ]}
+  />
+
+  <CallToAction
+    actions={[
+      {
+        variant: 'primary',
+        text: '开始探索',
+        href: '/aisg/policies/',
+        icon: 'tabler:arrow-right',
+      },
+    ]}
+  >
+    <Fragment slot="title">开始探索新加坡 AI 政策</Fragment>
+    <Fragment slot="subtitle">
+      从政策库开始，深入了解新加坡如何构建全球领先的 AI 治理体系。
+    </Fragment>
+  </CallToAction>
+</Layout>

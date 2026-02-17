@@ -1,0 +1,89 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Headline from '~/components/ui/Headline.astro';
+
+const sections = [
+  {
+    icon: '💰',
+    title: '投资与资金',
+    rows: [
+      ['国家 AI 总投资', '> S$1B（10 亿新元）', 'NAIS 2.0, 2023'],
+      ['AI Singapore 初始拨款', 'S$150M（1.5 亿新元）', 'NRF, 2017'],
+      ['RIE2025 研发投入', 'S$25B（含 AI 相关）', 'MTI, 2020'],
+    ],
+  },
+  {
+    icon: '👩‍💻',
+    title: '人才培养',
+    rows: [
+      ['AI 从业者目标', '15,000 名 AI 专才', 'NAIS 2.0, 2023'],
+      ['AI 学徒计划毕业生', '~500+', 'AISG, 2023'],
+      ['AI for Everyone 课程参与', '~100,000+', 'AISG, 2023'],
+      ['大学 AI 相关课程', 'NUS/NTU/SMU/SUTD 均设 AI 方向', '各校官网'],
+    ],
+  },
+  {
+    icon: '🔬',
+    title: '研究产出',
+    rows: [
+      ['AI 论文发表量', '全球 Top 15', 'Stanford AI Index, 2024'],
+      ['SEA Lion 大模型', '东南亚首个多语言开源大模型', 'AISG, 2024'],
+      ['100 Experiments', '完成 100+ AI 项目', 'AISG'],
+    ],
+  },
+  {
+    icon: '🏢',
+    title: '产业采用',
+    rows: [
+      ['企业 AI 采用率', '~42%（中小企业偏低）', 'IMDA Survey, 2023'],
+      ['AI 初创公司数量', '~600+', '估算，综合来源'],
+      ['国际 AI 企业亚太总部', 'Google, Microsoft, AWS 等设 AI Hub', 'EDB'],
+    ],
+  },
+  {
+    icon: '🖥️',
+    title: '基础设施',
+    rows: [
+      ['国家 AI 计算集群', '规划中（含 NVIDIA DGX）', 'NAIS 2.0'],
+      ['数据中心容量', '东南亚最大（暂停新建审批后有限恢复）', 'IMDA, 2024'],
+      ['5G 覆盖率', '> 95% 独立组网', 'IMDA, 2024'],
+    ],
+  },
+];
+---
+
+<Layout metadata={{ title: '落地执行追踪器' }}>
+  <section class="px-4 py-16 sm:px-6 mx-auto lg:px-8 max-w-5xl">
+    <Headline title="📊 落地执行追踪器" subtitle="追踪新加坡 AI 战略的关键执行指标，数据来源为官方公开信息。" />
+
+    <div class="space-y-8">
+      {sections.map((section) => (
+        <div>
+          <h2 class="text-xl font-bold mb-4">{section.icon} {section.title}</h2>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm border-collapse">
+              <thead>
+                <tr class="bg-slate-100 dark:bg-slate-800">
+                  <th class="text-left p-3 border border-slate-200 dark:border-slate-700">指标</th>
+                  <th class="text-left p-3 border border-slate-200 dark:border-slate-700">数据</th>
+                  <th class="text-left p-3 border border-slate-200 dark:border-slate-700">来源/时间</th>
+                </tr>
+              </thead>
+              <tbody>
+                {section.rows.map((row) => (
+                  <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+                    <td class="p-3 border border-slate-200 dark:border-slate-700">{row[0]}</td>
+                    <td class="p-3 border border-slate-200 dark:border-slate-700 font-semibold">{row[1]}</td>
+                    <td class="p-3 border border-slate-200 dark:border-slate-700 text-muted">{row[2]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <p class="mt-8 text-sm text-muted">⚠️ 数据截至 2024 年底，部分为估算值。欢迎提供更新数据。</p>
+  </section>
+</Layout>

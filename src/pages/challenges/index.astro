@@ -1,0 +1,52 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Headline from '~/components/ui/Headline.astro';
+
+const challenges = [
+  {
+    icon: '👥',
+    title: '1. 人才短缺与竞争',
+    content: '新加坡 AI 人才池有限（约 570 万人口），面临与硅谷、中国、伦敦的激烈竞争。尽管推出 AI 学徒计划和 Tech.Pass 签证，高端 AI 研究人才的流失仍是隐忧。本地 AI 人才培养速度难以跟上需求增长。',
+  },
+  {
+    icon: '📦',
+    title: '2. 数据获取与质量',
+    content: '小国数据集规模天然受限。PDPA 虽平衡了保护与创新，但跨境数据流动仍有摩擦。缺乏大规模中英文混合语料也制约了本地大模型开发。政府数据开放虽进步显著（data.gov.sg），但部门间数据孤岛仍存在。',
+  },
+  {
+    icon: '⚖️',
+    title: '3. 伦理与治理平衡',
+    content: '"软法"治理模式（志愿遵守为主）虽灵活，但可能缺乏执行力。随着 AI 深入医疗、金融等关键领域，仅靠自愿框架是否足够？AI Verify 的采用率尚未广泛，企业参与度有待提高。',
+  },
+  {
+    icon: '🔗',
+    title: '4. 技术依赖风险',
+    content: '新加坡 AI 生态高度依赖外国技术：GPU 来自 NVIDIA，云平台依赖 AWS/Azure/GCP，基础大模型来自 OpenAI/Google/Meta。这种依赖在地缘政治紧张时可能成为战略脆弱点。SEA Lion 等本地大模型虽是重要尝试，但与前沿差距仍大。',
+  },
+  {
+    icon: '🏗️',
+    title: '5. 落地执行鸿沟',
+    content: '政策文件质量高，但从"纸上"到"地上"存在落差。大企业和政府部门 AI 采用率较高，但占经济主体的中小企业（SME）AI 渗透率偏低。100 Experiments 项目后的规模化推广也面临挑战。',
+  },
+  {
+    icon: '🌏',
+    title: '6. 区域竞争加剧',
+    content: '东盟内部，马来西亚（AI 数据中心投资）、印尼（人口数据优势）、越南（AI 人才成本）均在加速追赶。全球层面，中美 AI 竞赛可能挤压新加坡作为"中间人"的空间。新加坡需要持续差异化自身定位。',
+  },
+];
+---
+
+<Layout metadata={{ title: '挑战与约束分析' }}>
+  <section class="px-4 py-16 sm:px-6 mx-auto lg:px-8 max-w-4xl">
+    <Headline title="⚠️ 挑战与约束分析" subtitle="尽管新加坡 AI 政策框架全球领先，但在执行层面仍面临六大核心挑战。" />
+
+    <div class="space-y-6">
+      {challenges.map((c) => (
+        <div class="bg-white dark:bg-slate-900 rounded-lg shadow-md p-6 border border-slate-200 dark:border-slate-700">
+          <h2 class="text-lg font-bold mb-2">{c.icon} {c.title}</h2>
+          <p class="text-sm leading-relaxed">{c.content}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</Layout>

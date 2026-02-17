@@ -1,0 +1,65 @@
+site:
+  name: 新加坡 AI 政策洞察站
+  site: 'https://meltflake.com'
+  base: '/aisg'
+  trailingSlash: false
+
+metadata:
+  title:
+    default: 新加坡 AI 政策洞察站
+    template: '%s — 新加坡 AI 政策洞察站'
+  description: '中文世界最好的新加坡 AI 政策信息枢纽。全面追踪新加坡人工智能战略、政策法规与落地执行。'
+  robots:
+    index: true
+    follow: true
+  openGraph:
+    site_name: 新加坡 AI 政策洞察站
+    images:
+      - url: '~/assets/images/default.png'
+        width: 1200
+        height: 628
+    type: website
+
+i18n:
+  language: zh-CN
+  textDirection: ltr
+
+apps:
+  blog:
+    isEnabled: true
+    postsPerPage: 6
+
+    post:
+      isEnabled: true
+      permalink: '/%slug%'
+      robots:
+        index: true
+
+    list:
+      isEnabled: true
+      pathname: 'blog'
+      robots:
+        index: true
+
+    category:
+      isEnabled: true
+      pathname: 'category'
+      robots:
+        index: true
+
+    tag:
+      isEnabled: true
+      pathname: 'tag'
+      robots:
+        index: false
+
+    isRelatedPostsEnabled: true
+    relatedPostsCount: 4
+
+analytics:
+  vendors:
+    googleAnalytics:
+      id: null
+
+ui:
+  theme: 'system'
