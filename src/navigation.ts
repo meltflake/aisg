@@ -50,6 +50,6 @@ export const footerData = {
     { ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset('/rss.xml') },
   ],
   footNote: `
-    新加坡 AI 政策洞察站 · 由 <a class="text-blue-600 underline dark:text-muted" href="https://github.com/meltflake">meltflake</a> 维护
+    新加坡 AI 科技政策观察 · 由 <a class="text-blue-600 underline dark:text-muted" href="https://github.com/meltflake">meltflake</a> 维护
   `,
 };
