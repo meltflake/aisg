@@ -42,7 +42,7 @@ export const ecosystemCategories: EcosystemCategory[] = [
     entities: [
       { name: 'SEA-LION', description: '东南亚多语言大语言模型，支持 11 种语言', url: 'https://aisingapore.org/aiproducts/sea-lion/' },
       { name: 'SEA-HELM', description: '东南亚语言模型评估基准', url: 'https://leaderboard.sea-lion.ai/' },
-      { name: 'SEA-Guard', description: 'AI 安全评估与防护工具', url: 'https://aisingapore.org/aiproducts/sea-guard/' },
+      { name: 'SEA-Guard', description: 'AI 安全评估与防护工具', url: 'https://sea-lion.ai/blog/sea-guard-safety-model/' },
       { name: 'Aquarium', description: '数据驱动的 AI 模型管理平台' },
     ],
   },
@@ -75,7 +75,7 @@ export const ecosystemCategories: EcosystemCategory[] = [
     entities: [
       { name: 'LearnAI', description: '在线 AI 学习平台，SkillsFuture 可报销', url: 'https://learn.aisingapore.org/' },
       { name: 'AI4I', description: 'AI for Industry 课程系列' },
-      { name: 'NAISC', description: '全国 AI 学生挑战赛，2000+ 参与者', url: 'https://aisingapore.org/naisc/' },
+      { name: 'NAISC', description: '全国 AI 学生挑战赛，2000+ 参与者', url: 'https://aisingapore.org/talent/national-ai-student-challenge/' },
       { name: 'PhD Fellowship', description: '最长 4 年博士奖学金，SGD 6,700/月' },
       { name: 'AMP', description: 'Accelerated Masters Programme，本硕连读快车道' },
     ],

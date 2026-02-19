@@ -86,7 +86,7 @@ export const programmes: TalentProgramme[] = [
       { label: '赛道', value: '7 个' },
     ],
     highlights: ['面向大中小学生', '7 个不同赛道', '2000+ 参与者', '培养 AI 实践能力'],
-    url: 'https://aisingapore.org/naisc/',
+    url: 'https://aisingapore.org/talent/national-ai-student-challenge/',
   },
   {
     name: '国际 AI 奥林匹克竞赛',
