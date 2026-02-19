@@ -18,6 +18,7 @@ import { sections } from '~/data/references';
                 <span class="text-blue-500 mt-1">•</span>
                 <div>
                   <a href={link.url} target="_blank" rel="noopener" class="text-blue-600 dark:text-blue-400 hover:underline">{link.text}</a>
+                  {link.translation && <a href={link.translation} class="text-sm text-green-600 dark:text-green-400 hover:underline ml-2">[中文翻译]</a>}
                   {link.note && <span class="text-sm text-muted ml-2">— {link.note}</span>}
                 </div>
               </li>
