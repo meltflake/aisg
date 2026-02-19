@@ -42,6 +42,8 @@ export const sections: ReferenceSection[] = [
       { text: 'Stanford AI Index Report', url: 'https://aiindex.stanford.edu/', note: '年度全球 AI 发展报告' },
       { text: 'Tortoise Global AI Index', url: 'https://www.tortoisemedia.com/intelligence/global-ai/', note: '全球 AI 就绪度排名' },
       { text: 'Oxford Insights Government AI Readiness Index', url: 'https://oxfordinsights.com/ai-readiness/ai-readiness-index/' },
+      { text: 'Microsoft AI Economy Institute — Global AI Adoption 2025', url: 'https://www.microsoft.com/en-us/corporate-responsibility/topics/ai-economy-institute/reports/global-ai-adoption-2025/', note: '新加坡 AI 采用率全球第 2（60.9%），2026.1 发布' },
+      { text: 'AI Diffusion 技术论文', url: 'https://arxiv.org/abs/2511.02781', note: '报告方法论详解，arXiv 2025.11' },
       { text: 'data.gov.sg', url: 'https://data.gov.sg/', note: '新加坡政府开放数据' },
     ],
   },
