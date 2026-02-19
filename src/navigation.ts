@@ -29,6 +29,10 @@ export const headerData = {
       text: '参考资源',
       href: getPermalink('/references'),
     },
+    {
+      text: '报告翻译',
+      href: getPermalink('/blog'),
+    },
   ],
   actions: [{ text: 'GitHub', href: 'https://github.com/meltflake/aisg', target: '_blank' }],
 };
