@@ -23,6 +23,16 @@ export const categories: PolicyCategory[] = [
     icon: '🏛️',
     policies: [
       {
+        title: '国家 AI 研发计划 (NAIRD)',
+        titleEn: 'National AI Research & Development (NAIRD) 2026-2030',
+        date: '2026-01',
+        source: '数字发展与信息部 (MDDI)',
+        sourceOrgUrl: 'https://www.mddi.gov.sg/',
+        sourceUrl: 'https://startupnews.fyi/2026/01/24/singapore-to-invest-over-779-million-in-public-ai-research-through-2030/',
+        summary: '10 亿新元（7.79 亿美元）公共 AI 研究投资，聚焦负责任和资源高效的 AI。',
+        content: `2026 年 1 月 24 日，数字发展与信息部宣布 2026-2030 年间投资超 10 亿新元（约 7.79 亿美元）用于公共 AI 研究。三大方向：一是"负责任和资源高效的 AI"研究，延续 AI Verify 等可信赖 AI 路线；二是全链条 AI 人才培养，从高中预科到大学教师培训；三是支持产业应用，缩短研究到商业化路径。这是继 2024 年 5 亿新元高性能计算资源投资后的又一重大投入，标志着新加坡从"试点探索"进入"规模化建设"阶段。人均 AI 投资达 139 美元，远高于美国（33 美元）和中国（7 美元）。`,
+      },
+      {
         title: '国家人工智能战略 2.0',
         titleEn: 'National AI Strategy 2.0 (NAIS 2.0)',
         date: '2023-12',
@@ -31,8 +41,8 @@ export const categories: PolicyCategory[] = [
         sourceUrl: 'https://www.smartnation.gov.sg/initiatives/national-ai-strategy/',
         pdfUrl: 'https://file.go.gov.sg/nais2023.pdf',
         translatedPdfUrl: '/aisg/pdfs/nais-2.0-zh.pdf',
-        summary: '升级版国家 AI 战略，提出 AI for Public Good、AI for Growth 双轨目标。',
-        content: `NAIS 2.0 将 AI 战略从"重点应用"升级为"系统性赋能"。双轨目标：AI for Public Good 和 AI for Growth。涵盖十五大行动，追加拨款至 10 亿新元以上，建设国家 AI 计算基础设施。`,
+        summary: '升级版国家 AI 战略，提出 AI for Public Good、AI for Growth 双轨目标，确定九大优先领域。',
+        content: `NAIS 2.0 将 AI 战略从"重点应用"升级为"系统性赋能"。双轨目标：AI for Public Good 和 AI for Growth。涵盖十五大行动，追加拨款至 10 亿新元以上，建设国家 AI 计算基础设施。确定九大优先领域：交通物流、制造业、金融、安全、网络安全、智慧城市、医疗、教育和政府服务，其中医疗和金融科技获最高投资比重。`,
       },
       {
         title: '智慧国家 2.0',
@@ -43,7 +53,7 @@ export const categories: PolicyCategory[] = [
         sourceUrl: 'https://www.smartnation.gov.sg/initiatives/national-ai-strategy/',
         translatedPdfUrl: '/aisg/pdfs/smart-nation-2.0-zh.pdf',
         summary: '数字基础设施升级蓝图，涵盖数字政府、数字经济、数字社会三大支柱。',
-        content: `Smart Nation 2.0 是 2014 年智慧国家倡议的全面升级，于 2023 年 10 月发布。三大支柱：数字政府——推动政府服务全面数字化和 AI 化；数字经济——支持企业数字化转型和 AI 采纳；数字社会——确保全民具备数字素养，缩小数字鸿沟。在基础设施层面，规划了国家级 AI 计算平台、数据共享基础设施和安全的数字身份体系。`,
+        content: `Smart Nation 2.0 是 2014 年智慧国家倡议的全面升级，于 2023 年 10 月发布。三大支柱：数字政府——推动政府服务全面数字化和 AI 化；数字经济——支持企业数字化转型和 AI 采纳；数字社会——确保全民具备数字素养，缩小数字鸿沟。2024 年 10 月启动具体落地计划，包括 1.2 亿新元 AI 应用基金，支持五大国家 AI 项目：智能货运规划、市政服务、慢性病预测与管理、个性化教育和边境清关。在基础设施层面，规划了国家级 AI 计算平台、数据共享基础设施和安全的数字身份体系。`,
       },
       {
         title: '国家人工智能战略 1.0',

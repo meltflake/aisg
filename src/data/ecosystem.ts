@@ -18,7 +18,7 @@ export const ecosystemCategories: EcosystemCategory[] = [
     description: '世界级研究机构支撑 AI 基础科学突破',
     entities: [
       { name: 'A*STAR', description: '新加坡科技研究局，AI 基础研究与应用研究主力', url: 'https://www.a-star.edu.sg/' },
-      { name: 'NUS', description: '新加坡国立大学，AI 研究排名亚洲前列', url: 'https://www.nus.edu.sg/' },
+      { name: 'NUS', description: '新加坡国立大学，AI 研究排名亚洲前列。2024.3 成立 NUS AI Institute，整合基础 AI、应用 AI 及社会影响研究', url: 'https://www.nus.edu.sg/' },
       { name: 'NTU', description: '南洋理工大学，AI 与数据科学研究重镇', url: 'https://www.ntu.edu.sg/' },
       { name: 'SMU', description: '新加坡管理大学，AI 在商业与社会应用', url: 'https://www.smu.edu.sg/' },
       { name: 'SUTD', description: '新加坡科技设计大学，AI 与设计交叉创新', url: 'https://www.sutd.edu.sg/' },
@@ -95,8 +95,10 @@ export const ecosystemCategories: EcosystemCategory[] = [
     icon: '🤝',
     description: '与全球科技巨头深度合作',
     entities: [
-      { name: 'Google DeepMind', description: 'AI 研究合作与人才交流' },
-      { name: 'AWS', description: '云计算基础设施与 AI 服务合作' },
+      { name: 'Google DeepMind', description: '2025.11 设立东南亚首个 AI 研究实验室，团队含顶尖研究科学家和 AI 影响专家', url: 'https://deepmind.google/blog/were-expanding-our-presence-in-singapore-to-advance-ai-in-the-asia-pacific-region/' },
+      { name: 'Microsoft Research Asia', description: '2025.7 设立首个东南亚实验室，与 NUS 合作产业博士项目（IPP）' },
+      { name: 'AWS', description: '云计算基础设施与 AI 服务合作，承诺 $9B 基础设施投资' },
+      { name: 'NVIDIA', description: '深度合作提供算力支持，新加坡贡献 NVIDIA 约 15% 全球营收（~$2.7B/季度）' },
       { name: 'Sony Research', description: 'AI 技术联合研发' },
       { name: 'Alibaba Cloud', description: '云计算与 AI 平台合作' },
     ],

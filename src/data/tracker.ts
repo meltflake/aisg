@@ -11,7 +11,7 @@ export interface TrackerSection {
   rows: TrackerRow[];
 }
 
-export const dataDate = '2026-02-17';
+export const dataDate = '2026-02-19';
 
 export const sections: TrackerSection[] = [
   {
@@ -19,6 +19,8 @@ export const sections: TrackerSection[] = [
     title: '投资与资金',
     rows: [
       { name: '政府 AI 专项投入', value: '> S$2B（NAIS 2.0 S$1B+ / NAIRD S$1B+ / 企业计算 S$150M）', source: 'Budget 2024 / MDDI / Reuters, 2024-2026', sourceUrl: 'https://www.singaporebudget.gov.sg/budget-speech/budget-statement/c-harness-ai-as-a-strategic-advantage' },
+      { name: 'NAIRD 公共 AI 研究', value: '> S$1B（7.79 亿美元，2026-2030）', source: 'MDDI, 2026.1.24', sourceUrl: 'https://startupnews.fyi/2026/01/24/singapore-to-invest-over-779-million-in-public-ai-research-through-2030/' },
+      { name: '人均 AI 投资（政府）', value: 'S$139/人（vs 美国 $33、中国 $7）', source: 'Stanford AI Index 2025 + 人口数据估算', sourceUrl: 'https://hai.stanford.edu/ai-index/2025-ai-index-report/economy' },
       { name: 'AI 计算专项', value: 'S$500M（高性能计算）', source: 'Budget 2024', sourceUrl: 'https://www.singaporebudget.gov.sg/' },
       { name: '下一代超算投资', value: 'S$270M（经典+量子混合，2025 年底投运）', source: 'Smart Nation 2.0, 2024.10', sourceUrl: 'https://www.smartnation.gov.sg/' },
       { name: 'AI 科学计划', value: 'S$120M', source: 'Smart Nation 2.0, 2024.10', sourceUrl: 'https://www.smartnation.gov.sg/' },
@@ -33,6 +35,7 @@ export const sections: TrackerSection[] = [
     icon: '👩\u200d💻',
     title: '人才培养',
     rows: [
+      { name: 'AI 专业人才目标', value: '2019 年 2,000 → 2023 年 5,000 → 2029 年目标 15,000（外籍占 35%）', source: 'MDDI / NAIRD, 2026.1', sourceUrl: 'https://startupnews.fyi/2026/01/24/singapore-to-invest-over-779-million-in-public-ai-research-through-2030/' },
       { name: 'SkillsFuture AI 培训', value: '105,000+ 人参加 1,600+ AI 课程（2025）', source: 'SSG / Straits Times, 2026.2', sourceUrl: 'https://www.straitstimes.com/tags/artificial-intelligence' },
       { name: 'TeSA 科技人才安置', value: '21,000+ 本地人就业（自 2016）', source: 'IMDA, 2025.8', sourceUrl: 'https://www.imda.gov.sg/' },
       { name: 'TeSA 技能提升', value: '340,000+ 人（自 2016）', source: 'IMDA, 2025.8', sourceUrl: 'https://www.imda.gov.sg/' },
@@ -66,6 +69,8 @@ export const sections: TrackerSection[] = [
       { name: '独角兽', value: '32 家（截至 2025.7）', source: 'Introl, 2025.8', sourceUrl: 'https://www.techinasia.com/tag/artificial-intelligence-singapore' },
       { name: '东盟 AI 交易份额', value: '58% 交易量，68% 交易金额（2024 前 9 个月）', source: 'Introl, 2025.8', sourceUrl: 'https://www.techinasia.com/tag/artificial-intelligence-singapore' },
       { name: '企业 AI 培训意愿', value: '超过 2/3 使用 AI 的企业计划优先投资员工培训', source: 'IMDA, 2025.8', sourceUrl: 'https://www.imda.gov.sg/' },
+      { name: '医疗 AI 案例', value: 'RUSSELL-GPT 减少医生文档时间 50%；Ng Teng Fong 医院流感暴发床位预测算法', source: 'WEF / NUHS, 2025', sourceUrl: 'https://www.weforum.org/stories/2025/09/singapore-healthcare-ai/' },
+      { name: '五大国家 AI 项目', value: '智能货运规划、市政服务、慢性病管理、个性化教育、边境清关（S$120M）', source: 'Smart Nation 2.0, 2024.10', sourceUrl: 'https://www.smartnation.gov.sg/' },
     ],
   },
   {

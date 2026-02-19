@@ -14,20 +14,20 @@ export const timelineEvents: TimelineEvent[] = [
   },
   {
     year: 2026,
-    title: '财政预算：Champions of AI',
-    description: '2026 年预算案将 AI 提升至空前高度：成立由总理亲自主持的 National AI Council；推出 4 项 AI Mission 聚焦医疗、教育、公共服务和制造业；Enterprise Innovation Scheme 400% AI 税务扣除；启动 one-north AI 园区建设；National AI Literacy Programme 全民 AI 素养计划。',
-    tags: ['预算', '战略'],
+    title: 'NAIRD 发布 + 财政预算：AI 全面加速',
+    description: '1 月：MDDI 宣布 NAIRD 计划，2026-2030 投资超 10 亿新元（7.79 亿美元）用于公共 AI 研究，聚焦负责任和资源高效的 AI、全链条人才培养、产业应用。同月举办 AI Research Week 2026，与 AAAI 第 40 届会议同期。2 月：预算案将 AI 提升至空前高度，成立由总理亲自主持的 National AI Council；推出 4 项 AI Mission；Enterprise Innovation Scheme 400% AI 税务扣除；启动 one-north AI 园区建设；National AI Literacy Programme。',
+    tags: ['预算', '战略', '国际'],
   },
   {
     year: 2025,
-    title: 'Agentic AI 治理与产业深化',
-    description: '发布 Agentic AI 治理框架，应对自主 AI Agent 的治理挑战；推出 SEA-Guard 安全评估工具；Enterprise Compute 拨款 1.5 亿新元；AIAP for Industry 扩展至产业界，深化 AI 人才与企业对接。',
-    tags: ['治理', '技术', '预算'],
+    title: 'Agentic AI 治理与科技巨头落地',
+    description: '发布 Agentic AI 治理框架；推出 SEA-Guard 安全评估工具；Enterprise Compute 拨款 1.5 亿新元；AIAP for Industry 扩展至产业界。7 月 Microsoft Research Asia 在新加坡设立首个东南亚实验室，与 NUS 合作产业博士项目（IPP）。11 月 Google DeepMind 在新加坡建立东南亚首个 AI 研究实验室。',
+    tags: ['治理', '技术', '预算', '产业'],
   },
   {
     year: 2024,
-    title: '智慧国家 2.0 与 AI 预算井喷',
-    description: 'Smart Nation 2.0 发布，AI 预算突破 10 亿新元。SEA-LION 东南亚大语言模型正式发布；AMP (Accelerated Masters Programme) 启动；参加首尔 AI 安全峰会并签署承诺；CSA 发布 AI 安全指南。',
+    title: '智慧国家 2.0 落地与 AI 预算井喷',
+    description: 'Smart Nation 2.0 落地，发布 1.2 亿新元 AI 应用基金和五大国家 AI 项目（智能货运、市政服务、慢性病管理、个性化教育、边境清关）。AI 预算突破 10 亿新元。3 月 NUS AI Institute 成立，整合校内 AI 研究资源。SEA-LION 大语言模型正式发布；AMP 启动；参加首尔 AI 安全峰会；CSA 发布 AI 安全指南。',
     tags: ['战略', '技术', '国际'],
   },
   {

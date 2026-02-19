@@ -1,5 +1,5 @@
 export const stats = [
-  { title: '核心政策', amount: '19' },
+  { title: '核心政策', amount: '20' },
   { title: '追踪指标', amount: '42' },
   { title: '专题页面', amount: '15' },
   { title: '对标地区', amount: '10' },
