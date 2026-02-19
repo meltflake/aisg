@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.9 — 2026-02-19
+
+### Feature: 公共 AI 研究投资计划 + 多项数据更新
+
+- 新增政策：公共 AI 研究投资计划 (2026-2030)，S$1B / US$779M，来源 MDDI 2026.1.24 公告
+- 更新 NAIS 2.0：补充九大优先领域（交通物流、制造业、金融、安全、网络安全、智慧城市、医疗、教育、政府服务）
+- 更新 Smart Nation 2.0：补充 S$120M AI 应用基金和五大国家 AI 项目（智能货运、市政服务、慢性病管理、个性化教育、边境清关）
+- 时间线更新：2026 AI Research Week + AAAI；2025 Google DeepMind/MSRA 实验室；2024 NUS AI Institute + Smart Nation 2.0 落地
+- Tracker 新增：公共 AI 研究投资额、人均 AI 投资对比（SG $139 vs US $33 vs CN $7）、AI 人才目标 15K by 2029、RUSSELL-GPT 医疗案例、五大国家 AI 项目
+- 生态系统：Google DeepMind 东南亚首个实验室 (2025.11)、MSRA 东南亚首个实验室 (2025.7)、NUS AI Institute (2024.3)、NVIDIA 合作
+- 核心政策数从 19 → 20
+- Bumped version to 0.0.9
+
 ## 0.0.8 — 2026-02-17
 
 ### Feature: 国际对标 (International Benchmarking) page
