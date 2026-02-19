@@ -1,5 +1,5 @@
 import { getPermalink, getAsset } from './utils/permalinks';
-import { SITE_VERSION } from './version';
+import { SITE_VERSION, SITE_UPDATED } from './version';
 
 export const headerData = {
   links: [
@@ -66,5 +66,5 @@ export const footerData = {
     { ariaLabel: 'Github', icon: 'tabler:brand-github', href: 'https://github.com/meltflake/aisg' },
     { ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset('/rss.xml') },
   ],
-  footNote: 'SG AI 观察 v' + SITE_VERSION + ' · 由 <a class="text-blue-600 underline dark:text-muted" href="https://github.com/meltflake">meltflake</a> 维护',
+  footNote: 'SG AI 观察 v' + SITE_VERSION + ' · 最近更新 ' + SITE_UPDATED + ' · 由 <a class="text-blue-600 underline dark:text-muted" href="https://github.com/meltflake">meltflake</a> 维护',
 };
