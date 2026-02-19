@@ -15,7 +15,7 @@ export const timelineEvents: TimelineEvent[] = [
   {
     year: 2026,
     title: 'NAIRD 发布 + 财政预算：AI 全面加速',
-    description: '1 月：MDDI 宣布 NAIRD 计划，2026-2030 投资超 10 亿新元（7.79 亿美元）用于公共 AI 研究，聚焦负责任和资源高效的 AI、全链条人才培养、产业应用。同月举办 AI Research Week 2026，与 AAAI 第 40 届会议同期。2 月：预算案将 AI 提升至空前高度，成立由总理亲自主持的 National AI Council；推出 4 项 AI Mission；Enterprise Innovation Scheme 400% AI 税务扣除；启动 one-north AI 园区建设；National AI Literacy Programme。',
+    description: '1 月：MDDI 宣布 2026-2030 公共 AI 研究投资计划，投资超 10 亿新元（7.79 亿美元）用于公共 AI 研究，聚焦负责任和资源高效的 AI、全链条人才培养、产业应用。同月举办 AI Research Week 2026，与 AAAI 第 40 届会议同期。2 月：预算案将 AI 提升至空前高度，成立由总理亲自主持的 National AI Council；推出 4 项 AI Mission；Enterprise Innovation Scheme 400% AI 税务扣除；启动 one-north AI 园区建设；National AI Literacy Programme。',
     tags: ['预算', '战略', '国际'],
   },
   {

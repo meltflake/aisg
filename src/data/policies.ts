@@ -23,8 +23,8 @@ export const categories: PolicyCategory[] = [
     icon: '🏛️',
     policies: [
       {
-        title: '国家 AI 研发计划 (NAIRD)',
-        titleEn: 'National AI Research & Development (NAIRD) 2026-2030',
+        title: '公共 AI 研究投资计划 (2026-2030)',
+        titleEn: 'Public AI Research Investment 2026-2030',
         date: '2026-01',
         source: '数字发展与信息部 (MDDI)',
         sourceOrgUrl: 'https://www.mddi.gov.sg/',

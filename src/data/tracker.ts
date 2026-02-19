@@ -18,8 +18,8 @@ export const sections: TrackerSection[] = [
     icon: '💰',
     title: '投资与资金',
     rows: [
-      { name: '政府 AI 专项投入', value: '> S$2B（NAIS 2.0 S$1B+ / NAIRD S$1B+ / 企业计算 S$150M）', source: 'Budget 2024 / MDDI / Reuters, 2024-2026', sourceUrl: 'https://www.singaporebudget.gov.sg/budget-speech/budget-statement/c-harness-ai-as-a-strategic-advantage' },
-      { name: 'NAIRD 公共 AI 研究', value: '> S$1B（7.79 亿美元，2026-2030）', source: 'MDDI, 2026.1.24', sourceUrl: 'https://startupnews.fyi/2026/01/24/singapore-to-invest-over-779-million-in-public-ai-research-through-2030/' },
+      { name: '政府 AI 专项投入', value: '> S$2B（NAIS 2.0 S$1B+ / 公共 AI 研究 2026-2030 S$1B+ / 企业计算 S$150M）', source: 'Budget 2024 / MDDI / Reuters, 2024-2026', sourceUrl: 'https://www.singaporebudget.gov.sg/budget-speech/budget-statement/c-harness-ai-as-a-strategic-advantage' },
+      { name: '公共 AI 研究投资 (2026-2030)', value: '> S$1B（7.79 亿美元）', source: 'MDDI, 2026.1.24', sourceUrl: 'https://startupnews.fyi/2026/01/24/singapore-to-invest-over-779-million-in-public-ai-research-through-2030/' },
       { name: '人均 AI 投资（政府）', value: 'S$139/人（vs 美国 $33、中国 $7）', source: 'Stanford AI Index 2025 + 人口数据估算', sourceUrl: 'https://hai.stanford.edu/ai-index/2025-ai-index-report/economy' },
       { name: 'AI 计算专项', value: 'S$500M（高性能计算）', source: 'Budget 2024', sourceUrl: 'https://www.singaporebudget.gov.sg/' },
       { name: '下一代超算投资', value: 'S$270M（经典+量子混合，2025 年底投运）', source: 'Smart Nation 2.0, 2024.10', sourceUrl: 'https://www.smartnation.gov.sg/' },
@@ -35,7 +35,7 @@ export const sections: TrackerSection[] = [
     icon: '👩\u200d💻',
     title: '人才培养',
     rows: [
-      { name: 'AI 专业人才目标', value: '2019 年 2,000 → 2023 年 5,000 → 2029 年目标 15,000（外籍占 35%）', source: 'MDDI / NAIRD, 2026.1', sourceUrl: 'https://startupnews.fyi/2026/01/24/singapore-to-invest-over-779-million-in-public-ai-research-through-2030/' },
+      { name: 'AI 专业人才目标', value: '2019 年 2,000 → 2023 年 5,000 → 2029 年目标 15,000（外籍占 35%）', source: 'MDDI, 2026.1', sourceUrl: 'https://startupnews.fyi/2026/01/24/singapore-to-invest-over-779-million-in-public-ai-research-through-2030/' },
       { name: 'SkillsFuture AI 培训', value: '105,000+ 人参加 1,600+ AI 课程（2025）', source: 'SSG / Straits Times, 2026.2', sourceUrl: 'https://www.straitstimes.com/tags/artificial-intelligence' },
       { name: 'TeSA 科技人才安置', value: '21,000+ 本地人就业（自 2016）', source: 'IMDA, 2025.8', sourceUrl: 'https://www.imda.gov.sg/' },
       { name: 'TeSA 技能提升', value: '340,000+ 人（自 2016）', source: 'IMDA, 2025.8', sourceUrl: 'https://www.imda.gov.sg/' },
