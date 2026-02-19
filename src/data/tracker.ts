@@ -90,6 +90,7 @@ export const sections: TrackerSection[] = [
     icon: '🌍',
     title: '国际排名',
     rows: [
+      { name: 'Microsoft AI 采用率', value: '全球第 2（60.9%，仅次于 UAE 64.0%）', source: 'Microsoft AI Economy Institute, 2026.1', sourceUrl: 'https://blogs.microsoft.com/on-the-issues/2026/01/08/global-ai-adoption-in-2025/' },
       { name: 'Tortoise 全球 AI 指数', value: '第 3 名（仅次于美国、中国）', source: 'Tortoise Media, 2024.9', sourceUrl: 'https://www.tortoisemedia.com/intelligence/global-ai/' },
       { name: 'Oxford 政府 AI 就绪度', value: '第 2 名（仅次于美国）', source: 'Oxford Insights, 2024.12', sourceUrl: 'https://oxfordinsights.com/ai-readiness/ai-readiness-index/' },
       { name: 'WIPO 全球创新指数', value: '第 5 名', source: 'WIPO, 2025', sourceUrl: 'https://www.wipo.int/' },
