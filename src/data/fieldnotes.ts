@@ -16,11 +16,11 @@ export interface FieldNote {
 export const fieldNotes: FieldNote[] = [
   {
     id: 'edb-meeting-ai-infra-2026-02',
-    title: 'AI Infra 公司与 EDB 亚太区司长会议纪要',
+    title: 'AI 创业公司与 EDB 会议纪要',
     date: '2026-02',
     source: '社区分享',
     tags: ['EDB', 'EP 申请', '税务合规', '补贴政策', '公司注册'],
-    companyProfile: '多模态 API 平台，ARR 接近 $100M，注册在新加坡，团队主要 remote，约 10 人',
+    companyProfile: 'AI 平台公司，ARR 接近 $100M，注册在新加坡，团队主要 remote，约 10 人',
     sections: [
       {
         heading: '公司属性判定：看股权结构，不看创始人国籍',
@@ -54,7 +54,7 @@ export const fieldNotes: FieldNote[] = [
       {
         heading: '对照案例：Manus 是特例',
         points: [
-          'EDB 司长 Ming 主动提到 Manus，但明确表示那是特殊情况',
+          'EDB 方面主动提到 Manus，但明确表示那是特殊情况',
           'Manus 面临外部监管的时间窗口压力，必须极短时间内迁出核心团队',
           'EDB 深度介入：提前与人力部沟通、拆分人员批次',
           '预期是要放弃一部分原有团队',
