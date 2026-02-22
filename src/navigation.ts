@@ -22,16 +22,12 @@ export const headerData = {
       ],
     },
     {
-      text: '国际对标',
-      href: getPermalink('/benchmarking'),
-    },
-    {
-      text: '实战经验',
-      href: getPermalink('/fieldnotes'),
-    },
-    {
-      text: '参考资源',
-      href: getPermalink('/references'),
+      text: '更多',
+      links: [
+        { text: '国际对标', href: getPermalink('/benchmarking') },
+        { text: '实战经验', href: getPermalink('/fieldnotes') },
+        { text: '参考资源', href: getPermalink('/references') },
+      ],
     },
   ],
   actions: [{ text: 'GitHub', href: 'https://github.com/meltflake/aisg', target: '_blank' }],
