@@ -26,6 +26,10 @@ export const headerData = {
       href: getPermalink('/benchmarking'),
     },
     {
+      text: '实战经验',
+      href: getPermalink('/fieldnotes'),
+    },
+    {
       text: '参考资源',
       href: getPermalink('/references'),
     },
@@ -57,6 +61,7 @@ export const footerData = {
       title: '更多',
       links: [
         { text: '国际对标', href: getPermalink('/benchmarking') },
+        { text: '实战经验', href: getPermalink('/fieldnotes') },
         { text: '参考资源', href: getPermalink('/references') },
       ],
     },

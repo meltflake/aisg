@@ -1,0 +1,108 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Headline from '~/components/ui/Headline.astro';
+import { fieldNotes } from '~/data/fieldnotes';
+---
+
+<Layout metadata={{ title: '实战经验' }}>
+  <section class="px-4 py-16 sm:px-6 mx-auto lg:px-8 max-w-5xl">
+    <Headline
+      title="🗂️ 实战经验"
+      subtitle="来自社区的真实落地经验。按主题聚合，匿名化处理，帮你少走弯路。"
+    />
+
+    <div class="mb-8 text-sm text-muted bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+      <p>
+        💡 这些经验来自新加坡 AI 创业社区的真实分享，经过结构化整理和匿名化处理。每条记录标注了公司画像和适用条件，供参考而非指导。政策细节请以官方最新文件为准。
+      </p>
+    </div>
+
+    {/* Tag overview */}
+    <div class="mb-10">
+      {(() => {
+        const allTags = [...new Set(fieldNotes.flatMap(n => n.tags))];
+        return (
+          <div class="flex flex-wrap gap-2">
+            {allTags.map(tag => (
+              <span class="inline-block px-3 py-1 text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-full border border-slate-200 dark:border-slate-700">
+                {tag}
+              </span>
+            ))}
+          </div>
+        );
+      })()}
+    </div>
+
+    {/* Field notes */}
+    <div class="space-y-10">
+      {fieldNotes.map((note) => (
+        <article class="bg-white dark:bg-slate-900 rounded-xl shadow-md border border-slate-200 dark:border-slate-700 overflow-hidden">
+          {/* Header */}
+          <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-800 px-6 py-5 border-b border-slate-200 dark:border-slate-700">
+            <div class="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white">{note.title}</h2>
+                <div class="flex flex-wrap items-center gap-3 mt-2 text-xs text-muted">
+                  <span>📅 {note.date}</span>
+                  <span>📖 {note.source}</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-1.5 mt-3">
+              {note.tags.map(tag => (
+                <span class="inline-block px-2 py-0.5 text-xs bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 rounded">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Company profile */}
+          <div class="px-6 py-3 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700">
+            <div class="text-xs text-muted">
+              <span class="font-semibold">🏢 公司画像：</span>{note.companyProfile}
+            </div>
+          </div>
+
+          {/* Content sections */}
+          <div class="px-6 py-5 space-y-6">
+            {note.sections.map((section) => (
+              <div>
+                <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 mb-2 flex items-center gap-2">
+                  {section.heading}
+                  {section.highlight && (
+                    <span class="inline-block px-2 py-0.5 text-xs bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded font-normal">
+                      {section.highlight}
+                    </span>
+                  )}
+                </h3>
+                <ul class="space-y-1.5">
+                  {section.points.map(point => (
+                    <li class="text-sm text-slate-600 dark:text-slate-400 flex gap-2">
+                      <span class="text-slate-400 dark:text-slate-600 mt-0.5 shrink-0">·</span>
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* Takeaway */}
+          <div class="px-6 py-4 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/10 dark:to-teal-900/10 border-t border-slate-200 dark:border-slate-700">
+            <div class="text-sm">
+              <span class="font-semibold text-emerald-700 dark:text-emerald-400">💬 总结：</span>
+              <span class="text-slate-700 dark:text-slate-300">{note.takeaway}</span>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    {/* Call to contribute */}
+    <div class="mt-12 text-center text-sm text-muted">
+      <p>有实战经验想分享？欢迎通过 <a href="https://github.com/meltflake/aisg" class="text-blue-600 dark:text-blue-400 underline">GitHub</a> 提交。</p>
+      <p class="mt-1">所有内容经结构化整理和匿名化处理后发布。</p>
+    </div>
+  </section>
+</Layout>
