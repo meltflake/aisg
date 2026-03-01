@@ -1,357 +1,544 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import Headline from '~/components/ui/Headline.astro';
-import { debates, DEBATE_STATS, AI_TOPICS } from '~/data/debates';
+import {
+  debates,
+  DEBATE_STATS,
+  POLICY_EVOLUTION,
+  RECURRING_CONTROVERSIES,
+  MP_PROFILES,
+  KEY_INSIGHTS,
+  POLICY_SIGNALS,
+  TENSION_MAP,
+} from '~/data/debates';
 
-// Sort debates by date (newest first)
-const sortedDebates = [...debates].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-
-// Compute speaker frequency
-const speakerCount: Record<string, number> = {};
-for (const d of debates) {
-  for (const s of d.speakers) {
-    if (s && s.length > 2) {
-      speakerCount[s] = (speakerCount[s] || 0) + 1;
-    }
-  }
-}
-const topSpeakers = Object.entries(speakerCount)
-  .sort((a, b) => b[1] - a[1])
-  .slice(0, 10);
-
-// Compute debates per year
-const byYear: Record<string, number> = {};
-for (const d of debates) {
-  if (d.date) {
-    const y = d.date.slice(0, 4);
-    byYear[y] = (byYear[y] || 0) + 1;
-  }
-}
-const yearData = Object.entries(byYear).sort((a, b) => a[0].localeCompare(b[0]));
-const maxYearCount = Math.max(...yearData.map(([, c]) => c));
-
-// Topic counts
-const topicCount: Record<string, number> = {};
-for (const d of debates) {
-  for (const t of d.topics) {
-    topicCount[t] = (topicCount[t] || 0) + 1;
-  }
-}
-
-// Type badge colors
-const typeBadge: Record<string, string> = {
-  'Oral Answers to Questions': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
-  'Written Answers to Questions': 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
-  'Budget': 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200',
-  'Motions': 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200',
+const meta = {
+  title: '国会 AI 焦点 — 新加坡议会辩论记录',
+  description: '新加坡议会关于 AI 的第一手辩论记录，含中文摘要、议员立场分析、政策演变脉络与深度洞察。',
 };
 
-const typeShort: Record<string, string> = {
+// Pre-compute data for rendering
+const typeMap: Record<string, string> = {
   'Oral Answers to Questions': '口头答复',
   'Written Answers to Questions': '书面答复',
   'Budget': '预算辩论',
-  'Motions': '动议',
+  'Motion': '动议',
 };
 
-const topicColors: Record<string, string> = {
-  'AI Governance & Regulation': 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200',
-  'AI Safety & Ethics': 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200',
-  'AI Economy & Industry': 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200',
-  'AI & Employment': 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
-  'AI in Education': 'bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200',
-  'AI in Healthcare': 'bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200',
-  'AI & National Security': 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200',
-  'AI Infrastructure & Research': 'bg-cyan-100 dark:bg-cyan-900 text-cyan-800 dark:text-cyan-200',
-  'Deepfakes & Disinformation': 'bg-rose-100 dark:bg-rose-900 text-rose-800 dark:text-rose-200',
-  'AI in Public Sector': 'bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200',
-  'Generative AI': 'bg-violet-100 dark:bg-violet-900 text-violet-800 dark:text-violet-200',
-  'AI Strategy': 'bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200',
+const controversyLabels: Record<number, string> = {
+  1: '信息发布',
+  2: '温和质询',
+  3: '实质辩论',
+  4: '激烈争议',
+  5: '高度对立',
 };
+
+const controversyColors: Record<number, string> = {
+  1: 'bg-slate-100 text-slate-600',
+  2: 'bg-blue-100 text-blue-700',
+  3: 'bg-yellow-100 text-yellow-700',
+  4: 'bg-orange-100 text-orange-700',
+  5: 'bg-red-100 text-red-700',
+};
+
+const statusColors: Record<string, string> = {
+  'ongoing': 'bg-amber-100 text-amber-700',
+  'escalating': 'bg-red-100 text-red-700',
+  'resolved': 'bg-green-100 text-green-700',
+};
+
+const statusLabels: Record<string, string> = {
+  'ongoing': '持续讨论中',
+  'escalating': '争议升级',
+  'resolved': '已有定论',
+};
+
+const significanceColors: Record<string, string> = {
+  'high': 'border-l-red-500',
+  'medium': 'border-l-yellow-500',
+  'low': 'border-l-blue-400',
+};
+
+const topicZh: Record<string, string> = {
+  'AI Economy & Industry': 'AI 经济与产业',
+  'AI & Employment': 'AI 与就业',
+  'AI Governance & Regulation': 'AI 治理与监管',
+  'AI & National Security': 'AI 与国家安全',
+  'AI in Public Sector': 'AI 与公共部门',
+  'AI Infrastructure & Research': 'AI 基础设施与研究',
+  'AI Safety & Ethics': 'AI 安全与伦理',
+  'AI in Education': 'AI 与教育',
+  'AI in Healthcare': 'AI 与医疗',
+  'AI Strategy': 'AI 战略',
+  'Deepfakes & Disinformation': '深度伪造与虚假信息',
+  'Generative AI': '生成式 AI',
+};
+
+const maxYear = Math.max(...Object.keys(DEBATE_STATS.byYear).map(Number));
+const maxCount = Math.max(...Object.values(DEBATE_STATS.byYear));
+
+// Serialize debates to JSON for client-side JS
+const debatesJson = JSON.stringify(debates.map(d => ({
+  id: d.id,
+  title: d.title,
+  zhTitle: d.zhTitle,
+  date: d.date,
+  parliament: d.parliament,
+  type: d.type,
+  speakers: d.speakers,
+  topics: d.topics,
+  zhSummary: d.zhSummary,
+  keyPoints: d.keyPoints,
+  governmentStance: d.governmentStance,
+  oppositionStance: d.oppositionStance,
+  controversyLevel: d.controversyLevel,
+  policySignal: d.policySignal,
+  notableQuote: d.notableQuote,
+  summary: d.summary,
+  sourceUrl: d.sourceUrl,
+})));
 ---
 
-<Layout metadata={{ title: '国会 AI 焦点 — 新加坡议会辩论记录' }}>
-  <section class="px-4 py-16 sm:px-6 mx-auto lg:px-8 max-w-7xl">
+<Layout metadata={meta}>
+  <div class="max-w-7xl mx-auto px-4 py-10">
 
     <!-- Header -->
-    <Headline
-      title="🏛️ 国会 AI 焦点"
-      subtitle="新加坡议会关于人工智能的第一手辩论记录，来源于官方 Hansard 数据库。追踪议员观点、政策质询与政府回应。"
-    />
-
-    <!-- Source attribution -->
-    <div class="mb-8 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-lg text-sm text-amber-800 dark:text-amber-200">
-      <strong>数据来源：</strong>
-      <a href="https://sprs.parl.gov.sg/search/" target="_blank" rel="noopener" class="underline hover:text-amber-600">新加坡国会官方报告 (SPRS Hansard)</a>
-      &nbsp;·&nbsp;
-      <a href="https://search.pair.gov.sg/" target="_blank" rel="noopener" class="underline hover:text-amber-600">PAIR Search（AI 增强语义搜索）</a>
-      &nbsp;·&nbsp;
-      数据截至 {DEBATE_STATS.fetchedAt.slice(0, 10)}，共 {DEBATE_STATS.total} 条记录
+    <div class="mb-10">
+      <div class="flex items-center gap-3 mb-3">
+        <span class="text-4xl">🏛️</span>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">国会 AI 焦点</h1>
+      </div>
+      <p class="text-gray-600 dark:text-gray-400 text-lg max-w-3xl">
+        新加坡议会关于人工智能的第一手辩论记录，含 AI 提炼的中文摘要、议员立场分析与政策规律洞察。
+      </p>
+      <div class="mt-3 flex flex-wrap gap-4 text-sm text-gray-500 dark:text-gray-400">
+        <span>📋 数据来源：<a href="https://sprs.parl.gov.sg/search/" target="_blank" class="text-blue-600 hover:underline">SPRS Hansard</a> · <a href="https://search.pair.gov.sg/" target="_blank" class="text-blue-600 hover:underline">PAIR Search</a></span>
+        <span>🤖 中文摘要由 AI 辅助生成，原文来自官方记录</span>
+        <span>📅 数据截至 2026-03-01，共 {DEBATE_STATS.total} 条记录</span>
+      </div>
     </div>
 
-    <!-- Stats Cards -->
+    <!-- Stats Row -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-      <div class="bg-white dark:bg-slate-900 rounded-lg shadow p-5 border border-slate-200 dark:border-slate-700 text-center">
-        <div class="text-3xl font-bold text-blue-600 dark:text-blue-400">{DEBATE_STATS.total}</div>
-        <div class="text-sm text-muted mt-1">辩论记录总数</div>
+      <div class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-700 text-center">
+        <div class="text-3xl font-bold text-blue-600">{DEBATE_STATS.total}</div>
+        <div class="text-sm text-gray-500 mt-1">辩论记录总数</div>
       </div>
-      <div class="bg-white dark:bg-slate-900 rounded-lg shadow p-5 border border-slate-200 dark:border-slate-700 text-center">
-        <div class="text-3xl font-bold text-green-600 dark:text-green-400">{DEBATE_STATS.yearRange.from}–{DEBATE_STATS.yearRange.to}</div>
-        <div class="text-sm text-muted mt-1">时间跨度</div>
+      <div class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-700 text-center">
+        <div class="text-3xl font-bold text-purple-600">{DEBATE_STATS.yearRange.from}–{DEBATE_STATS.yearRange.to}</div>
+        <div class="text-sm text-gray-500 mt-1">时间跨度</div>
       </div>
-      <div class="bg-white dark:bg-slate-900 rounded-lg shadow p-5 border border-slate-200 dark:border-slate-700 text-center">
-        <div class="text-3xl font-bold text-purple-600 dark:text-purple-400">{topSpeakers.length > 0 ? topSpeakers.length : '—'}</div>
-        <div class="text-sm text-muted mt-1">活跃发言议员</div>
+      <div class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-700 text-center">
+        <div class="text-3xl font-bold text-green-600">{Object.keys(DEBATE_STATS.topSpeakers).length}</div>
+        <div class="text-sm text-gray-500 mt-1">活跃发言议员</div>
       </div>
-      <div class="bg-white dark:bg-slate-900 rounded-lg shadow p-5 border border-slate-200 dark:border-slate-700 text-center">
-        <div class="text-3xl font-bold text-orange-600 dark:text-orange-400">{AI_TOPICS.length}</div>
-        <div class="text-sm text-muted mt-1">AI 议题分类</div>
+      <div class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-700 text-center">
+        <div class="text-3xl font-bold text-orange-500">{RECURRING_CONTROVERSIES.length}</div>
+        <div class="text-sm text-gray-500 mt-1">反复争议焦点</div>
       </div>
     </div>
 
-    <!-- Two-column layout: charts + filters -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
-
-      <!-- Left: Year chart + Top speakers -->
-      <div class="lg:col-span-1 space-y-6">
-
-        <!-- Debates by Year -->
-        <div class="bg-white dark:bg-slate-900 rounded-lg shadow p-5 border border-slate-200 dark:border-slate-700">
-          <h3 class="font-bold text-sm mb-4 text-muted uppercase tracking-wide">📅 每年辩论数量</h3>
-          <div class="space-y-2">
-            {yearData.map(([year, count]) => (
-              <div class="flex items-center gap-2">
-                <span class="text-xs font-mono w-10 text-muted">{year}</span>
-                <div class="flex-1 bg-slate-100 dark:bg-slate-800 rounded-full h-4 overflow-hidden">
-                  <div
-                    class="h-4 bg-blue-500 dark:bg-blue-400 rounded-full"
-                    style={`width: ${Math.round((count / maxYearCount) * 100)}%`}
-                  ></div>
-                </div>
-                <span class="text-xs font-bold w-5 text-right">{count}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <!-- Top Speakers -->
-        <div class="bg-white dark:bg-slate-900 rounded-lg shadow p-5 border border-slate-200 dark:border-slate-700">
-          <h3 class="font-bold text-sm mb-4 text-muted uppercase tracking-wide">🎙️ 最活跃议员</h3>
-          <div class="space-y-2">
-            {topSpeakers.map(([speaker, count], i) => (
-              <div class="flex items-center justify-between text-sm">
-                <div class="flex items-center gap-2">
-                  <span class="text-xs text-muted w-4">{i + 1}.</span>
-                  <span class="font-medium truncate max-w-[160px]" title={speaker}>{speaker}</span>
-                </div>
-                <span class="text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-full font-bold">{count}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <!-- Topic Distribution -->
-        <div class="bg-white dark:bg-slate-900 rounded-lg shadow p-5 border border-slate-200 dark:border-slate-700">
-          <h3 class="font-bold text-sm mb-4 text-muted uppercase tracking-wide">🏷️ 议题分布</h3>
-          <div class="flex flex-wrap gap-2">
-            {Object.entries(topicCount).sort((a, b) => b[1] - a[1]).map(([topic, count]) => (
-              <span class={`text-xs px-2 py-1 rounded-full font-medium ${topicColors[topic] || 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'}`}>
-                {topic.replace('AI ', '').replace(' & ', ' & ')} ({count})
-              </span>
-            ))}
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Right: Debate list with filters -->
-      <div class="lg:col-span-2">
-
-        <!-- Filter controls (client-side JS) -->
-        <div class="bg-white dark:bg-slate-900 rounded-lg shadow p-4 border border-slate-200 dark:border-slate-700 mb-4">
-          <div class="flex flex-wrap gap-3 items-center">
-            <div class="flex-1 min-w-[200px]">
-              <input
-                id="search-input"
-                type="text"
-                placeholder="🔍 搜索标题、议员、议题..."
-                class="w-full px-3 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+    <!-- ===== INSIGHTS SECTION ===== -->
+    <section class="mb-12">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-5 flex items-center gap-2">
+        <span>💡</span> 核心洞察
+        <span class="text-sm font-normal text-gray-400 ml-2">从 {DEBATE_STATS.total} 条辩论中提炼</span>
+      </h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {KEY_INSIGHTS.map(ins => (
+          <div class={`bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border-l-4 ${significanceColors[ins.significance]} border border-gray-100 dark:border-slate-700`}>
+            <div class="flex items-start justify-between mb-2">
+              <h3 class="font-semibold text-gray-800 dark:text-white text-sm">{ins.title}</h3>
+              {ins.significance === 'high' && <span class="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-full ml-2 shrink-0">重要</span>}
             </div>
-            <select id="type-filter" class="px-3 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option value="">所有类型</option>
-              <option value="Oral Answers to Questions">口头答复</option>
-              <option value="Written Answers to Questions">书面答复</option>
-              <option value="Budget">预算辩论</option>
-              <option value="Motions">动议</option>
-            </select>
-            <select id="topic-filter" class="px-3 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option value="">所有议题</option>
-              {AI_TOPICS.map(t => <option value={t}>{t}</option>)}
-            </select>
-            <select id="year-filter" class="px-3 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option value="">所有年份</option>
-              {yearData.map(([y]) => <option value={y}>{y}</option>).reverse()}
-            </select>
+            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{ins.description}</p>
+            <p class="text-xs text-gray-400 mt-2 italic">{ins.evidence}</p>
           </div>
-          <div class="mt-2 text-xs text-muted">
-            显示 <span id="result-count">{sortedDebates.length}</span> / {sortedDebates.length} 条记录
-          </div>
-        </div>
+        ))}
+      </div>
+    </section>
 
-        <!-- Debate Cards -->
-        <div id="debate-list" class="space-y-4">
-          {sortedDebates.map((debate) => (
-            <div
-              class="debate-card bg-white dark:bg-slate-900 rounded-lg shadow border border-slate-200 dark:border-slate-700 hover:shadow-md transition-shadow overflow-hidden"
-              data-title={debate.title.toLowerCase()}
-              data-type={debate.type}
-              data-topics={debate.topics.join('|')}
-              data-year={debate.date?.slice(0, 4) || ''}
-              data-speakers={debate.speakers.join(' ').toLowerCase()}
-            >
-              <!-- Card header -->
-              <div class="p-5">
-                <div class="flex items-start justify-between gap-3 mb-2">
-                  <div class="flex-1">
-                    <div class="flex flex-wrap gap-1.5 mb-2">
-                      <span class={`text-xs px-2 py-0.5 rounded font-medium ${typeBadge[debate.type] || 'bg-gray-100 text-gray-700'}`}>
-                        {typeShort[debate.type] || debate.type}
-                      </span>
-                      {debate.topics.slice(0, 2).map(t => (
-                        <span class={`text-xs px-2 py-0.5 rounded font-medium ${topicColors[t] || 'bg-gray-100 text-gray-700'}`}>
-                          {t.replace('AI ', '')}
-                        </span>
-                      ))}
-                    </div>
-                    <h3 class="font-bold text-base leading-snug">{debate.title}</h3>
-                  </div>
-                  <div class="text-right flex-shrink-0">
-                    <div class="text-sm font-mono text-muted">{debate.date}</div>
-                    <div class="text-xs text-muted">第 {debate.parliament} 届国会</div>
-                  </div>
+    <!-- ===== POLICY EVOLUTION ===== -->
+    <section class="mb-12">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-5 flex items-center gap-2">
+        <span>📈</span> 政策演变脉络
+      </h2>
+      <div class="relative">
+        <!-- Timeline line -->
+        <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-300 to-purple-300 hidden md:block"></div>
+        <div class="space-y-6">
+          {POLICY_EVOLUTION.map((period, i) => (
+            <div class="md:pl-16 relative">
+              <div class="hidden md:flex absolute left-0 top-3 w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 items-center justify-center text-white font-bold text-sm shadow-md">
+                {i + 1}
+              </div>
+              <div class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-700">
+                <div class="flex flex-wrap items-center gap-3 mb-2">
+                  <span class="text-xs bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300 px-2 py-1 rounded-full font-mono">{period.years}</span>
+                  <h3 class="font-bold text-gray-800 dark:text-white">{period.period}</h3>
                 </div>
-
-                {debate.speakers.length > 0 && (
-                  <div class="text-xs text-muted mb-3">
-                    <span class="font-medium">发言：</span>
-                    {debate.speakers.slice(0, 4).join(' · ')}
-                    {debate.speakers.length > 4 && ` 等 ${debate.speakers.length} 人`}
+                <p class="text-sm font-medium text-blue-700 dark:text-blue-400 mb-2">{period.theme}</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{period.description}</p>
+                {period.keyDebates.length > 0 && (
+                  <div class="mt-3 flex flex-wrap gap-2">
+                    {period.keyDebates.map(kd => (
+                      <span class="text-xs bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-400 px-2 py-1 rounded">📌 {kd}</span>
+                    ))}
                   </div>
                 )}
-
-                <!-- Summary excerpt -->
-                <p class="text-sm text-muted line-clamp-3 leading-relaxed">{debate.summary?.slice(0, 300)}</p>
-              </div>
-
-              <!-- Card footer -->
-              <div class="px-5 py-3 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between">
-                <div class="flex gap-3">
-                  <button
-                    class="expand-btn text-xs text-blue-600 dark:text-blue-400 hover:underline font-medium"
-                    data-id={debate.id}
-                  >
-                    展开全文 ▼
-                  </button>
-                </div>
-                <a
-                  href={debate.sourceUrl}
-                  target="_blank"
-                  rel="noopener"
-                  class="text-xs text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:underline"
-                >
-                  🔗 原始 Hansard 记录 ↗
-                </a>
-              </div>
-
-              <!-- Expandable full text -->
-              <div id={`expand-${debate.id}`} class="hidden px-5 pb-5 pt-3 border-t border-slate-200 dark:border-slate-700">
-                <div class="prose prose-sm dark:prose-invert max-w-none">
-                  {debate.speeches && debate.speeches.length > 0 ? (
-                    <div class="space-y-4">
-                      {debate.speeches.slice(0, 12).map((speech) => (
-                        <div class="border-l-2 border-slate-300 dark:border-slate-600 pl-3">
-                          <div class="text-xs font-bold text-blue-700 dark:text-blue-300 mb-1">{speech.speaker}</div>
-                          <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{speech.text?.slice(0, 600)}</p>
-                        </div>
-                      ))}
-                      {debate.speeches.length > 12 && (
-                        <p class="text-xs text-muted italic">... 更多内容请查看原始 Hansard 记录</p>
-                      )}
-                    </div>
-                  ) : (
-                    <p class="text-sm text-slate-700 dark:text-slate-300 whitespace-pre-line leading-relaxed">{debate.fullText?.slice(0, 3000)}</p>
-                  )}
-                </div>
               </div>
             </div>
           ))}
         </div>
-
       </div>
-    </div>
+    </section>
 
-    <!-- Footer note -->
-    <div class="mt-8 p-4 bg-slate-50 dark:bg-slate-800 rounded-lg text-xs text-muted text-center">
-      所有内容均来自新加坡国会官方 Hansard 记录，版权归新加坡国会所有。本页面仅供研究与参考之用。
-      <br />
-      数据通过
-      <a href="https://sprs.parl.gov.sg" target="_blank" rel="noopener" class="underline">SPRS API</a>
-      和
-      <a href="https://search.pair.gov.sg" target="_blank" rel="noopener" class="underline">PAIR Search</a>
-      系统性采集，最后更新：{DEBATE_STATS.fetchedAt.slice(0, 10)}
-    </div>
+    <!-- ===== RECURRING CONTROVERSIES ===== -->
+    <section class="mb-12">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-5 flex items-center gap-2">
+        <span>⚡</span> 反复争议焦点
+        <span class="text-sm font-normal text-gray-400 ml-2">这些问题在多届国会中持续被提出</span>
+      </h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        {RECURRING_CONTROVERSIES.map(c => (
+          <div class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-700">
+            <div class="flex items-start justify-between mb-3">
+              <div>
+                <h3 class="font-bold text-gray-800 dark:text-white">{c.issue}</h3>
+                <p class="text-sm text-gray-500 mt-1">{c.description}</p>
+              </div>
+              <div class="flex flex-col items-end gap-1 ml-3 shrink-0">
+                <span class="text-xs bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-400 px-2 py-1 rounded-full">出现 {c.frequency} 次</span>
+                <span class={`text-xs px-2 py-1 rounded-full ${statusColors[c.resolutionStatus] || 'bg-gray-100 text-gray-600'}`}>
+                  {statusLabels[c.resolutionStatus] || c.resolutionStatus}
+                </span>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3 mt-3">
+              <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3">
+                <div class="text-xs font-semibold text-blue-600 dark:text-blue-400 mb-1">🏛️ 政府立场</div>
+                <div class="text-xs text-gray-700 dark:text-gray-300">{c.governmentPosition}</div>
+              </div>
+              <div class="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-3">
+                <div class="text-xs font-semibold text-orange-600 dark:text-orange-400 mb-1">❓ 质询立场</div>
+                <div class="text-xs text-gray-700 dark:text-gray-300">{c.oppositionPosition}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
 
-  </section>
+    <!-- ===== TENSION MAP ===== -->
+    <section class="mb-12">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-5 flex items-center gap-2">
+        <span>⚖️</span> 核心政策张力
+      </h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {TENSION_MAP.map(t => (
+          <div class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-700">
+            <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">{t.dimension}</h3>
+            <div class="flex items-center gap-2 mb-3">
+              <div class="flex-1 bg-blue-50 dark:bg-blue-900/20 rounded-lg p-2 text-xs text-blue-700 dark:text-blue-300 text-center">{t.sideA}</div>
+              <div class="text-gray-400 font-bold">vs</div>
+              <div class="flex-1 bg-orange-50 dark:bg-orange-900/20 rounded-lg p-2 text-xs text-orange-700 dark:text-orange-300 text-center">{t.sideB}</div>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-slate-700 rounded p-2">
+              <span class="font-medium">当前平衡：</span>{t.currentBalance}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- ===== MP PROFILES ===== -->
+    <section class="mb-12">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-5 flex items-center gap-2">
+        <span>🎙️</span> 关键议员档案
+      </h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {MP_PROFILES.map(mp => (
+          <div class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-slate-700">
+            <div class="flex items-start justify-between mb-2">
+              <div>
+                <div class="font-semibold text-gray-800 dark:text-white text-sm">{mp.name}</div>
+                {mp.zhName && <div class="text-xs text-gray-500">{mp.zhName}</div>}
+              </div>
+              <span class={`text-xs px-2 py-0.5 rounded-full shrink-0 ml-1 ${mp.role === '反对党' ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700'}`}>
+                {mp.role}
+              </span>
+            </div>
+            <div class="text-xs text-gray-500 mb-2">发言 <span class="font-bold text-gray-700 dark:text-gray-300">{mp.debateCount}</span> 次</div>
+            <div class="flex flex-wrap gap-1 mb-2">
+              {mp.focusAreas.slice(0, 3).map(area => (
+                <span class="text-xs bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-400 px-1.5 py-0.5 rounded">{area}</span>
+              ))}
+            </div>
+            <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">{mp.notablePosition}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- ===== POLICY SIGNALS ===== -->
+    <section class="mb-12">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-5 flex items-center gap-2">
+        <span>📡</span> 政策信号追踪
+      </h2>
+      <div class="grid md:grid-cols-2 gap-3">
+        {POLICY_SIGNALS.map(sig => (
+          <div class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-slate-700 flex items-start gap-3">
+            <div class="shrink-0 mt-0.5">
+              {sig.status === '已落实' && <span class="text-green-500 text-lg">✅</span>}
+              {sig.status === '进行中' && <span class="text-blue-500 text-lg">🔄</span>}
+              {sig.status === '仍在讨论' && <span class="text-amber-500 text-lg">💬</span>}
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="font-semibold text-sm text-gray-800 dark:text-white">{sig.signal}</span>
+                <span class="text-xs text-gray-400">首见 {sig.year}</span>
+                <span class={`text-xs px-2 py-0.5 rounded-full ${sig.status === '已落实' ? 'bg-green-100 text-green-700' : sig.status === '进行中' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'}`}>
+                  {sig.status}
+                </span>
+              </div>
+              <p class="text-xs text-gray-500 mt-1">{sig.context}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- ===== YEAR TREND ===== -->
+    <section class="mb-12">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-5 flex items-center gap-2">
+        <span>📅</span> 历年辩论趋势
+      </h2>
+      <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-slate-700">
+        <div class="flex items-end gap-2 h-32">
+          {Object.entries(DEBATE_STATS.byYear).sort().map(([year, count]) => (
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <span class="text-xs text-gray-500 font-medium">{count}</span>
+              <div
+                class="w-full bg-gradient-to-t from-blue-500 to-purple-400 rounded-t-sm transition-all"
+                style={`height: ${Math.round((count / maxCount) * 100)}px; min-height: 4px;`}
+                title={`${year}: ${count} 条`}
+              ></div>
+              <span class="text-xs text-gray-400 rotate-0">{year.slice(2)}</span>
+            </div>
+          ))}
+        </div>
+        <p class="text-xs text-gray-400 mt-3 text-center">2023 年起 AI 相关辩论数量急剧增加，反映政策关注度的爆发式增长</p>
+      </div>
+    </section>
+
+    <!-- ===== DEBATE LIST ===== -->
+    <section>
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-5 flex items-center gap-2">
+        <span>📜</span> 辩论记录全览
+        <span class="text-sm font-normal text-gray-400 ml-2">含中文摘要与议员立场</span>
+      </h2>
+
+      <!-- Filters -->
+      <div class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-slate-700 mb-5">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+          <input
+            id="search-input"
+            type="text"
+            placeholder="🔍 搜索标题、摘要、议员..."
+            class="border border-gray-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-200 col-span-1 md:col-span-2"
+          />
+          <select id="type-filter" class="border border-gray-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-200">
+            <option value="">所有类型</option>
+            <option value="Oral Answers to Questions">口头答复</option>
+            <option value="Written Answers to Questions">书面答复</option>
+            <option value="Budget">预算辩论</option>
+            <option value="Motion">动议</option>
+          </select>
+          <select id="topic-filter" class="border border-gray-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-200">
+            <option value="">所有议题</option>
+            {Object.entries(topicZh).map(([en, zh]) => (
+              <option value={en}>{zh}</option>
+            ))}
+          </select>
+        </div>
+        <div class="flex gap-3 mt-3 flex-wrap">
+          <select id="year-filter" class="border border-gray-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-200">
+            <option value="">所有年份</option>
+            {Object.keys(DEBATE_STATS.byYear).sort().reverse().map(year => (
+              <option value={year}>{year}</option>
+            ))}
+          </select>
+          <select id="controversy-filter" class="border border-gray-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-200">
+            <option value="">所有争议度</option>
+            <option value="4">高争议（4-5级）</option>
+            <option value="3">中等（3级）</option>
+            <option value="1">低争议（1-2级）</option>
+          </select>
+          <div id="result-count" class="text-sm text-gray-500 self-center ml-auto"></div>
+        </div>
+      </div>
+
+      <!-- Debate Cards -->
+      <div id="debate-list" class="space-y-4">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+  </div>
 </Layout>
 
-<script>
-  // Client-side filtering
-  const searchInput = document.getElementById('search-input') as HTMLInputElement;
-  const typeFilter = document.getElementById('type-filter') as HTMLSelectElement;
-  const topicFilter = document.getElementById('topic-filter') as HTMLSelectElement;
-  const yearFilter = document.getElementById('year-filter') as HTMLSelectElement;
-  const resultCount = document.getElementById('result-count');
-  const cards = document.querySelectorAll('.debate-card') as NodeListOf<HTMLElement>;
+<script define:vars={{ debatesJson, typeMap, controversyLabels, controversyColors, topicZh }}>
+const debates = JSON.parse(debatesJson);
 
-  function filterCards() {
-    const search = searchInput.value.toLowerCase();
-    const type = typeFilter.value;
-    const topic = topicFilter.value;
-    const year = yearFilter.value;
+function renderDebates(filtered) {
+  const container = document.getElementById('debate-list');
+  const count = document.getElementById('result-count');
+  if (!container) return;
 
-    let visible = 0;
-    cards.forEach(card => {
-      const titleMatch = !search || card.dataset.title?.includes(search) || card.dataset.speakers?.includes(search);
-      const typeMatch = !type || card.dataset.type === type;
-      const topicMatch = !topic || card.dataset.topics?.includes(topic);
-      const yearMatch = !year || card.dataset.year === year;
+  count.textContent = `显示 ${filtered.length} / ${debates.length} 条`;
 
-      if (titleMatch && typeMatch && topicMatch && yearMatch) {
-        card.style.display = '';
-        visible++;
-      } else {
-        card.style.display = 'none';
-      }
-    });
-
-    if (resultCount) resultCount.textContent = String(visible);
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="text-center py-12 text-gray-400">没有找到匹配的辩论记录</div>';
+    return;
   }
 
-  searchInput?.addEventListener('input', filterCards);
-  typeFilter?.addEventListener('change', filterCards);
-  topicFilter?.addEventListener('change', filterCards);
-  yearFilter?.addEventListener('change', filterCards);
+  container.innerHTML = filtered.map(d => {
+    const typeZh = typeMap[d.type] || d.type;
+    const cLevel = d.controversyLevel || 1;
+    const cLabel = controversyLabels[cLevel] || '未知';
+    const cColor = controversyColors[cLevel] || 'bg-gray-100 text-gray-600';
 
-  // Expand/collapse debate full text
-  document.querySelectorAll('.expand-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = (btn as HTMLElement).dataset.id;
-      const expandDiv = document.getElementById(`expand-${id}`);
-      if (expandDiv) {
-        const isHidden = expandDiv.classList.contains('hidden');
-        expandDiv.classList.toggle('hidden', !isHidden);
-        btn.textContent = isHidden ? '收起 ▲' : '展开全文 ▼';
-      }
-    });
+    const topicsHtml = (d.topics || []).map(t =>
+      `<span class="text-xs bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 px-2 py-0.5 rounded-full">${topicZh[t] || t}</span>`
+    ).join('');
+
+    const keyPointsHtml = (d.keyPoints || []).slice(0, 3).map(kp =>
+      `<li class="text-xs text-gray-600 dark:text-gray-400">• ${kp}</li>`
+    ).join('');
+
+    const govHtml = d.governmentStance
+      ? `<div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-2.5">
+           <div class="text-xs font-semibold text-blue-600 dark:text-blue-400 mb-1">🏛️ 政府立场</div>
+           <div class="text-xs text-gray-700 dark:text-gray-300">${d.governmentStance}</div>
+         </div>` : '';
+
+    const oppHtml = d.oppositionStance
+      ? `<div class="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-2.5">
+           <div class="text-xs font-semibold text-orange-600 dark:text-orange-400 mb-1">❓ 质询立场</div>
+           <div class="text-xs text-gray-700 dark:text-gray-300">${d.oppositionStance}</div>
+         </div>` : '';
+
+    const quoteHtml = d.notableQuote
+      ? `<blockquote class="border-l-2 border-gray-300 dark:border-gray-600 pl-3 mt-3 text-xs text-gray-500 dark:text-gray-400 italic">"${d.notableQuote}"</blockquote>`
+      : '';
+
+    const signalHtml = d.policySignal
+      ? `<div class="mt-2 text-xs text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 px-2 py-1 rounded inline-block">📡 ${d.policySignal}</div>`
+      : '';
+
+    const speakersHtml = (d.speakers || []).slice(0, 5).join(' · ');
+
+    return `
+      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden">
+        <div class="p-5">
+          <!-- Header row -->
+          <div class="flex flex-wrap items-start gap-2 mb-3">
+            <span class="text-xs bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 px-2 py-1 rounded">${typeZh}</span>
+            <span class="text-xs text-gray-400">${d.date}</span>
+            <span class="text-xs text-gray-400">第 ${d.parliament} 届国会</span>
+            <span class="text-xs ${cColor} px-2 py-0.5 rounded-full ml-auto">${cLabel}</span>
+          </div>
+
+          <!-- Title (bilingual) -->
+          <h3 class="font-bold text-gray-800 dark:text-white text-base mb-1">${d.zhTitle}</h3>
+          <p class="text-xs text-gray-400 mb-3 italic">${d.title.slice(0, 100)}${d.title.length > 100 ? '...' : ''}</p>
+
+          <!-- Topics -->
+          <div class="flex flex-wrap gap-1.5 mb-3">${topicsHtml}</div>
+
+          <!-- Chinese Summary -->
+          <div class="bg-gray-50 dark:bg-slate-700/50 rounded-lg p-3 mb-3">
+            <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">📝 摘要</div>
+            <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">${d.zhSummary}</p>
+          </div>
+
+          <!-- Key Points -->
+          ${keyPointsHtml ? `<ul class="mb-3 space-y-0.5">${keyPointsHtml}</ul>` : ''}
+
+          <!-- Stances -->
+          ${(govHtml || oppHtml) ? `<div class="grid grid-cols-2 gap-2 mb-3">${govHtml}${oppHtml}</div>` : ''}
+
+          <!-- Policy Signal + Notable Quote -->
+          ${signalHtml}
+          ${quoteHtml}
+
+          <!-- Footer -->
+          <div class="flex items-center justify-between mt-4 pt-3 border-t border-gray-100 dark:border-slate-700">
+            <div class="text-xs text-gray-400 truncate max-w-xs">🎙️ ${speakersHtml}</div>
+            <div class="flex gap-2 shrink-0">
+              <button onclick="toggleFullText(this)" class="text-xs text-blue-600 hover:underline">展开原文 ▼</button>
+              ${d.sourceUrl ? `<a href="${d.sourceUrl}" target="_blank" class="text-xs text-blue-600 hover:underline">🔗 Hansard ↗</a>` : ''}
+            </div>
+          </div>
+
+          <!-- Full text (hidden) -->
+          <div class="full-text hidden mt-3 pt-3 border-t border-gray-100 dark:border-slate-700">
+            <div class="text-xs font-semibold text-gray-500 mb-2">📄 原文节选（英文）</div>
+            <div class="text-xs text-gray-600 dark:text-gray-400 whitespace-pre-wrap leading-relaxed max-h-64 overflow-y-auto bg-gray-50 dark:bg-slate-700/50 rounded p-3">${d.summary.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleFullText(btn) {
+  const card = btn.closest('.bg-white, .dark\\:bg-slate-800');
+  const ft = card.querySelector('.full-text');
+  if (ft.classList.contains('hidden')) {
+    ft.classList.remove('hidden');
+    btn.textContent = '收起原文 ▲';
+  } else {
+    ft.classList.add('hidden');
+    btn.textContent = '展开原文 ▼';
+  }
+}
+
+function applyFilters() {
+  const search = document.getElementById('search-input')?.value.toLowerCase() || '';
+  const type = document.getElementById('type-filter')?.value || '';
+  const topic = document.getElementById('topic-filter')?.value || '';
+  const year = document.getElementById('year-filter')?.value || '';
+  const controversy = document.getElementById('controversy-filter')?.value || '';
+
+  let filtered = debates;
+
+  if (search) {
+    filtered = filtered.filter(d =>
+      d.title.toLowerCase().includes(search) ||
+      d.zhTitle.toLowerCase().includes(search) ||
+      d.zhSummary.toLowerCase().includes(search) ||
+      (d.speakers || []).some(s => s.toLowerCase().includes(search))
+    );
+  }
+
+  if (type) filtered = filtered.filter(d => d.type === type);
+  if (topic) filtered = filtered.filter(d => (d.topics || []).includes(topic));
+  if (year) filtered = filtered.filter(d => d.date.startsWith(year));
+
+  if (controversy === '4') filtered = filtered.filter(d => d.controversyLevel >= 4);
+  else if (controversy === '3') filtered = filtered.filter(d => d.controversyLevel === 3);
+  else if (controversy === '1') filtered = filtered.filter(d => d.controversyLevel <= 2);
+
+  renderDebates(filtered);
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  renderDebates(debates);
+
+  ['search-input', 'type-filter', 'topic-filter', 'year-filter', 'controversy-filter'].forEach(id => {
+    document.getElementById(id)?.addEventListener('input', applyFilters);
+    document.getElementById(id)?.addEventListener('change', applyFilters);
   });
+});
 </script>
