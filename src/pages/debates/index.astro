@@ -13,10 +13,9 @@ import {
 
 const meta = {
   title: '国会 AI 焦点 — 新加坡议会辩论记录',
-  description: '新加坡议会关于 AI 的第一手辩论记录，含中文摘要、议员立场分析、政策演变脉络与深度洞察。',
+  description: '新加坡议会关于 AI 的第一手辩论记录，含 AI 提炼的中文摘要、议员立场分析、政策演变脉络与深度洞察。',
 };
 
-// Pre-compute data for rendering
 const typeMap: Record<string, string> = {
   'Oral Answers to Questions': '口头答复',
   'Written Answers to Questions': '书面答复',
@@ -73,10 +72,8 @@ const topicZh: Record<string, string> = {
   'Generative AI': '生成式 AI',
 };
 
-const maxYear = Math.max(...Object.keys(DEBATE_STATS.byYear).map(Number));
 const maxCount = Math.max(...Object.values(DEBATE_STATS.byYear));
 
-// Serialize debates to JSON for client-side JS
 const debatesJson = JSON.stringify(debates.map(d => ({
   id: d.id,
   title: d.title,
@@ -109,6 +106,7 @@ const debatesJson = JSON.stringify(debates.map(d => ({
       </div>
       <p class="text-gray-600 dark:text-gray-400 text-lg max-w-3xl">
         新加坡议会关于人工智能的第一手辩论记录，含 AI 提炼的中文摘要、议员立场分析与政策规律洞察。
+        <strong class="text-blue-600 dark:text-blue-400">点击任意议员、议题、年份或争议焦点，即可直接筛选相关辩论。</strong>
       </p>
       <div class="mt-3 flex flex-wrap gap-4 text-sm text-gray-500 dark:text-gray-400">
         <span>📋 数据来源：<a href="https://sprs.parl.gov.sg/search/" target="_blank" class="text-blue-600 hover:underline">SPRS Hansard</a> · <a href="https://search.pair.gov.sg/" target="_blank" class="text-blue-600 hover:underline">PAIR Search</a></span>
@@ -117,24 +115,23 @@ const debatesJson = JSON.stringify(debates.map(d => ({
       </div>
     </div>
 
-    <!-- Stats Row -->
+    <!-- Stats Row — clickable by type -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
       <div class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-700 text-center">
         <div class="text-3xl font-bold text-blue-600">{DEBATE_STATS.total}</div>
         <div class="text-sm text-gray-500 mt-1">辩论记录总数</div>
       </div>
-      <div class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-700 text-center">
-        <div class="text-3xl font-bold text-purple-600">{DEBATE_STATS.yearRange.from}–{DEBATE_STATS.yearRange.to}</div>
-        <div class="text-sm text-gray-500 mt-1">时间跨度</div>
-      </div>
-      <div class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-700 text-center">
-        <div class="text-3xl font-bold text-green-600">{Object.keys(DEBATE_STATS.topSpeakers).length}</div>
-        <div class="text-sm text-gray-500 mt-1">活跃发言议员</div>
-      </div>
-      <div class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-700 text-center">
-        <div class="text-3xl font-bold text-orange-500">{RECURRING_CONTROVERSIES.length}</div>
-        <div class="text-sm text-gray-500 mt-1">反复争议焦点</div>
-      </div>
+      {Object.entries(DEBATE_STATS.byType).map(([type, count]) => (
+        <button
+          onclick={`filterBy('type','${type}')`}
+          class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-700 text-center hover:border-blue-400 hover:shadow-md transition-all cursor-pointer group"
+          title={`点击查看所有${typeMap[type] || type}`}
+        >
+          <div class="text-2xl font-bold text-purple-600 group-hover:text-blue-600 transition-colors">{count}</div>
+          <div class="text-xs text-gray-500 mt-1">{typeMap[type] || type}</div>
+          <div class="text-xs text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5">点击筛选 →</div>
+        </button>
+      ))}
     </div>
 
     <!-- ===== INSIGHTS SECTION ===== -->
@@ -157,24 +154,28 @@ const debatesJson = JSON.stringify(debates.map(d => ({
       </div>
     </section>
 
-    <!-- ===== POLICY EVOLUTION ===== -->
+    <!-- ===== POLICY EVOLUTION — clickable periods ===== -->
     <section class="mb-12">
-      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-5 flex items-center gap-2">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-2 flex items-center gap-2">
         <span>📈</span> 政策演变脉络
       </h2>
+      <p class="text-sm text-gray-400 mb-5">点击任意时期，查看该阶段的所有辩论记录</p>
       <div class="relative">
-        <!-- Timeline line -->
         <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-300 to-purple-300 hidden md:block"></div>
-        <div class="space-y-6">
+        <div class="space-y-4">
           {POLICY_EVOLUTION.map((period, i) => (
             <div class="md:pl-16 relative">
               <div class="hidden md:flex absolute left-0 top-3 w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 items-center justify-center text-white font-bold text-sm shadow-md">
                 {i + 1}
               </div>
-              <div class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-700">
+              <button
+                onclick={`filterBy('yearRange','${period.years}')`}
+                class="w-full text-left bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-700 hover:border-blue-400 hover:shadow-md transition-all group"
+              >
                 <div class="flex flex-wrap items-center gap-3 mb-2">
                   <span class="text-xs bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300 px-2 py-1 rounded-full font-mono">{period.years}</span>
                   <h3 class="font-bold text-gray-800 dark:text-white">{period.period}</h3>
+                  <span class="text-xs text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity ml-auto">查看该时期辩论 →</span>
                 </div>
                 <p class="text-sm font-medium text-blue-700 dark:text-blue-400 mb-2">{period.theme}</p>
                 <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{period.description}</p>
@@ -185,25 +186,28 @@ const debatesJson = JSON.stringify(debates.map(d => ({
                     ))}
                   </div>
                 )}
-              </div>
+              </button>
             </div>
           ))}
         </div>
       </div>
     </section>
 
-    <!-- ===== RECURRING CONTROVERSIES ===== -->
+    <!-- ===== RECURRING CONTROVERSIES — clickable ===== -->
     <section class="mb-12">
-      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-5 flex items-center gap-2">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-2 flex items-center gap-2">
         <span>⚡</span> 反复争议焦点
-        <span class="text-sm font-normal text-gray-400 ml-2">这些问题在多届国会中持续被提出</span>
       </h2>
+      <p class="text-sm text-gray-400 mb-5">这些问题在多届国会中持续被提出。点击任意焦点，查看相关辩论记录</p>
       <div class="grid md:grid-cols-2 gap-4">
         {RECURRING_CONTROVERSIES.map(c => (
-          <div class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-700">
+          <button
+            onclick={`filterBy('keyword','${c.issue.replace(/'/g, "\\'")}')`}
+            class="text-left bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-700 hover:border-orange-400 hover:shadow-md transition-all group"
+          >
             <div class="flex items-start justify-between mb-3">
               <div>
-                <h3 class="font-bold text-gray-800 dark:text-white">{c.issue}</h3>
+                <h3 class="font-bold text-gray-800 dark:text-white group-hover:text-orange-600 transition-colors">{c.issue}</h3>
                 <p class="text-sm text-gray-500 mt-1">{c.description}</p>
               </div>
               <div class="flex flex-col items-end gap-1 ml-3 shrink-0">
@@ -223,7 +227,8 @@ const debatesJson = JSON.stringify(debates.map(d => ({
                 <div class="text-xs text-gray-700 dark:text-gray-300">{c.oppositionPosition}</div>
               </div>
             </div>
-          </div>
+            <div class="mt-3 text-xs text-orange-500 opacity-0 group-hover:opacity-100 transition-opacity">点击查看相关辩论 →</div>
+          </button>
         ))}
       </div>
     </section>
@@ -239,7 +244,7 @@ const debatesJson = JSON.stringify(debates.map(d => ({
             <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">{t.dimension}</h3>
             <div class="flex items-center gap-2 mb-3">
               <div class="flex-1 bg-blue-50 dark:bg-blue-900/20 rounded-lg p-2 text-xs text-blue-700 dark:text-blue-300 text-center">{t.sideA}</div>
-              <div class="text-gray-400 font-bold">vs</div>
+              <div class="text-gray-400 font-bold text-sm">vs</div>
               <div class="flex-1 bg-orange-50 dark:bg-orange-900/20 rounded-lg p-2 text-xs text-orange-700 dark:text-orange-300 text-center">{t.sideB}</div>
             </div>
             <div class="text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-slate-700 rounded p-2">
@@ -250,17 +255,21 @@ const debatesJson = JSON.stringify(debates.map(d => ({
       </div>
     </section>
 
-    <!-- ===== MP PROFILES ===== -->
+    <!-- ===== MP PROFILES — clickable ===== -->
     <section class="mb-12">
-      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-5 flex items-center gap-2">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-2 flex items-center gap-2">
         <span>🎙️</span> 关键议员档案
       </h2>
+      <p class="text-sm text-gray-400 mb-5">点击任意议员卡片，查看该议员参与的所有辩论</p>
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
         {MP_PROFILES.map(mp => (
-          <div class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-slate-700">
+          <button
+            onclick={`filterBy('speaker','${mp.name.replace(/'/g, "\\'")}')`}
+            class="text-left bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-slate-700 hover:border-purple-400 hover:shadow-md transition-all group cursor-pointer"
+          >
             <div class="flex items-start justify-between mb-2">
               <div>
-                <div class="font-semibold text-gray-800 dark:text-white text-sm">{mp.name}</div>
+                <div class="font-semibold text-gray-800 dark:text-white text-sm group-hover:text-purple-600 transition-colors">{mp.name}</div>
                 {mp.zhName && <div class="text-xs text-gray-500">{mp.zhName}</div>}
               </div>
               <span class={`text-xs px-2 py-0.5 rounded-full shrink-0 ml-1 ${mp.role === '反对党' ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700'}`}>
@@ -274,19 +283,24 @@ const debatesJson = JSON.stringify(debates.map(d => ({
               ))}
             </div>
             <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">{mp.notablePosition}</p>
-          </div>
+            <div class="mt-2 text-xs text-purple-500 opacity-0 group-hover:opacity-100 transition-opacity">查看 {mp.debateCount} 条相关辩论 →</div>
+          </button>
         ))}
       </div>
     </section>
 
-    <!-- ===== POLICY SIGNALS ===== -->
+    <!-- ===== POLICY SIGNALS — clickable ===== -->
     <section class="mb-12">
-      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-5 flex items-center gap-2">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-2 flex items-center gap-2">
         <span>📡</span> 政策信号追踪
       </h2>
+      <p class="text-sm text-gray-400 mb-5">点击任意信号，查看该政策信号首次出现的相关辩论</p>
       <div class="grid md:grid-cols-2 gap-3">
         {POLICY_SIGNALS.map(sig => (
-          <div class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-slate-700 flex items-start gap-3">
+          <button
+            onclick={`filterBy('year','${sig.year}')`}
+            class="text-left bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-slate-700 hover:border-green-400 hover:shadow-md transition-all group flex items-start gap-3"
+          >
             <div class="shrink-0 mt-0.5">
               {sig.status === '已落实' && <span class="text-green-500 text-lg">✅</span>}
               {sig.status === '进行中' && <span class="text-blue-500 text-lg">🔄</span>}
@@ -294,48 +308,90 @@ const debatesJson = JSON.stringify(debates.map(d => ({
             </div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2 flex-wrap">
-                <span class="font-semibold text-sm text-gray-800 dark:text-white">{sig.signal}</span>
+                <span class="font-semibold text-sm text-gray-800 dark:text-white group-hover:text-green-600 transition-colors">{sig.signal}</span>
                 <span class="text-xs text-gray-400">首见 {sig.year}</span>
                 <span class={`text-xs px-2 py-0.5 rounded-full ${sig.status === '已落实' ? 'bg-green-100 text-green-700' : sig.status === '进行中' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'}`}>
                   {sig.status}
                 </span>
               </div>
               <p class="text-xs text-gray-500 mt-1">{sig.context}</p>
+              <div class="mt-1 text-xs text-green-500 opacity-0 group-hover:opacity-100 transition-opacity">查看 {sig.year} 年辩论 →</div>
             </div>
-          </div>
+          </button>
         ))}
       </div>
     </section>
 
-    <!-- ===== YEAR TREND ===== -->
+    <!-- ===== YEAR TREND — clickable bars ===== -->
     <section class="mb-12">
-      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-5 flex items-center gap-2">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-2 flex items-center gap-2">
         <span>📅</span> 历年辩论趋势
       </h2>
+      <p class="text-sm text-gray-400 mb-5">点击任意年份柱状图，查看该年所有辩论</p>
       <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-slate-700">
-        <div class="flex items-end gap-2 h-32">
+        <div class="flex items-end gap-2 h-40">
           {Object.entries(DEBATE_STATS.byYear).sort().map(([year, count]) => (
-            <div class="flex-1 flex flex-col items-center gap-1">
-              <span class="text-xs text-gray-500 font-medium">{count}</span>
+            <button
+              onclick={`filterBy('year','${year}')`}
+              class="flex-1 flex flex-col items-center gap-1 group"
+              title={`${year}年：${count} 条辩论，点击查看`}
+            >
+              <span class="text-xs text-gray-500 font-medium group-hover:text-blue-600 transition-colors">{count}</span>
               <div
-                class="w-full bg-gradient-to-t from-blue-500 to-purple-400 rounded-t-sm transition-all"
-                style={`height: ${Math.round((count / maxCount) * 100)}px; min-height: 4px;`}
-                title={`${year}: ${count} 条`}
+                class="w-full bg-gradient-to-t from-blue-500 to-purple-400 rounded-t-sm transition-all group-hover:from-blue-600 group-hover:to-purple-500 group-hover:scale-105 origin-bottom"
+                style={`height: ${Math.round((count / maxCount) * 120)}px; min-height: 4px;`}
               ></div>
-              <span class="text-xs text-gray-400 rotate-0">{year.slice(2)}</span>
-            </div>
+              <span class="text-xs text-gray-400 group-hover:text-blue-600 transition-colors">{year.slice(2)}</span>
+            </button>
           ))}
         </div>
         <p class="text-xs text-gray-400 mt-3 text-center">2023 年起 AI 相关辩论数量急剧增加，反映政策关注度的爆发式增长</p>
       </div>
     </section>
 
-    <!-- ===== DEBATE LIST ===== -->
-    <section>
-      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-5 flex items-center gap-2">
-        <span>📜</span> 辩论记录全览
-        <span class="text-sm font-normal text-gray-400 ml-2">含中文摘要与议员立场</span>
+    <!-- ===== TOPIC QUICK FILTER ===== -->
+    <section class="mb-8">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-2 flex items-center gap-2">
+        <span>🏷️</span> 按议题快速筛选
       </h2>
+      <p class="text-sm text-gray-400 mb-4">点击议题标签，直接查看相关辩论</p>
+      <div class="flex flex-wrap gap-2">
+        {Object.entries(topicZh).map(([en, zh]) => {
+          const count = debates.filter(d => (d.topics || []).includes(en)).length;
+          return (
+            <button
+              onclick={`filterBy('topic','${en}')`}
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-800 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 hover:border-indigo-400 transition-all cursor-pointer"
+            >
+              {zh}
+              <span class="text-xs bg-indigo-200 dark:bg-indigo-800 text-indigo-700 dark:text-indigo-300 px-1.5 py-0.5 rounded-full">{count}</span>
+            </button>
+          );
+        })}
+      </div>
+    </section>
+
+    <!-- ===== DEBATE LIST ===== -->
+    <section id="debate-section">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
+          <span>📜</span> 辩论记录全览
+          <span class="text-sm font-normal text-gray-400 ml-2">含中文摘要与议员立场</span>
+        </h2>
+        <button
+          id="clear-filters-btn"
+          onclick="clearFilters()"
+          class="hidden text-sm text-red-500 hover:text-red-700 border border-red-200 hover:border-red-400 px-3 py-1.5 rounded-lg transition-all"
+        >
+          ✕ 清除筛选
+        </button>
+      </div>
+
+      <!-- Active filter indicator -->
+      <div id="active-filter-bar" class="hidden mb-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl px-4 py-3 flex items-center gap-3">
+        <span class="text-sm text-blue-700 dark:text-blue-300 font-medium">🔍 当前筛选：</span>
+        <span id="active-filter-label" class="text-sm text-blue-600 dark:text-blue-400"></span>
+      </div>
 
       <!-- Filters -->
       <div class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-slate-700 mb-5">
@@ -373,6 +429,12 @@ const debatesJson = JSON.stringify(debates.map(d => ({
             <option value="3">中等（3级）</option>
             <option value="1">低争议（1-2级）</option>
           </select>
+          <input
+            id="speaker-filter"
+            type="text"
+            placeholder="按议员姓名筛选..."
+            class="border border-gray-200 dark:border-slate-600 rounded-lg px-3 py-2 text-sm bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-200"
+          />
           <div id="result-count" class="text-sm text-gray-500 self-center ml-auto"></div>
         </div>
       </div>
@@ -389,15 +451,118 @@ const debatesJson = JSON.stringify(debates.map(d => ({
 <script define:vars={{ debatesJson, typeMap, controversyLabels, controversyColors, topicZh }}>
 const debates = JSON.parse(debatesJson);
 
+// ── Core filter state ──────────────────────────────────────────────────────
+let activeFilters = {
+  search: '',
+  type: '',
+  topic: '',
+  year: '',
+  controversy: '',
+  speaker: '',
+};
+
+// ── Public API called by onclick handlers ──────────────────────────────────
+window.filterBy = function(dimension, value) {
+  // Reset all filters first, then apply the chosen one
+  activeFilters = { search: '', type: '', topic: '', year: '', controversy: '', speaker: '' };
+
+  if (dimension === 'type') {
+    activeFilters.type = value;
+    setSelectValue('type-filter', value);
+  } else if (dimension === 'topic') {
+    activeFilters.topic = value;
+    setSelectValue('topic-filter', value);
+  } else if (dimension === 'year') {
+    activeFilters.year = value;
+    setSelectValue('year-filter', value);
+  } else if (dimension === 'speaker') {
+    activeFilters.speaker = value;
+    setInputValue('speaker-filter', value);
+  } else if (dimension === 'keyword') {
+    // Keyword search: put into search box
+    activeFilters.search = value;
+    setInputValue('search-input', value);
+  } else if (dimension === 'yearRange') {
+    // e.g. "2015-2018" → filter by year range
+    const parts = value.split('-');
+    const fromYear = parseInt(parts[0]);
+    const toYear = parseInt(parts[parts.length - 1]);
+    activeFilters._yearRange = [fromYear, toYear];
+    setSelectValue('year-filter', '');
+  }
+
+  applyFilters();
+  scrollToDebates();
+};
+
+window.clearFilters = function() {
+  activeFilters = { search: '', type: '', topic: '', year: '', controversy: '', speaker: '' };
+  setInputValue('search-input', '');
+  setSelectValue('type-filter', '');
+  setSelectValue('topic-filter', '');
+  setSelectValue('year-filter', '');
+  setSelectValue('controversy-filter', '');
+  setInputValue('speaker-filter', '');
+  applyFilters();
+};
+
+function setSelectValue(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.value = value;
+}
+
+function setInputValue(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.value = value;
+}
+
+function scrollToDebates() {
+  const section = document.getElementById('debate-section');
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function updateActiveFilterBar(filtered) {
+  const bar = document.getElementById('active-filter-bar');
+  const label = document.getElementById('active-filter-label');
+  const clearBtn = document.getElementById('clear-filters-btn');
+  const parts = [];
+
+  if (activeFilters.search) parts.push(`关键词「${activeFilters.search}」`);
+  if (activeFilters.type) parts.push(`类型：${typeMap[activeFilters.type] || activeFilters.type}`);
+  if (activeFilters.topic) parts.push(`议题：${topicZh[activeFilters.topic] || activeFilters.topic}`);
+  if (activeFilters.year) parts.push(`年份：${activeFilters.year}`);
+  if (activeFilters.speaker) parts.push(`议员：${activeFilters.speaker}`);
+  if (activeFilters.controversy) parts.push(`争议度筛选`);
+  if (activeFilters._yearRange) parts.push(`时期：${activeFilters._yearRange[0]}–${activeFilters._yearRange[1]}`);
+
+  if (parts.length > 0) {
+    label.textContent = parts.join('  ·  ') + `  （共 ${filtered.length} 条）`;
+    bar.classList.remove('hidden');
+    clearBtn.classList.remove('hidden');
+  } else {
+    bar.classList.add('hidden');
+    clearBtn.classList.add('hidden');
+  }
+}
+
+// ── Render ─────────────────────────────────────────────────────────────────
 function renderDebates(filtered) {
   const container = document.getElementById('debate-list');
   const count = document.getElementById('result-count');
   if (!container) return;
 
   count.textContent = `显示 ${filtered.length} / ${debates.length} 条`;
+  updateActiveFilterBar(filtered);
 
   if (filtered.length === 0) {
-    container.innerHTML = '<div class="text-center py-12 text-gray-400">没有找到匹配的辩论记录</div>';
+    container.innerHTML = `
+      <div class="text-center py-16 text-gray-400">
+        <div class="text-4xl mb-3">🔍</div>
+        <div class="text-lg font-medium mb-2">没有找到匹配的辩论记录</div>
+        <button onclick="clearFilters()" class="mt-3 text-sm text-blue-600 hover:underline">清除筛选条件</button>
+      </div>`;
     return;
   }
 
@@ -407,8 +572,9 @@ function renderDebates(filtered) {
     const cLabel = controversyLabels[cLevel] || '未知';
     const cColor = controversyColors[cLevel] || 'bg-gray-100 text-gray-600';
 
+    // Topics are clickable inside the card too
     const topicsHtml = (d.topics || []).map(t =>
-      `<span class="text-xs bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 px-2 py-0.5 rounded-full">${topicZh[t] || t}</span>`
+      `<button onclick="event.stopPropagation(); filterBy('topic','${t}')" class="text-xs bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 px-2 py-0.5 rounded-full hover:bg-indigo-100 transition-colors">${topicZh[t] || t}</button>`
     ).join('');
 
     const keyPointsHtml = (d.keyPoints || []).slice(0, 3).map(kp =>
@@ -435,15 +601,18 @@ function renderDebates(filtered) {
       ? `<div class="mt-2 text-xs text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 px-2 py-1 rounded inline-block">📡 ${d.policySignal}</div>`
       : '';
 
-    const speakersHtml = (d.speakers || []).slice(0, 5).join(' · ');
+    // Speakers are clickable
+    const speakersHtml = (d.speakers || []).slice(0, 5).map(s =>
+      `<button onclick="event.stopPropagation(); filterBy('speaker','${s.replace(/'/g, "\\'")}')" class="text-xs text-gray-500 hover:text-purple-600 hover:underline transition-colors">${s}</button>`
+    ).join('<span class="text-gray-300 mx-1">·</span>');
 
     return `
       <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden">
         <div class="p-5">
           <!-- Header row -->
           <div class="flex flex-wrap items-start gap-2 mb-3">
-            <span class="text-xs bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 px-2 py-1 rounded">${typeZh}</span>
-            <span class="text-xs text-gray-400">${d.date}</span>
+            <button onclick="filterBy('type','${d.type}')" class="text-xs bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 px-2 py-1 rounded hover:bg-slate-200 transition-colors">${typeZh}</button>
+            <button onclick="filterBy('year','${d.date.slice(0,4)}')" class="text-xs text-gray-400 hover:text-blue-600 hover:underline transition-colors">${d.date}</button>
             <span class="text-xs text-gray-400">第 ${d.parliament} 届国会</span>
             <span class="text-xs ${cColor} px-2 py-0.5 rounded-full ml-auto">${cLabel}</span>
           </div>
@@ -452,7 +621,7 @@ function renderDebates(filtered) {
           <h3 class="font-bold text-gray-800 dark:text-white text-base mb-1">${d.zhTitle}</h3>
           <p class="text-xs text-gray-400 mb-3 italic">${d.title.slice(0, 100)}${d.title.length > 100 ? '...' : ''}</p>
 
-          <!-- Topics -->
+          <!-- Topics (clickable) -->
           <div class="flex flex-wrap gap-1.5 mb-3">${topicsHtml}</div>
 
           <!-- Chinese Summary -->
@@ -473,10 +642,13 @@ function renderDebates(filtered) {
 
           <!-- Footer -->
           <div class="flex items-center justify-between mt-4 pt-3 border-t border-gray-100 dark:border-slate-700">
-            <div class="text-xs text-gray-400 truncate max-w-xs">🎙️ ${speakersHtml}</div>
-            <div class="flex gap-2 shrink-0">
-              <button onclick="toggleFullText(this)" class="text-xs text-blue-600 hover:underline">展开原文 ▼</button>
-              ${d.sourceUrl ? `<a href="${d.sourceUrl}" target="_blank" class="text-xs text-blue-600 hover:underline">🔗 Hansard ↗</a>` : ''}
+            <div class="flex flex-wrap gap-1 items-center text-xs">
+              <span class="text-gray-400 mr-1">🎙️</span>
+              ${speakersHtml}
+            </div>
+            <div class="flex gap-2 shrink-0 ml-3">
+              <button onclick="toggleFullText(this)" class="text-xs text-blue-600 hover:underline whitespace-nowrap">展开原文 ▼</button>
+              ${d.sourceUrl ? `<a href="${d.sourceUrl}" target="_blank" class="text-xs text-blue-600 hover:underline whitespace-nowrap">🔗 Hansard ↗</a>` : ''}
             </div>
           </div>
 
@@ -509,6 +681,15 @@ function applyFilters() {
   const topic = document.getElementById('topic-filter')?.value || '';
   const year = document.getElementById('year-filter')?.value || '';
   const controversy = document.getElementById('controversy-filter')?.value || '';
+  const speaker = document.getElementById('speaker-filter')?.value.toLowerCase() || '';
+
+  // Sync activeFilters from inputs
+  activeFilters.search = search;
+  activeFilters.type = type;
+  activeFilters.topic = topic;
+  activeFilters.year = year;
+  activeFilters.controversy = controversy;
+  activeFilters.speaker = speaker;
 
   let filtered = debates;
 
@@ -517,13 +698,26 @@ function applyFilters() {
       d.title.toLowerCase().includes(search) ||
       d.zhTitle.toLowerCase().includes(search) ||
       d.zhSummary.toLowerCase().includes(search) ||
-      (d.speakers || []).some(s => s.toLowerCase().includes(search))
+      (d.speakers || []).some(s => s.toLowerCase().includes(search)) ||
+      (d.keyPoints || []).some(k => k.toLowerCase().includes(search))
     );
   }
 
   if (type) filtered = filtered.filter(d => d.type === type);
   if (topic) filtered = filtered.filter(d => (d.topics || []).includes(topic));
   if (year) filtered = filtered.filter(d => d.date.startsWith(year));
+  if (speaker) filtered = filtered.filter(d => (d.speakers || []).some(s => s.toLowerCase().includes(speaker)));
+
+  // Year range filter (from policy evolution clicks)
+  if (activeFilters._yearRange) {
+    const [from, to] = activeFilters._yearRange;
+    filtered = filtered.filter(d => {
+      const y = parseInt(d.date.slice(0, 4));
+      return y >= from && y <= to;
+    });
+  } else {
+    activeFilters._yearRange = null;
+  }
 
   if (controversy === '4') filtered = filtered.filter(d => d.controversyLevel >= 4);
   else if (controversy === '3') filtered = filtered.filter(d => d.controversyLevel === 3);
@@ -536,9 +730,18 @@ function applyFilters() {
 document.addEventListener('DOMContentLoaded', () => {
   renderDebates(debates);
 
-  ['search-input', 'type-filter', 'topic-filter', 'year-filter', 'controversy-filter'].forEach(id => {
-    document.getElementById(id)?.addEventListener('input', applyFilters);
-    document.getElementById(id)?.addEventListener('change', applyFilters);
+  ['search-input', 'speaker-filter'].forEach(id => {
+    document.getElementById(id)?.addEventListener('input', () => {
+      activeFilters._yearRange = null;
+      applyFilters();
+    });
+  });
+
+  ['type-filter', 'topic-filter', 'year-filter', 'controversy-filter'].forEach(id => {
+    document.getElementById(id)?.addEventListener('change', () => {
+      activeFilters._yearRange = null;
+      applyFilters();
+    });
   });
 });
 </script>
