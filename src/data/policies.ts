@@ -210,6 +210,16 @@ export const categories: PolicyCategory[] = [
         content: `2026 年预算案将 AI 推进提升到前所未有的高度。核心举措：成立由总理亲自主持的 National AI Council；Enterprise Innovation Scheme 的 400% 税务扣除扩展至 AI 相关支出；启动 one-north AI 园区建设；推出 AI Mission 计划聚焦关键领域应用；设立 National AI Literacy Programme 提升全民 AI 素养。这是新加坡 AI 政策从战略到全面执行的标志性预算。`,
       },
       {
+        title: '2026 卫生部供给委员会 — 医疗AI与健保改革',
+        titleEn: 'MOH Committee of Supply 2026 — Healthcare AI & MediSave Reform',
+        date: '2026-03',
+        source: '卫生部 (MOH)',
+        sourceOrgUrl: 'https://www.moh.gov.sg/',
+        sourceUrl: 'https://www.straitstimes.com/singapore/politics/ai-genetic-screening-and-flexible-financing-to-bolster-preventive-medicine-for-super-aged-spore-ong',
+        summary: 'ACE-AI 预测工具部署、BRCA1/2 基因检测补贴、MediShield Life 覆盖预防性手术、MediSave 限额提升。',
+        content: `2026 年 3 月卫生部供给委员会辩论，卫生部长王乙康宣布新加坡正式成为超老龄社会（65 岁以上人口超 21%）。核心措施：一、ACE-AI 预测工具（由国家医疗科技局 Synapxe 开发），预测 3 年内糖尿病及高脂血症风险，>75% 风险者由 3 年一检提升至每年检查，2027 年初推广至所有约 1,100 家 Healthier SG 诊所，坚持"AI 增强而非 AI 决定"原则，临床医生保持在决策回路中；二、BRCA1/2 基因检测从 2026 年 12 月起获最高 70% 补贴，每年 2,000+ 人符合条件；三、MediShield Life 扩展覆盖预防性乳房切除术（Q3 2026）及风险降低型输卵管卵巢切除术（Q4 2026）；四、MediSave 慢性病与预防护理限额从 500/700 提至 700/1000（2027 年 1 月起），惠及 91 万+ 患者。`,
+      },
+      {
         title: '2025 财政预算案 — AI 相关措施',
         titleEn: 'Budget 2025 — AI-related Measures',
         date: '2025-02',

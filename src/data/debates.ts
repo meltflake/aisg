@@ -1,5 +1,5 @@
 // Auto-generated: enriched debates with Chinese summaries and pattern analysis
-// Total: 132 debates | Generated: 2026-03-01
+// Total: 133 debates | Generated: 2026-03-06
 // Sources: https://sprs.parl.gov.sg | https://search.pair.gov.sg
 
 export interface Debate {
@@ -23,6 +23,25 @@ export interface Debate {
 }
 
 export const debates: Debate[] = [
+  {
+    id: "cos-moh-2026",
+    title: `MOH Committee of Supply 2026 — Preventive Healthcare & AI`,
+    zhTitle: `2026卫生部供给委员会辩论：预防医疗与AI`,
+    date: "2026-03-05",
+    parliament: "15",
+    type: "Budget",
+    speakers: ["Ong Ye Kung"],
+    topics: ["AI in Healthcare", "AI in Public Sector", "AI Governance & Regulation"],
+    zhSummary: `卫生部长王乙康在供给委员会辩论中宣布新加坡正式成为超老龄社会（65岁以上人口超21%），推出ACE-AI预测工具（由Synapxe开发）用于糖尿病及高脂血症风险筛查，强调"AI增强而非AI决定"原则，2027年初推广至所有Healthier SG诊所。同时宣布BRCA1/2基因检测补贴（2026年12月起，最高70%补贴），MediShield Life将覆盖预防性手术（乳房切除术Q3 2026、输卵管卵巢切除术Q4 2026），MediSave慢性病与预防护理限额提升（2027年1月起500/700提至700/1000），惠及91万+患者。`,
+    keyPoints: ["新加坡正式成为超老龄社会", "ACE-AI预测糖尿病/高脂血症风险", "AI增强而非AI决定原则", "BRCA1/2基因检测补贴", "MediSave限额提升惠及91万+患者"],
+    governmentStance: "推动AI预防医疗，强调临床医生把关",
+    oppositionStance: null,
+    controversyLevel: 1,
+    policySignal: "医疗AI预防性应用与健保制度改革",
+    notableQuote: "AI-enhanced, not AI-decided — clinicians remain in the loop.",
+    summary: `Health Minister Ong Ye Kung delivered the MOH Committee of Supply debate, announcing Singapore has officially become a super-aged society with over 21% of the population aged 65 and above. He outlined a preventive healthcare strategy leveraging AI and genetic screening. The ACE-AI tool, developed by national healthtech agency Synapxe, predicts diabetes and hyperlipidaemia risk within 3 years, flagging patients with >75% risk for annual screening instead of the standard 3-yearly cycle. Rolling out to all ~1,100 Healthier SG clinics from early 2027. Key principle: "AI-enhanced, not AI-decided." BRCA1/2 genetic testing will be subsidised up to 70% from December 2026, with 2,000+ eligible annually. MediShield Life will cover preventive mastectomy (Q3 2026) and risk-reducing salpingo-oophorectomy (Q4 2026). MediSave chronic and preventive care limits raised from 500/700 to 700/1000 from January 2027, benefiting 910,000+ patients.`,
+    sourceUrl: "https://youtu.be/ExrOgIkoE_A",
+  },
   {
     id: "budget-2844",
     title: `Annual Budget Statement`,
@@ -3168,11 +3187,11 @@ Madam, last year, I encouraged people to sign up as an SAF Volunteer in this Hou
 ];
 
 export const DEBATE_STATS = {
-  total: 132,
+  total: 133,
   yearRange: { from: 2015, to: 2026 },
-  byYear: { "2015": 2, "2016": 2, "2017": 2, "2018": 5, "2019": 10, "2020": 8, "2021": 4, "2022": 6, "2023": 21, "2024": 34, "2025": 28, "2026": 10 },
-  byType: { "Budget": 42, "Oral Answers to Questions": 38, "Written Answers to Questions": 48, "Motions": 4 },
-  byTopic: { "AI Economy & Industry": 76, "AI & National Security": 74, "AI Governance & Regulation": 56, "AI in Public Sector": 56, "AI Infrastructure & Research": 47, "AI Safety & Ethics": 46, "AI & Employment": 43, "AI in Education": 39, "AI in Healthcare": 15, "AI Strategy": 14, "Deepfakes & Disinformation": 4 },
+  byYear: { "2015": 2, "2016": 2, "2017": 2, "2018": 5, "2019": 10, "2020": 8, "2021": 4, "2022": 6, "2023": 21, "2024": 34, "2025": 28, "2026": 11 },
+  byType: { "Budget": 43, "Oral Answers to Questions": 38, "Written Answers to Questions": 48, "Motions": 4 },
+  byTopic: { "AI Economy & Industry": 76, "AI & National Security": 74, "AI Governance & Regulation": 57, "AI in Public Sector": 57, "AI Infrastructure & Research": 47, "AI Safety & Ethics": 46, "AI & Employment": 43, "AI in Education": 39, "AI in Healthcare": 16, "AI Strategy": 14, "Deepfakes & Disinformation": 4 },
   topSpeakers: { "Gerald Giam Yean Song": 25, "Patrick Tay Teck Guan": 22, "Pritam Singh": 21, "Vikram Nair": 21, "Josephine Teo": 19, "Sylvia Lim": 19, "Desmond Choo": 16, "Tan Wu Meng": 15, "Janil Puthucheary": 14, "Assoc Prof Jamus Jerome Lim": 13, "Sharael Taha": 13, "Tin Pei Ling": 13 },
 };
 
@@ -3372,6 +3391,12 @@ export const KEY_INSIGHTS = [
     significance: "medium",
   },
   {
+    title: "医疗AI预防性应用加速",
+    description: "卫生部推出ACE-AI工具预测慢性病风险，强调'AI增强而非AI决定'原则，BRCA基因检测补贴与MediShield Life扩展标志医疗AI进入实质部署阶段。",
+    evidence: "2026卫生部供给委员会辩论：ACE-AI工具部署、BRCA1/2基因检测补贴",
+    significance: "high",
+  },
+  {
     title: "技能培训资金支持不足",
     description: "AI相关培训课程参与度提升，资金支持及课程定制仍为争议焦点，政府持续优化。",
     evidence: "SkillsFuture AI培训参与率及支持，扩展SkillsFuture信用涵盖AI工具订阅",
@@ -3421,6 +3446,12 @@ export const POLICY_SIGNALS = [
     year: "2026",
     status: "进行中",
     context: "监测不同规模企业AI应用差异",
+  },
+  {
+    signal: "医疗AI预防性应用与健保制度改革",
+    year: "2026",
+    status: "进行中",
+    context: "ACE-AI部署、BRCA基因检测补贴、MediSave/MediShield Life改革应对超老龄社会",
   },
   {
     signal: "推动AI与人力协同发展",

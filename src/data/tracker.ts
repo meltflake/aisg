@@ -11,7 +11,7 @@ export interface TrackerSection {
   rows: TrackerRow[];
 }
 
-export const dataDate = '2026-02-19';
+export const dataDate = '2026-03-06';
 
 export const sections: TrackerSection[] = [
   {
@@ -69,7 +69,7 @@ export const sections: TrackerSection[] = [
       { name: '独角兽', value: '32 家（截至 2025.7）', source: 'Introl, 2025.8', sourceUrl: 'https://www.techinasia.com/tag/artificial-intelligence-singapore' },
       { name: '东盟 AI 交易份额', value: '58% 交易量，68% 交易金额（2024 前 9 个月）', source: 'Introl, 2025.8', sourceUrl: 'https://www.techinasia.com/tag/artificial-intelligence-singapore' },
       { name: '企业 AI 培训意愿', value: '超过 2/3 使用 AI 的企业计划优先投资员工培训', source: 'IMDA, 2025.8', sourceUrl: 'https://www.imda.gov.sg/' },
-      { name: '医疗 AI 案例', value: 'RUSSELL-GPT 减少医生文档时间 50%；Ng Teng Fong 医院流感暴发床位预测算法', source: 'WEF / NUHS, 2025', sourceUrl: 'https://www.weforum.org/stories/2025/09/singapore-healthcare-ai/' },
+      { name: '医疗 AI 案例', value: 'ACE-AI 预测糖尿病/高脂血症风险（Synapxe 开发，2027 年初推广至 1,100+ Healthier SG 诊所）；RUSSELL-GPT 减少医生文档时间 50%；Ng Teng Fong 医院流感暴发床位预测算法', source: 'MOH COS 2026 / WEF / NUHS, 2025-2026', sourceUrl: 'https://www.straitstimes.com/singapore/politics/ai-genetic-screening-and-flexible-financing-to-bolster-preventive-medicine-for-super-aged-spore-ong' },
       { name: '五大国家 AI 项目', value: '智能货运规划、市政服务、慢性病管理、个性化教育、边境清关（S$120M）', source: 'Smart Nation 2.0, 2024.10', sourceUrl: 'https://www.smartnation.gov.sg/' },
     ],
   },

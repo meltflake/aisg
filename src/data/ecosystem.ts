@@ -91,6 +91,15 @@ export const ecosystemCategories: EcosystemCategory[] = [
     ],
   },
   {
+    name: '医疗科技',
+    icon: '🏥',
+    description: '国家级医疗 AI 与健康科技平台',
+    entities: [
+      { name: 'Synapxe', description: '新加坡国家医疗科技局，负责公共医疗IT基础设施与AI产品开发', url: 'https://www.synapxe.sg/' },
+      { name: 'ACE-AI', description: '由 Synapxe 开发的 AI 健康筛查工具，预测糖尿病及高脂血症风险，2027 年起推广至所有 Healthier SG 诊所' },
+    ],
+  },
+  {
     name: '产业伙伴',
     icon: '🤝',
     description: '与全球科技巨头深度合作',
