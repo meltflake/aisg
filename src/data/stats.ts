@@ -36,4 +36,9 @@ export const features = [
     description: '10 个经济体 AI 政策横向对比：港台、中东、欧洲、北美，投资规模与治理模式分析。',
     icon: 'tabler:world',
   },
+  {
+    title: '📝 深度分析',
+    description: '不只是信息整理——我们提出自己的观点。从能源枢纽类比到制度护城河，探究新加坡 AI 战略的底层逻辑。',
+    icon: 'tabler:pencil',
+  },
 ];
