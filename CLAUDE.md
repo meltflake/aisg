@@ -126,3 +126,100 @@ author: 'SG AI 观察'
 
 - 头部/底部导航：`src/navigation.ts`
 - 首页功能板块：`src/data/stats.ts`
+
+## 国会辩论数据更新（Hansard Pipeline）
+
+### SPRS API 使用要点
+
+**API 端点**：`POST https://sprs.parl.gov.sg/search/getHansardTopic/?id={report_id}`
+
+**响应格式是字典，不是列表**：
+
+```typescript
+// ✅ 正确解析
+const data = resp.json(); // { resultHTML: {...}, resultData: null }
+const rh = data.resultHTML; // { title, sittingDate, content, reportType, ... }
+const title = rh.title;
+const date = rh.sittingDate; // 格式 "12-2-2026" (DD-M-YYYY)
+
+// ❌ 错误 — 不要把响应当列表处理
+// data[0].title  ← 会返回 undefined，误判为"empty"
+```
+
+**调用外部 API 前，先用一个已知有效的 ID 验证响应结构**，不要假设格式。
+
+### Report ID 范围与规律
+
+- `oral-answer-XXXX`：4000+ 区间（2026 年数据约 4023–4088）
+- `written-answer-XXXXX`：21000+ 区间（注意是五位数！不要去扫 5000 区间）
+- `budget-XXXX`：2800+ 区间
+- `cos-{ministry}-{year}`：如 `cos-moh-2026`（HTTP 400 表示不存在）
+- Hansard 发布有延迟，一般 sitting 后数周才上线；written answers 通常比 oral 更晚发布
+
+### 更新流程
+
+1. 从已知最高 ID 开始向上扫描（检查 `debates.ts` 中现有 `sourceUrl` 获取最高 ID）
+2. 先用 1 个已知 ID 验证 API 响应结构
+3. 批量扫描新 ID，提取 AI 相关条目（关键词：artificial intelligence, AI, deepfake, data centre, machine learning 等）
+4. 对 AI 相关条目生成中英文摘要、分析数据，写入 `debates.ts`
+5. 同步更新 `DEBATE_STATS`（total、byYear、byType、byTopic、topSpeakers）
+6. 同步更新 debates 页面的"数据更新"日期、首页辩论数量、README 中的数字
+
+### 现有脚本与工具
+
+**Python Pipeline**（`scripts/hansard/`）— 完整的 5 步数据管线：
+
+| 脚本                     | 功能                         | 依赖           | 备注                                  |
+| ------------------------ | ---------------------------- | -------------- | ------------------------------------- |
+| `01_discover_debates.py` | 通过 PAIR Search 发现报告 ID | Playwright     | 使用 `search.pair.gov.sg` 语义搜索    |
+| `02_fetch_debates.py`    | 从 SPRS API 获取辩论全文     | requests       | 可直接用 API 替代（见上文 API 要点）  |
+| `03_enrich_debates.py`   | AI 生成中文摘要              | OpenAI API key | **需 API key**，Claude 可直接完成此步 |
+| `04_analyze_patterns.py` | AI 分析政策模式              | OpenAI API key | **需 API key**，Claude 可直接完成此步 |
+| `05_generate_ts.py`      | 生成 `debates.ts`            | 无             | 从 JSON 生成 TypeScript 数据文件      |
+
+**Python 虚拟环境**：`/tmp/hansard-venv`（如不存在需重建）
+
+```bash
+python3 -m venv /tmp/hansard-venv
+source /tmp/hansard-venv/bin/activate
+pip install requests playwright beautifulsoup4
+```
+
+**实际操作方式**：步骤 1-2 可通过直接调用 SPRS API 替代脚本，步骤 3-4 由 Claude 直接完成（无需 OpenAI API），步骤 5 可手动编辑 `debates.ts`。即：可以完全跳过 Python 脚本，直接用 API + Claude 完成全流程。
+
+### 快速 API 扫描脚本模板
+
+下面是经过验证的 Python 扫描脚本，可直接复用：
+
+```python
+import requests
+
+def scan_ids(prefix, start, end):
+    """扫描 SPRS 报告 ID 并返回有数据的条目"""
+    results = []
+    for i in range(start, end):
+        rid = f'{prefix}-{i}'
+        resp = requests.post(
+            'https://sprs.parl.gov.sg/search/getHansardTopic/',
+            params={'id': rid},
+            headers={'Content-Type': 'application/json'},
+            json={}, timeout=10)
+        if resp.status_code == 200:
+            rh = resp.json().get('resultHTML')
+            if rh and rh.get('title'):
+                results.append({
+                    'id': rid,
+                    'date': rh['sittingDate'],
+                    'title': rh['title'],
+                    'content': rh.get('content', ''),
+                })
+    return results
+
+# 用法：scan_ids('oral-answer', 4088, 4120)
+```
+
+### 部署链
+
+aisg push → `.github/workflows/trigger-deploy.yml`(repository_dispatch) → meltflake-site `rebuild.yml` → `build.sh`(克隆子仓库) → Cloudflare Pages
+
+**注意**：meltflake-site 的 GitHub 账号是 `meltflake`（不是 `wulujia`），操作时需 `gh auth switch --user meltflake`。
