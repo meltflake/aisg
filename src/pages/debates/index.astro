@@ -105,6 +105,26 @@ const debatesJson = JSON.stringify(
 
 <Layout metadata={meta}>
   <div class="max-w-7xl mx-auto px-4 py-10">
+    <!-- Update Banner -->
+    <div
+      class="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg bg-blue-50 dark:bg-slate-800 border border-blue-200 dark:border-slate-600 px-5 py-3"
+    >
+      <div class="flex items-center gap-4 text-sm">
+        <span class="font-semibold text-blue-800 dark:text-blue-300">数据更新：2026-03-06</span>
+        <span class="text-gray-500 dark:text-gray-400">共 {DEBATE_STATS.total} 条辩论记录</span>
+      </div>
+      <div class="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
+        <span
+          >来源：<a href="https://sprs.parl.gov.sg/search/" target="_blank" class="text-blue-600 hover:underline"
+            >SPRS Hansard</a
+          > · <a href="https://search.pair.gov.sg/" target="_blank" class="text-blue-600 hover:underline">PAIR Search</a
+          ></span
+        >
+        <span class="text-gray-300 dark:text-gray-600">|</span>
+        <span>中文摘要由 AI 辅助生成</span>
+      </div>
+    </div>
+
     <!-- Header -->
     <div class="mb-10">
       <div class="flex items-center gap-3 mb-3">
@@ -117,16 +137,6 @@ const debatesJson = JSON.stringify(
           >点击任意议员、议题、年份或争议焦点，即可直接筛选相关辩论。</strong
         >
       </p>
-      <div class="mt-3 flex flex-wrap gap-4 text-sm text-gray-500 dark:text-gray-400">
-        <span
-          >📋 数据来源：<a href="https://sprs.parl.gov.sg/search/" target="_blank" class="text-blue-600 hover:underline"
-            >SPRS Hansard</a
-          > · <a href="https://search.pair.gov.sg/" target="_blank" class="text-blue-600 hover:underline">PAIR Search</a
-          ></span
-        >
-        <span>🤖 中文摘要由 AI 辅助生成，原文来自官方记录</span>
-        <span>📅 数据截至 2026-03-06，共 {DEBATE_STATS.total} 条记录</span>
-      </div>
     </div>
 
     <!-- Stats Row — clickable by type -->

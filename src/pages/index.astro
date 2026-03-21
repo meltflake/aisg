@@ -5,6 +5,7 @@ import Features from '~/components/widgets/Features.astro';
 import Stats from '~/components/widgets/Stats.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import { stats, features } from '~/data/stats';
+import { DEBATE_STATS, KEY_INSIGHTS } from '~/data/debates';
 
 const metadata = {
   title: 'SG AI 观察',
@@ -43,6 +44,72 @@ const metadata = {
   />
 
   <Stats stats={stats} />
+
+  <!-- 国会辩论专区 -->
+  <section class="py-12 md:py-16 bg-gray-50 dark:bg-slate-900">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-8">
+        <p class="text-sm font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-2">国会 AI 焦点</p>
+        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-3">
+          {DEBATE_STATS.total} 场国会辩论，解码政策风向
+        </h2>
+        <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          从 2015 年到 2026 年，新加坡议会围绕 AI 的每一次质询、答复与辩论，我们都做了中文摘要、立场分析和政策信号提炼。
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-5 mb-8">
+        {
+          KEY_INSIGHTS.filter((ins) => ins.significance === 'high').map((ins) => (
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border-l-4 border-l-red-500 border border-gray-100 dark:border-slate-700">
+              <h3 class="font-semibold text-gray-800 dark:text-white text-sm mb-2">{ins.title}</h3>
+              <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{ins.description}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-6 text-center text-sm text-gray-500 dark:text-gray-400 mb-8">
+        <div>
+          <span class="block text-2xl font-bold text-gray-900 dark:text-white"
+            >{Object.keys(DEBATE_STATS.byTopic).length}</span
+          >
+          议题领域
+        </div>
+        <div>
+          <span class="block text-2xl font-bold text-gray-900 dark:text-white"
+            >{Object.keys(DEBATE_STATS.topSpeakers).length}+</span
+          >
+          活跃议员
+        </div>
+        <div>
+          <span class="block text-2xl font-bold text-gray-900 dark:text-white"
+            >{DEBATE_STATS.yearRange.from}–{DEBATE_STATS.yearRange.to}</span
+          >
+          时间跨度
+        </div>
+      </div>
+
+      <div class="text-center">
+        <a
+          href="/aisg/debates/"
+          class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+        >
+          浏览全部辩论记录
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg
+          >
+        </a>
+      </div>
+    </div>
+  </section>
 
   <CallToAction
     actions={[
