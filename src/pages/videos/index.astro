@@ -1,0 +1,325 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import { videos, VIDEO_CATEGORIES, SPEAKER_TYPE_LABELS } from '~/data/videos';
+
+const meta = {
+  title: 'AI 视频观点 — 新加坡政府官员与行业专家',
+  description: '新加坡政府官员、学者和行业领袖关于 AI 战略、治理、人才和产业的 YouTube 演讲与访谈合集。',
+};
+
+// 构建统计数据
+const totalVideos = videos.length;
+const years = [...new Set(videos.map((v) => v.date.slice(0, 4)))].sort();
+const yearRange = years.length > 0 ? `${years[0]}–${years[years.length - 1]}` : '';
+const speakerCount = new Set(videos.map((v) => v.speaker)).size;
+
+// 按主题分组，组内按日期倒序
+const videosByTopic = VIDEO_CATEGORIES.map((cat) => ({
+  ...cat,
+  videos: videos.filter((v) => v.topic === cat.name).sort((a, b) => b.date.localeCompare(a.date)),
+})).filter((group) => group.videos.length > 0);
+
+// 提取所有年份用于筛选
+const allYears = [...new Set(videos.map((v) => v.date.slice(0, 4)))].sort().reverse();
+---
+
+<Layout metadata={meta} breadcrumbs={[{ label: 'AI 追踪' }, { label: 'AI 视频观点' }]}>
+  <div class="max-w-7xl mx-auto px-4 py-10">
+    <!-- Header -->
+    <div class="mb-10">
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-3">AI 视频观点</h1>
+      <p class="text-gray-600 dark:text-gray-400 text-lg max-w-3xl">
+        新加坡政府官员、学者和行业领袖关于人工智能的 YouTube 演讲与访谈。点击视频卡片跳转 YouTube 观看。
+      </p>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="grid grid-cols-3 gap-4 mb-10">
+      <div
+        class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-700 text-center"
+      >
+        <div class="text-3xl font-bold text-blue-600">{totalVideos}</div>
+        <div class="text-sm text-gray-500 mt-1">视频总数</div>
+      </div>
+      <div
+        class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-700 text-center"
+      >
+        <div class="text-3xl font-bold text-purple-600">{speakerCount}</div>
+        <div class="text-sm text-gray-500 mt-1">演讲者</div>
+      </div>
+      <div
+        class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-700 text-center"
+      >
+        <div class="text-3xl font-bold text-green-600">{yearRange}</div>
+        <div class="text-sm text-gray-500 mt-1">覆盖年份</div>
+      </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-slate-700 mb-8">
+      <div class="mb-3">
+        <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">主题</div>
+        <div class="flex flex-wrap gap-2">
+          <button
+            data-filter="topic"
+            data-value=""
+            class="filter-btn filter-btn-active px-3 py-1.5 rounded-full text-sm border transition-all cursor-pointer"
+          >
+            全部
+          </button>
+          {
+            VIDEO_CATEGORIES.map((cat) => {
+              const count = videos.filter((v) => v.topic === cat.name).length;
+              return (
+                <button
+                  data-filter="topic"
+                  data-value={cat.name}
+                  class="filter-btn px-3 py-1.5 rounded-full text-sm border transition-all cursor-pointer"
+                >
+                  {cat.name}
+                  <span class="text-xs opacity-60 ml-1">({count})</span>
+                </button>
+              );
+            })
+          }
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">年份</div>
+        <div class="flex flex-wrap gap-2">
+          <button
+            data-filter="year"
+            data-value=""
+            class="filter-btn filter-btn-active px-3 py-1.5 rounded-full text-sm border transition-all cursor-pointer"
+          >
+            全部
+          </button>
+          {
+            allYears.map((year) => {
+              const count = videos.filter((v) => v.date.startsWith(year)).length;
+              return (
+                <button
+                  data-filter="year"
+                  data-value={year}
+                  class="filter-btn px-3 py-1.5 rounded-full text-sm border transition-all cursor-pointer"
+                >
+                  {year}
+                  <span class="text-xs opacity-60 ml-1">({count})</span>
+                </button>
+              );
+            })
+          }
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
+          演讲者类型
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button
+            data-filter="speakerType"
+            data-value=""
+            class="filter-btn filter-btn-active px-3 py-1.5 rounded-full text-sm border transition-all cursor-pointer"
+          >
+            全部
+          </button>
+          {
+            Object.entries(SPEAKER_TYPE_LABELS).map(([key, label]) => {
+              const count = videos.filter((v) => v.speakerType === key).length;
+              return (
+                <button
+                  data-filter="speakerType"
+                  data-value={key}
+                  class="filter-btn px-3 py-1.5 rounded-full text-sm border transition-all cursor-pointer"
+                >
+                  {label}
+                  <span class="text-xs opacity-60 ml-1">({count})</span>
+                </button>
+              );
+            })
+          }
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between mt-3 pt-3 border-t border-gray-100 dark:border-slate-700">
+        <div id="result-count" class="text-sm text-gray-500"></div>
+        <button
+          id="clear-filters-btn"
+          class="hidden text-sm text-red-500 hover:text-red-700 border border-red-200 hover:border-red-400 px-3 py-1.5 rounded-lg transition-all"
+        >
+          清除筛选
+        </button>
+      </div>
+    </div>
+
+    <!-- Video List (grouped by topic) -->
+    <div id="video-list">
+      {
+        videosByTopic.map((group) => (
+          <section class="mb-10" data-topic-section={group.name}>
+            <div class="flex items-center gap-3 mb-4">
+              <h2 class="text-xl font-bold text-gray-800 dark:text-white">{group.name}</h2>
+              <span class="text-sm text-gray-400">({group.videos.length})</span>
+            </div>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">{group.description}</p>
+            <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {group.videos.map((video) => (
+                <a
+                  href={video.youtubeUrl}
+                  target="_blank"
+                  rel="noopener"
+                  data-video-id={video.id}
+                  data-topic={video.topic}
+                  data-year={video.date.slice(0, 4)}
+                  data-speaker-type={video.speakerType}
+                  class="video-card block bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-700 hover:border-blue-400 hover:shadow-md transition-all group"
+                >
+                  <div class="flex items-start justify-between mb-2">
+                    <h3 class="font-semibold text-gray-800 dark:text-white text-sm leading-snug group-hover:text-blue-600 transition-colors flex-1">
+                      {video.title}
+                    </h3>
+                    <svg
+                      class="w-4 h-4 text-gray-400 group-hover:text-blue-500 transition-colors shrink-0 ml-2 mt-0.5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                      />
+                    </svg>
+                  </div>
+                  <div class="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                    <span class="font-medium text-gray-700 dark:text-gray-300">{video.speaker}</span>
+                    <span class="mx-1">&middot;</span>
+                    {video.speakerTitle}
+                  </div>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-3">{video.summary}</p>
+                  <div class="flex items-center justify-between text-xs text-gray-400">
+                    <div class="flex items-center gap-2">
+                      <span>{video.date}</span>
+                      <span>&middot;</span>
+                      <span>{video.duration}</span>
+                    </div>
+                    <span>{video.channel}</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+        ))
+      }
+    </div>
+
+    <!-- Empty state -->
+    <div id="empty-state" class="hidden text-center py-16">
+      <p class="text-gray-400 text-lg">没有符合筛选条件的视频</p>
+      <button id="clear-all-btn" class="mt-3 text-blue-600 hover:text-blue-800 text-sm underline">
+        清除所有筛选
+      </button>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .filter-btn {
+    background: transparent;
+    border-color: #e5e7eb;
+    color: #4b5563;
+  }
+  :global(.dark) .filter-btn {
+    border-color: #475569;
+    color: #9ca3af;
+  }
+  .filter-btn:hover {
+    border-color: #60a5fa;
+    color: #2563eb;
+  }
+  .filter-btn-active {
+    background: #eff6ff;
+    border-color: #60a5fa;
+    color: #1d4ed8;
+    font-weight: 600;
+  }
+  :global(.dark) .filter-btn-active {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: #3b82f6;
+    color: #93c5fd;
+  }
+</style>
+
+<script>
+  const filters: Record<string, string> = { topic: '', year: '', speakerType: '' };
+
+  function init() {
+    document.querySelectorAll('.filter-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const dim = (btn as HTMLElement).dataset.filter!;
+        const val = (btn as HTMLElement).dataset.value!;
+        filters[dim] = val;
+        updateFilterButtons();
+        applyFilters();
+      });
+    });
+
+    const clearBtn = document.getElementById('clear-filters-btn');
+    if (clearBtn) clearBtn.addEventListener('click', clearAllFilters);
+
+    const clearAllBtn = document.getElementById('clear-all-btn');
+    if (clearAllBtn) clearAllBtn.addEventListener('click', clearAllFilters);
+  }
+
+  function updateFilterButtons() {
+    document.querySelectorAll('.filter-btn').forEach((btn) => {
+      const dim = (btn as HTMLElement).dataset.filter!;
+      const val = (btn as HTMLElement).dataset.value!;
+      btn.classList.toggle('filter-btn-active', filters[dim] === val);
+    });
+  }
+
+  function applyFilters() {
+    const hasFilter = Object.values(filters).some((v) => v !== '');
+    let visibleCount = 0;
+
+    document.querySelectorAll('.video-card').forEach((card) => {
+      const el = card as HTMLElement;
+      const matchTopic = !filters.topic || el.dataset.topic === filters.topic;
+      const matchYear = !filters.year || el.dataset.year === filters.year;
+      const matchType = !filters.speakerType || el.dataset.speakerType === filters.speakerType;
+      const visible = matchTopic && matchYear && matchType;
+      el.style.display = visible ? '' : 'none';
+      if (visible) visibleCount++;
+    });
+
+    document.querySelectorAll('[data-topic-section]').forEach((section) => {
+      const visibleCards = section.querySelectorAll('.video-card:not([style*="display: none"])');
+      (section as HTMLElement).style.display = visibleCards.length > 0 ? '' : 'none';
+    });
+
+    const countEl = document.getElementById('result-count');
+    const clearBtn = document.getElementById('clear-filters-btn');
+    const emptyState = document.getElementById('empty-state');
+    const videoList = document.getElementById('video-list');
+
+    if (countEl) countEl.textContent = hasFilter ? `显示 ${visibleCount} 条结果` : '';
+    if (clearBtn) clearBtn.classList.toggle('hidden', !hasFilter);
+    if (emptyState && videoList) {
+      emptyState.classList.toggle('hidden', visibleCount > 0);
+      videoList.classList.toggle('hidden', visibleCount === 0);
+    }
+  }
+
+  function clearAllFilters() {
+    Object.keys(filters).forEach((k) => (filters[k] = ''));
+    updateFilterButtons();
+    applyFilters();
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('astro:page-load', init);
+</script>

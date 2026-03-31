@@ -3,4 +3,7 @@ node_modules
 .github
 .changeset
 .astro
+.claude
+.playwright-mcp
+docs
 scripts
