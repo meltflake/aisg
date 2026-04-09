@@ -17,6 +17,7 @@ const homeItem = { label: '首页', href: getPermalink('/') };
 const allItems = [homeItem, ...items];
 
 const siteUrl = SITE?.site || 'https://meltflake.com';
+const currentUrl = `${siteUrl}${Astro.url.pathname}`;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -25,7 +26,7 @@ const jsonLd = {
     '@type': 'ListItem',
     position: index + 1,
     name: item.label,
-    ...(item.href ? { item: `${siteUrl}${item.href}` } : {}),
+    item: item.href ? `${siteUrl}${item.href}` : currentUrl,
   })),
 };
 ---

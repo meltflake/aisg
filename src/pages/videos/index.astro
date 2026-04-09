@@ -23,7 +23,7 @@ const videosByTopic = VIDEO_CATEGORIES.map((cat) => ({
 const allYears = [...new Set(videos.map((v) => v.date.slice(0, 4)))].sort().reverse();
 ---
 
-<Layout metadata={meta} breadcrumbs={[{ label: 'AI 声音' }, { label: 'AI 视频观点' }]}>
+<Layout metadata={meta} breadcrumbs={[{ label: 'AI 视频观点' }]}>
   <div class="max-w-7xl mx-auto px-4 py-10">
     <!-- Header -->
     <div class="mb-10">
