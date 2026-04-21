@@ -8,6 +8,7 @@ import asyncio
 import json
 import re
 import time
+from pathlib import Path
 from urllib.parse import quote
 
 from playwright.async_api import async_playwright
@@ -49,7 +50,8 @@ AI_QUERIES = [
     "AI investment",
 ]
 
-OUTPUT_FILE = "/home/ubuntu/scripts/discovered_report_ids.json"
+DATA_DIR = Path(__file__).parent / "data"
+OUTPUT_FILE = DATA_DIR / "discovered_report_ids.json"
 
 # ── Extract report IDs from page HTML ─────────────────────────────────────────
 def extract_ids_from_html(html, query=""):
@@ -151,6 +153,7 @@ async def main():
         "report_ids": sorted(all_ids.values(), key=lambda x: x['report_id'])
     }
     
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
         json.dump(result, f, indent=2, ensure_ascii=False)
     

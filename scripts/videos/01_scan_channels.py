@@ -19,6 +19,7 @@ Step 1: 扫描 YouTube 频道，发现新加坡 AI 相关视频。
 
 import argparse
 import json
+import logging
 import re
 import sys
 import time
@@ -27,6 +28,9 @@ from pathlib import Path
 
 import feedparser
 import requests
+
+# 统一日志：被 auto_update.py 导入时复用根 logger，独立运行时打到 stderr
+logger = logging.getLogger(__name__)
 
 # ── 目标频道 ──────────────────────────────────────────────────────────────────
 # channel_id 可通过访问频道页面 → 查看源代码 → 搜索 "channelId" 获取
@@ -102,11 +106,19 @@ LOCAL_CHANNELS = {"CNA", "ST", "govsg", "SmartNation", "AISG"}
 
 # ── 配置 ──────────────────────────────────────────────────────────────────────
 RSS_URL = "https://www.youtube.com/feeds/videos.xml?channel_id={channel_id}"
+CHANNEL_VIDEOS_URL = "https://www.youtube.com/channel/{channel_id}/videos"
 OEMBED_URL = "https://noembed.com/embed?url=https://www.youtube.com/watch?v={video_id}"
 DATA_DIR = Path(__file__).parent / "data"
 OUTPUT_FILE = DATA_DIR / "candidates.json"
 EXISTING_VIDEOS_TS = Path(__file__).parent.parent.parent / "src" / "data" / "videos.ts"
 REQUEST_DELAY = 0.5  # 秒，避免被限速
+
+# 浏览器伪装 UA；YouTube 对部分 channel 的 RSS 端点已封锁（稳定 404），
+# 但公开频道页 /channel/{id}/videos 照常返回。我们拿不到 RSS 就回落到 HTML 抓取。
+BROWSER_UA = (
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+)
 
 
 def matches_keywords(text: str, patterns: list[str]) -> bool:
@@ -130,18 +142,126 @@ def get_existing_video_urls() -> set[str]:
     return urls
 
 
+def _parse_relative_time(text: str, now: datetime) -> str:
+    """把 "2 days ago" / "1 hr ago" / "3 weeks ago" 转成 YYYY-MM-DD。"""
+    m = re.match(r"(\d+)\s*(second|minute|hour|hr|day|week|month|year)s?\s*ago", text.strip().lower())
+    if not m:
+        return ""
+    n = int(m.group(1))
+    unit = m.group(2)
+    delta_map = {
+        "second": timedelta(seconds=n),
+        "minute": timedelta(minutes=n),
+        "hour": timedelta(hours=n),
+        "hr": timedelta(hours=n),
+        "day": timedelta(days=n),
+        "week": timedelta(weeks=n),
+        "month": timedelta(days=n * 30),  # 近似；下游只用到日期，不需要精确
+        "year": timedelta(days=n * 365),
+    }
+    dt = now - delta_map[unit]
+    return dt.strftime("%Y-%m-%d")
+
+
+def _walk_video_renderers(obj, depth: int = 0):
+    """递归遍历 ytInitialData，yield 所有 videoRenderer。"""
+    if depth > 25:
+        return
+    if isinstance(obj, dict):
+        if "videoRenderer" in obj:
+            yield obj["videoRenderer"]
+        rich = obj.get("richItemRenderer", {}).get("content", {}).get("videoRenderer")
+        if rich:
+            yield rich
+        for v in obj.values():
+            yield from _walk_video_renderers(v, depth + 1)
+    elif isinstance(obj, list):
+        for v in obj:
+            yield from _walk_video_renderers(v, depth + 1)
+
+
+def fetch_channel_via_html(channel_key: str, channel_info: dict) -> list[dict]:
+    """从 /channel/{id}/videos 页面提取视频列表。
+
+    页面内嵌 ytInitialData JSON，包含最近 ~60 条视频的 id/title/发布时间（相对格式）/
+    描述片段。归一化成和 feedparser entry 相同的字段，下游 parse_entry 可复用。
+    """
+    url = CHANNEL_VIDEOS_URL.format(channel_id=channel_info["channel_id"])
+    try:
+        resp = requests.get(url, headers={"User-Agent": BROWSER_UA}, timeout=20)
+    except requests.RequestException as e:
+        logger.warning(f"HTML 抓取异常: {channel_key} — {e}")
+        return []
+
+    if resp.status_code != 200:
+        logger.warning(f"HTML 抓取失败: {channel_key} — HTTP {resp.status_code}")
+        return []
+
+    m = re.search(r"var ytInitialData = ({.*?});</script>", resp.text)
+    if not m:
+        logger.warning(f"HTML 未找到 ytInitialData: {channel_key}")
+        return []
+
+    try:
+        data = json.loads(m.group(1))
+    except json.JSONDecodeError as e:
+        logger.warning(f"ytInitialData JSON 解析失败: {channel_key} — {e}")
+        return []
+
+    now = datetime.now(timezone.utc)
+    entries: list[dict] = []
+    seen: set[str] = set()
+
+    for vr in _walk_video_renderers(data):
+        vid = vr.get("videoId")
+        if not vid or vid in seen:
+            continue
+        seen.add(vid)
+
+        title_runs = vr.get("title", {}).get("runs", [])
+        title = title_runs[0].get("text", "") if title_runs else vr.get("title", {}).get("simpleText", "")
+
+        published_rel = vr.get("publishedTimeText", {}).get("simpleText", "")
+        date_str = _parse_relative_time(published_rel, now) if published_rel else ""
+        # parse_entry 期望 ISO 格式的 published；这里合成当天 00:00Z
+        published_iso = f"{date_str}T00:00:00+00:00" if date_str else ""
+
+        # 描述片段用于后续 AI 关键词匹配
+        desc_parts = []
+        for snip in vr.get("detailedMetadataSnippets", []) or []:
+            for run in snip.get("snippetText", {}).get("runs", []) or []:
+                desc_parts.append(run.get("text", ""))
+        summary = "".join(desc_parts) or vr.get("descriptionSnippet", {}).get("simpleText", "")
+
+        entries.append({"yt_videoid": vid, "title": title, "summary": summary, "published": published_iso})
+
+    return entries
+
+
 def fetch_channel_feed(channel_key: str, channel_info: dict) -> list[dict]:
-    """获取频道 RSS feed 并返回条目列表"""
+    """获取频道最新视频，RSS 优先，失败回落到频道页 HTML 抓取。
+
+    YouTube 对部分 channel（如 CNA、ST、govsg 等）的 RSS 端点稳定返回 404/500，
+    但公开频道页 /channel/{id}/videos 仍可访问。因此先试 RSS 一次，不成功就切换。
+    """
     url = RSS_URL.format(channel_id=channel_info["channel_id"])
     try:
-        feed = feedparser.parse(url)
-        if feed.bozo and not feed.entries:
-            print(f"  ⚠ RSS 解析失败: {channel_key}", file=sys.stderr)
-            return []
-        return feed.entries
-    except Exception as e:
-        print(f"  ⚠ 请求失败: {channel_key} — {e}", file=sys.stderr)
-        return []
+        resp = requests.get(
+            url,
+            headers={"User-Agent": BROWSER_UA, "Accept": "application/atom+xml, application/xml"},
+            timeout=15,
+        )
+        if resp.status_code == 200:
+            feed = feedparser.parse(resp.content)
+            if feed.entries:
+                return feed.entries
+            logger.debug(f"RSS 200 但无条目: {channel_key}，回落 HTML")
+        else:
+            logger.debug(f"RSS {resp.status_code}: {channel_key}，回落 HTML")
+    except requests.RequestException as e:
+        logger.debug(f"RSS 异常: {channel_key} — {e}，回落 HTML")
+
+    return fetch_channel_via_html(channel_key, channel_info)
 
 
 def get_video_metadata(video_id: str) -> dict | None:
@@ -285,4 +405,6 @@ def main():
 
 
 if __name__ == "__main__":
+    # 独立运行时配置 logger 输出到 stderr；被 auto_update.py 导入时复用根 logger
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     main()

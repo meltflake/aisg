@@ -9,13 +9,15 @@ import re
 import time
 import concurrent.futures
 from datetime import datetime
+from pathlib import Path
 from bs4 import BeautifulSoup
 import requests
 
 # ── Configuration ──────────────────────────────────────────────────────────────
 SPRS_BASE = "https://sprs.parl.gov.sg"
-INPUT_FILE = "/home/ubuntu/scripts/discovered_report_ids.json"
-OUTPUT_FILE = "/home/ubuntu/scripts/all_ai_debates.json"
+DATA_DIR = Path(__file__).parent / "data"
+INPUT_FILE = DATA_DIR / "discovered_report_ids.json"
+OUTPUT_FILE = DATA_DIR / "all_ai_debates.json"
 MAX_WORKERS = 5   # Concurrent requests
 DELAY = 0.3       # Seconds between requests per worker
 
