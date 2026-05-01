@@ -1,0 +1,114 @@
+---
+// Phase 2.2 — Table of Contents for long-form posts.
+//
+// Built from Astro content's `headings` array (passed via post.headings).
+// Renders only h2 + h3 by default. Sticky on xl viewports, collapsible
+// <details> on smaller viewports so it doesn't dominate mobile.
+//
+// SAFE: hidden when fewer than 3 headings (a 2-section article doesn't
+// need a TOC). Caller can override with `minHeadings`.
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+  /** Minimum heading count required to render. Default 3. */
+  minHeadings?: number;
+  /** Maximum depth to include. Default 3 (h2 + h3). */
+  maxDepth?: number;
+  /** Optional id for skip-link integration. */
+  id?: string;
+  class?: string;
+}
+
+const { headings = [], minHeadings = 3, maxDepth = 3, id = 'toc', class: extraClass = '' } = Astro.props;
+
+const items = (headings || []).filter((h) => h.depth >= 2 && h.depth <= maxDepth && h.slug && h.text);
+
+if (items.length < minHeadings) {
+  // No-op render — emit nothing. Astro fragments with no output keep
+  // the host page layout unchanged.
+}
+---
+
+{
+  items.length >= minHeadings && (
+    <nav
+      id={id}
+      aria-label="目录"
+      class={`toc not-prose hidden xl:block xl:fixed xl:left-[max(1.5rem,calc((100vw-72rem)/2))] xl:top-[120px] xl:w-56 xl:max-h-[calc(100vh-160px)] xl:overflow-y-auto text-sm ${extraClass}`}
+    >
+      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-2">目录</p>
+      <ol class="space-y-1.5 border-l border-gray-200 dark:border-slate-700 pl-3">
+        {items.map((h) => (
+          <li class={h.depth === 2 ? 'font-medium' : 'pl-3 text-gray-500 dark:text-gray-400'}>
+            <a
+              href={`#${h.slug}`}
+              class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors block py-0.5"
+              data-toc-link={h.slug}
+            >
+              {h.text}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )
+}
+
+{/* Mobile / tablet collapsible TOC, inline above the article body. */}
+{
+  items.length >= minHeadings && (
+    <details class={`toc-mobile not-prose xl:hidden mb-6 mx-auto max-w-3xl px-4 sm:px-6 ${extraClass}`}>
+      <summary class="cursor-pointer text-sm font-semibold text-gray-700 dark:text-gray-300 py-2 border-y border-gray-200 dark:border-slate-700 select-none">
+        📑 目录（{items.length} 节）
+      </summary>
+      <ol class="mt-3 space-y-1.5 text-sm border-l border-gray-200 dark:border-slate-700 pl-3">
+        {items.map((h) => (
+          <li class={h.depth === 2 ? 'font-medium' : 'pl-3 text-gray-500 dark:text-gray-400'}>
+            <a href={`#${h.slug}`} class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors block py-0.5">
+              {h.text}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </details>
+  )
+}
+
+{
+  /* Active-link highlighter using IntersectionObserver. Cheap; runs once
+    on DOMContentLoaded and watches all heading anchors. The script is
+    placed at top level (not inside an Astro conditional) so prettier
+    parses cleanly; the script itself early-returns when no TOC links
+    are present, so it's effectively a no-op when the TOC didn't render. */
+}
+<script is:inline>
+  (() => {
+    if (typeof IntersectionObserver === 'undefined') return;
+    const links = document.querySelectorAll('[data-toc-link]');
+    if (links.length === 0) return;
+    const observed = new Map();
+    links.forEach((a) => {
+      const slug = a.getAttribute('data-toc-link');
+      const target = slug ? document.getElementById(slug) : null;
+      if (target) observed.set(slug, { link: a, target });
+    });
+    if (observed.size === 0) return;
+    const onChange = (entries) => {
+      for (const e of entries) {
+        const entry = observed.get(e.target.id);
+        if (!entry) continue;
+        entry.link.classList.toggle('text-blue-600', e.isIntersecting);
+        entry.link.classList.toggle('dark:text-blue-400', e.isIntersecting);
+        entry.link.classList.toggle('font-semibold', e.isIntersecting);
+      }
+    };
+    const io = new IntersectionObserver(onChange, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
+    for (const { target } of observed.values()) io.observe(target);
+  })();
+</script>

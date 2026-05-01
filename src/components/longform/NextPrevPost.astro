@@ -1,0 +1,64 @@
+---
+// Phase 2.4 — Chronological prev/next post navigation.
+//
+// Used at the bottom of blog post detail. Prev = older neighbour,
+// Next = newer neighbour. Uses publish-date order (the same order
+// the blog index uses), so it matches reader expectation.
+//
+// SAFE: when there is only one post in the collection, both prev and
+// next are absent and nothing renders. Works with the existing post
+// permalink system via getPermalink(slug, 'post').
+
+import type { Post } from '~/types';
+import { fetchPosts } from '~/utils/blog';
+import { getPermalink } from '~/utils/permalinks';
+
+interface Props {
+  post: Post;
+  class?: string;
+}
+
+const { post, class: extraClass = '' } = Astro.props;
+
+const allPosts = await fetchPosts();
+// allPosts is already sorted desc by publishDate. Index 0 = newest.
+const idx = allPosts.findIndex((p) => p.slug === post.slug);
+const newer = idx > 0 ? allPosts[idx - 1] : undefined; // earlier in array = newer
+const older = idx >= 0 && idx < allPosts.length - 1 ? allPosts[idx + 1] : undefined;
+---
+
+{
+  (newer || older) && (
+    <nav
+      class={`mt-10 max-w-3xl mx-auto px-4 sm:px-6 grid gap-3 grid-cols-1 sm:grid-cols-2 ${extraClass}`}
+      aria-label="Previous and next post"
+    >
+      {older ? (
+        <a
+          href={getPermalink(older.permalink, 'post')}
+          class="block p-4 rounded-lg border border-gray-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-sm transition-all group"
+        >
+          <p class="text-xs uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-1">← 上一篇（更早）</p>
+          <p class="text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 leading-snug">
+            {older.title}
+          </p>
+        </a>
+      ) : (
+        <div aria-hidden="true" />
+      )}
+      {newer ? (
+        <a
+          href={getPermalink(newer.permalink, 'post')}
+          class="block p-4 rounded-lg border border-gray-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-sm transition-all group sm:text-right"
+        >
+          <p class="text-xs uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-1">下一篇（更新） →</p>
+          <p class="text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 leading-snug">
+            {newer.title}
+          </p>
+        </a>
+      ) : (
+        <div aria-hidden="true" />
+      )}
+    </nav>
+  )
+}

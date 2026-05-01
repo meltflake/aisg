@@ -43,6 +43,10 @@ export interface Post {
   /**  */
   readingTime?: number;
 
+  // Phase 2: heading list extracted from rendered markdown by Astro
+  // content render() output — used by TableOfContents.
+  headings?: Array<{ depth: number; slug: string; text: string }>;
+
   // Phase 1.11 cross-references — propagated from frontmatter.
   relatedPolicyIds?: string[];
   relatedDebateIds?: string[];

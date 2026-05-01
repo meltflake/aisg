@@ -1,0 +1,69 @@
+---
+// Phase 2.5 — Top reading-progress bar for long-form articles.
+//
+// 2px bar fixed at the top of the viewport (under the header on
+// scroll-locked layouts). Width tracks the % of the targeted article
+// element that has been scrolled past. Pure scroll math — cheap, no
+// third-party deps.
+//
+// Usage: place inside the post detail layout. By default it tracks
+// the first <article> element on the page; pass `target` (a CSS
+// selector) to override.
+
+interface Props {
+  target?: string;
+  /** Optional class for the outer wrapper. */
+  class?: string;
+}
+
+const { target = 'article', class: extraClass = '' } = Astro.props;
+---
+
+<div
+  id="reading-progress"
+  class={`fixed top-0 left-0 right-0 h-[2px] z-[100] pointer-events-none ${extraClass}`}
+  role="progressbar"
+  aria-label="Reading progress"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  aria-valuenow="0"
+>
+  <div
+    id="reading-progress-bar"
+    class="h-full bg-blue-600 dark:bg-blue-400 transition-[width] duration-100"
+    style="width: 0%"
+  >
+  </div>
+</div>
+
+<script is:inline define:vars={{ target }}>
+  (() => {
+    const article = document.querySelector(target);
+    const bar = document.getElementById('reading-progress-bar');
+    const wrap = document.getElementById('reading-progress');
+    if (!article || !bar || !wrap) return;
+
+    let ticking = false;
+    const update = () => {
+      const rect = article.getBoundingClientRect();
+      const start = window.scrollY + rect.top;
+      const end = window.scrollY + rect.bottom - window.innerHeight;
+      const total = Math.max(end - start, 1);
+      const progress = Math.max(0, Math.min(1, (window.scrollY - start) / total));
+      const pct = Math.round(progress * 100);
+      bar.style.width = pct + '%';
+      wrap.setAttribute('aria-valuenow', String(pct));
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+  })();
+</script>

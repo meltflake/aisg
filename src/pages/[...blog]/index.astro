@@ -14,6 +14,10 @@ import { findImage } from '~/utils/images';
 import type { MetaData } from '~/types';
 import RelatedPosts from '~/components/blog/RelatedPosts.astro';
 import RelatedRail from '~/components/data/RelatedRail.astro';
+import TableOfContents from '~/components/longform/TableOfContents.astro';
+import AuthorBio from '~/components/longform/AuthorBio.astro';
+import NextPrevPost from '~/components/longform/NextPrevPost.astro';
+import ReadingProgress from '~/components/longform/ReadingProgress.astro';
 import { debates } from '~/data/debates';
 import { categories as policyCategories } from '~/data/policies';
 import { levers } from '~/data/levers';
@@ -95,12 +99,16 @@ const relatedBundle: RelatedBundle = {
 
 <Layout metadata={metadata} breadcrumbs={breadcrumbs}>
   <JsonLd schema={articleSchema} />
+  <ReadingProgress />
+  <TableOfContents headings={post.headings || []} />
   <SinglePost post={{ ...post, image: image }} url={url}>
     {post.Content ? <post.Content /> : <Fragment set:html={post.content || ''} />}
   </SinglePost>
+  <AuthorBio author={post.author} relatedPersonIds={post.relatedPersonIds} />
   <div class="max-w-3xl mx-auto px-4 sm:px-6">
     <RelatedRail bundle={relatedBundle} variant="full" />
   </div>
+  <NextPrevPost post={post} />
   <ToBlogLink />
   <RelatedPosts post={post} />
 </Layout>
