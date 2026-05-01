@@ -152,7 +152,7 @@ python3 -m playwright install chromium
 ### 2. 配置邮件
 
 ```bash
-cd /path/to/aisg/scripts
+cd /path/to/sgai/scripts
 
 # 复制配置模板
 cp auto_update_config.example.py auto_update_config.py
@@ -168,7 +168,7 @@ vim auto_update_config.py
 ### 3. 测试
 
 ```bash
-cd /path/to/aisg/scripts
+cd /path/to/sgai/scripts
 
 # 先干跑确认脚本正常
 python3 auto_update.py --dry-run
@@ -188,14 +188,14 @@ which python3
 crontab -e
 
 # 添加以下内容（替换 Python 路径和项目路径）:
-# AISG 数据更新 - 每周一 8:00
-0 8 * * 1 /path/to/python3 /path/to/aisg/scripts/auto_update.py >> /path/to/aisg/scripts/logs/cron.log 2>&1
+# SGAI 数据更新 - 每周一 8:00
+0 8 * * 1 /path/to/python3 /path/to/sgai/scripts/auto_update.py >> /path/to/sgai/scripts/logs/cron.log 2>&1
 ```
 
 **示例（macOS + Anaconda）:**
 
 ```
-0 8 * * 1 /opt/homebrew/anaconda3/bin/python3 /Users/lucawu/Library/CloudStorage/Dropbox/Github/Luca/project/aisg/scripts/auto_update.py >> /Users/lucawu/Library/CloudStorage/Dropbox/Github/Luca/project/aisg/scripts/logs/cron.log 2>&1
+0 8 * * 1 /opt/homebrew/anaconda3/bin/python3 /Users/lucawu/Library/CloudStorage/Dropbox/Github/Luca/project/sgai/scripts/auto_update.py >> /Users/lucawu/Library/CloudStorage/Dropbox/Github/Luca/project/sgai/scripts/logs/cron.log 2>&1
 ```
 
 ### 5. 验证 crontab
@@ -205,8 +205,8 @@ crontab -e
 crontab -l
 
 # 查看日志（下次运行后）
-tail -f /path/to/aisg/scripts/logs/cron.log
-cat /path/to/aisg/scripts/logs/auto_update_$(date +%Y-%m-%d).log
+tail -f /path/to/sgai/scripts/logs/cron.log
+cat /path/to/sgai/scripts/logs/auto_update_$(date +%Y-%m-%d).log
 ```
 
 ### macOS 注意事项

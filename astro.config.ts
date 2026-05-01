@@ -22,8 +22,7 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
   hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
 
 export default defineConfig({
-  site: 'https://meltflake.com',
-  base: '/aisg/',
+  site: 'https://sgai.md',
   output: 'static',
 
   integrations: [

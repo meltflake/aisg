@@ -1,7 +1,7 @@
 site:
   name: SG AI 观察
-  site: 'https://meltflake.com'
-  base: '/aisg'
+  site: 'https://sgai.md'
+  base: '/'
   trailingSlash: false
 
 metadata:

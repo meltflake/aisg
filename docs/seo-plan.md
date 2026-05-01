@@ -1,7 +1,7 @@
 # SG AI 观察 — SEO 优化实施计划
 
 > 文档创建：2026-03-22
-> 站点地址：https://meltflake.com/aisg/
+> 站点地址：https://sgai.md/
 > 技术栈：Astro 5.0 + Tailwind CSS，静态站点，部署于 Cloudflare Pages
 
 ---
@@ -49,7 +49,7 @@
 #### 0.1 注册并验证 Google Search Console
 
 1. 访问 https://search.google.com/search-console
-2. 添加资源 `https://meltflake.com/aisg/`（URL 前缀类型）
+2. 添加资源 `https://sgai.md/`（URL 前缀类型）
 3. 选择「HTML 标记」验证方式，获取验证 ID
 4. 填入 `src/config.yaml`，在 `analytics` 部分添加：
 
@@ -93,10 +93,10 @@ analytics:
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "SG AI 观察",
-  "url": "https://meltflake.com/aisg/",
-  "logo": "https://meltflake.com/aisg/favicon.svg",
+  "url": "https://sgai.md/",
+  "logo": "https://sgai.md/favicon.svg",
   "description": "持续整理新加坡 AI 相关政策、治理框架与落地执行情况",
-  "sameAs": ["https://github.com/meltflake/aisg"]
+  "sameAs": ["https://github.com/meltflake/sgai"]
 }
 ```
 
@@ -224,8 +224,8 @@ analytics:
 虽然站点是纯中文，但由于部署在 `.com` 域名下，建议在 `<head>` 中添加：
 
 ```html
-<link rel="alternate" hreflang="zh-CN" href="https://meltflake.com/aisg/" />
-<link rel="alternate" hreflang="x-default" href="https://meltflake.com/aisg/" />
+<link rel="alternate" hreflang="zh-CN" href="https://sgai.md/" />
+<link rel="alternate" hreflang="x-default" href="https://sgai.md/" />
 ```
 
 **涉及文件**：`src/components/common/CommonMeta.astro`
@@ -238,11 +238,11 @@ analytics:
 {
   "name": "SG AI 观察",
   "short_name": "SG AI",
-  "start_url": "/aisg/",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#8D46E7",
-  "icons": [{ "src": "/aisg/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
 }
 ```
 
@@ -282,7 +282,7 @@ Phase 5  [可选]     hreflang / PWA / 404
 
 | 指标            | 工具                                            | 目标                          |
 | --------------- | ----------------------------------------------- | ----------------------------- |
-| 索引页面数      | Google Search Console `site:meltflake.com/aisg` | 全部页面被索引                |
+| 索引页面数      | Google Search Console `site:sgai.md` | 全部页面被索引                |
 | 富搜索结果      | Google Rich Results Test                        | Article / Breadcrumb 通过验证 |
 | 搜索展现 / 点击 | Google Search Console 效果报告                  | 建立基线，逐月增长            |
 | Core Web Vitals | PageSpeed Insights                              | LCP < 2.5s, CLS < 0.1         |
@@ -294,6 +294,6 @@ Phase 5  [可选]     hreflang / PWA / 404
 
 - **结构化数据**：https://search.google.com/test/rich-results （输入页面 URL）
 - **Meta 标签**：浏览器查看源代码，或用 Chrome 扩展 SEO Meta in 1 Click
-- **Sitemap**：访问 https://meltflake.com/aisg/sitemap-index.xml
+- **Sitemap**：访问 https://sgai.md/sitemap-index.xml
 - **移动端**：Chrome DevTools 的 Lighthouse 审计
 - **整体检查**：`npm run check` 确保代码规范无报错

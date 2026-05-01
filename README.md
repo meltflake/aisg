@@ -2,7 +2,7 @@
 
 深度观察新加坡 AI 生态与战略。不只是信息整理，更是独立视角的深度分析。
 
-**在线访问：[meltflake.com/aisg](https://meltflake.com/aisg/)**
+**在线访问：[sgai.md](https://sgai.md/)**
 
 ## 项目简介
 
@@ -64,7 +64,7 @@ scripts/
 
 In-depth analysis of Singapore's AI ecosystem and strategy. More than information aggregation — independent analytical perspectives.
 
-**Live site: [meltflake.com/aisg](https://meltflake.com/aisg/)**
+**Live site: [sgai.md](https://sgai.md/)**
 
 ## About
 

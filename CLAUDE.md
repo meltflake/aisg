@@ -1,8 +1,9 @@
-# CLAUDE.md — aisg 项目指南
+# CLAUDE.md — sgai 项目指南
 
 ## 项目概述
 
-SG AI 观察 (https://github.com/meltflake/aisg) — 深度观察新加坡 AI 生态与战略的中文网站。
+SG AI 观察 (https://github.com/meltflake/sgai) — 深度观察新加坡 AI 生态与战略的中文网站。
+仓库于 2026-05 从 `aisg` 重命名为 `sgai`（避开 AI Singapore 缩写撞名）。同时从 meltflake-site 子站"毕业"，作为独立站点部署，线上地址 `https://sgai.md/`（DNS/Cloudflare 配置另行处理）。
 基于 Astro 5.0 + Tailwind CSS 的静态站点，部署于 Netlify。
 
 ## 技术栈
@@ -220,6 +221,6 @@ def scan_ids(prefix, start, end):
 
 ### 部署链
 
-aisg push → `.github/workflows/trigger-deploy.yml`(repository_dispatch) → meltflake-site `rebuild.yml` → `build.sh`(克隆子仓库) → Cloudflare Pages
+sgai push → `.github/workflows/trigger-deploy.yml`(repository_dispatch) → meltflake-site `rebuild.yml` → `build.sh`(克隆子仓库) → Cloudflare Pages
 
 **注意**：meltflake-site 的 GitHub 账号是 `meltflake`（不是 `wulujia`），操作时需 `gh auth switch --user meltflake`。

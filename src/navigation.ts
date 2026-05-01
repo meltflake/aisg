@@ -41,7 +41,7 @@ export const headerData = {
       ],
     },
   ],
-  actions: [{ text: 'GitHub', href: 'https://github.com/meltflake/aisg', target: '_blank' }],
+  actions: [{ text: 'GitHub', href: 'https://github.com/meltflake/sgai', target: '_blank' }],
 };
 
 export const footerData = {
@@ -86,7 +86,7 @@ export const footerData = {
   ],
   secondaryLinks: [],
   socialLinks: [
-    { ariaLabel: 'Github', icon: 'tabler:brand-github', href: 'https://github.com/meltflake/aisg' },
+    { ariaLabel: 'Github', icon: 'tabler:brand-github', href: 'https://github.com/meltflake/sgai' },
     { ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset('/rss.xml') },
   ],
   footNote:
