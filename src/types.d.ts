@@ -42,6 +42,13 @@ export interface Post {
 
   /**  */
   readingTime?: number;
+
+  // Phase 1.11 cross-references — propagated from frontmatter.
+  relatedPolicyIds?: string[];
+  relatedDebateIds?: string[];
+  relatedLeverNumbers?: number[];
+  relatedTimelineYears?: number[];
+  relatedPersonIds?: string[];
 }
 
 export interface Taxonomy {

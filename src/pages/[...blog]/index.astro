@@ -13,6 +13,13 @@ import { getStaticPathsBlogPost, blogPostRobots } from '~/utils/blog';
 import { findImage } from '~/utils/images';
 import type { MetaData } from '~/types';
 import RelatedPosts from '~/components/blog/RelatedPosts.astro';
+import RelatedRail from '~/components/data/RelatedRail.astro';
+import { debates } from '~/data/debates';
+import { categories as policyCategories } from '~/data/policies';
+import { levers } from '~/data/levers';
+import { timelineEvents } from '~/data/timeline';
+import { allPeople } from '~/data/people';
+import type { RelatedBundle } from '~/utils/graph';
 
 export const prerender = true;
 
@@ -63,6 +70,27 @@ const articleSchema = {
 };
 
 const breadcrumbs = [{ label: '深度分析', href: getPermalink('/blog') }, { label: post.title }];
+
+// Build a RelatedBundle from frontmatter cross-refs. Each list is filtered
+// against actual data so a typo in frontmatter degrades silently rather
+// than emitting a broken link. verify-graph.ts catches these in CI.
+const allPolicyRecords = policyCategories.flatMap((c) => c.policies);
+const relatedBundle: RelatedBundle = {
+  people: (post.relatedPersonIds || [])
+    .map((id) => allPeople.find((p) => p.id === id))
+    .filter(Boolean) as RelatedBundle['people'],
+  policies: (post.relatedPolicyIds || [])
+    .map((id) => allPolicyRecords.find((p) => p.id === id))
+    .filter(Boolean) as RelatedBundle['policies'],
+  debates: (post.relatedDebateIds || [])
+    .map((id) => debates.find((d) => d.id === id))
+    .filter(Boolean) as RelatedBundle['debates'],
+  levers: (post.relatedLeverNumbers || [])
+    .map((n) => levers.find((lv) => lv.number === n))
+    .filter(Boolean) as RelatedBundle['levers'],
+  timeline: (post.relatedTimelineYears || []).flatMap((y) => timelineEvents.filter((e) => e.year === y)),
+  postSlugs: [],
+};
 ---
 
 <Layout metadata={metadata} breadcrumbs={breadcrumbs}>
@@ -70,6 +98,9 @@ const breadcrumbs = [{ label: '深度分析', href: getPermalink('/blog') }, { l
   <SinglePost post={{ ...post, image: image }} url={url}>
     {post.Content ? <post.Content /> : <Fragment set:html={post.content || ''} />}
   </SinglePost>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6">
+    <RelatedRail bundle={relatedBundle} variant="full" />
+  </div>
   <ToBlogLink />
   <RelatedPosts post={post} />
 </Layout>

@@ -1,2 +1,2 @@
-export const SITE_VERSION = '0.0.26';
+export const SITE_VERSION = '0.0.27';
 export const SITE_UPDATED = '2026-05-01';

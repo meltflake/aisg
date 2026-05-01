@@ -30,6 +30,13 @@ export const timelineEvents: TimelineEvent[] = [
     description:
       '1 月：MDDI 宣布 2026-2030 公共 AI 研究投资计划，投资超 10 亿新元（7.79 亿美元）用于公共 AI 研究，聚焦负责任和资源高效的 AI、全链条人才培养、产业应用。同月举办 AI Research Week 2026，与 AAAI 第 40 届会议同期。Microsoft AI Economy Institute 报告显示新加坡 AI 采用率 60.9%，全球第二（仅次于 UAE 64.0%），美国仅 28.3%。2 月：预算案将 AI 提升至空前高度，成立由总理亲自主持的 National AI Council；推出 4 项 AI Mission；Enterprise Innovation Scheme 400% AI 税务扣除；启动 one-north AI 园区建设；National AI Literacy Programme。3 月：新加坡正式成为超老龄社会（65 岁以上 > 21%）；卫生部长宣布 ACE-AI 预测工具（Synapxe 开发），2027 年初推广至 1,100+ Healthier SG 诊所；BRCA1/2 基因检测最高 70% 补贴（2026.12 起）；MediShield Life 覆盖预防性乳房切除术（Q3）及输卵管卵巢切除术（Q4）；MediSave 限额提升惠及 91 万+ 患者。',
     tags: ['预算', '战略', '国际', '医疗'],
+    personIds: ['lawrence-wong', 'josephine-teo'],
+    relatedPolicyIds: [
+      'public-ai-research-investment-2026-2030',
+      'budget-2026-national-ai-acceleration',
+      'moh-committee-of-supply-2026-healthcare-ai-medisave-reform',
+    ],
+    relatedPostSlugs: ['singapore-ai-native-companies-vs-nations', 'singapore-ai-vs-smart-nation-two-transformations'],
   },
   {
     id: 'evt-2025',
@@ -102,5 +109,7 @@ export const timelineEvents: TimelineEvent[] = [
     description:
       '李显龙总理宣布 Smart Nation Initiative，新加坡成为全球首个以"智慧国家"为目标的国家级数字化转型战略。该倡议为后续所有 AI 政策奠定了制度基础。',
     tags: ['战略'],
+    relatedPolicyIds: ['smart-nation-initiative'],
+    relatedPostSlugs: ['singapore-ai-vs-smart-nation-two-transformations'],
   },
 ];

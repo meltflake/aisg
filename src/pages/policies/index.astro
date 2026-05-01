@@ -1,6 +1,7 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import Headline from '~/components/ui/Headline.astro';
+import RelatedRail from '~/components/data/RelatedRail.astro';
 import { categories } from '~/data/policies';
 ---
 
@@ -79,6 +80,7 @@ import { categories } from '~/data/policies';
                     </a>
                   )}
                 </div>
+                {policy.id && <RelatedRail entity={{ type: 'policy', id: policy.id }} variant="compact" />}
               </div>
             ))}
           </div>

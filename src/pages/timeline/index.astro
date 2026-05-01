@@ -1,6 +1,7 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import Headline from '~/components/ui/Headline.astro';
+import RelatedRail from '~/components/data/RelatedRail.astro';
 import { timelineEvents } from '~/data/timeline';
 ---
 
@@ -48,6 +49,7 @@ import { timelineEvents } from '~/data/timeline';
                   </div>
                   <h3 class="text-lg font-bold mb-2">{event.title}</h3>
                   <p class="text-sm text-muted leading-relaxed">{event.description}</p>
+                  {event.id && <RelatedRail entity={{ type: 'timeline', id: event.id }} variant="compact" />}
                 </div>
               </div>
             </div>

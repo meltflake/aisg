@@ -190,6 +190,9 @@ export const levers: Lever[] = [
       },
     ],
     insight: '国家把企业最大的固定成本（算力 + 数据）变成公共物品。',
+    championPersonIds: ['lawrence-wong', 'josephine-teo'],
+    relatedPolicyIds: ['budget-2026-national-ai-acceleration', 'public-ai-research-investment-2026-2030'],
+    relatedPostSlugs: ['singapore-ai-native-companies-vs-nations', 'singapore-ai-strategy-the-real-moat'],
   },
   {
     number: 2,
@@ -368,6 +371,14 @@ export const levers: Lever[] = [
       },
     ],
     insight: '"训练宽松 + 输出严管"——日本和新加坡是世界上目前唯二做到这一点的国家。',
+    championPersonIds: ['josephine-teo'],
+    relatedPolicyIds: [
+      'model-ai-governance-framework',
+      'model-ai-governance-framework-for-agentic-ai',
+      'ai-verify',
+      'singapore-ai-safety-institute',
+      'copyright-act-2021-section-244-computational-data-analysis-exception',
+    ],
   },
   {
     number: 3,

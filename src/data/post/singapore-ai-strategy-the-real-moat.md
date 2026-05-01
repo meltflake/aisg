@@ -9,6 +9,22 @@ tags:
   - 新加坡
   - AI治理
 author: 'SG AI 观察'
+relatedPolicyIds:
+  - national-ai-strategy-20-nais-20
+  - smart-nation-20
+  - national-ai-strategy-nais-10
+  - singapore-consensus-on-global-ai-safety-research-priorities
+relatedLeverNumbers:
+  - 1
+  - 2
+  - 6
+relatedTimelineYears:
+  - 2024
+  - 2026
+relatedPersonIds:
+  - lawrence-wong
+  - josephine-teo
+  - vivian-balakrishnan
 ---
 
 > 本文是 SG AI 观察的核心观点，代表我们观察新加坡 AI 生态的核心视角。我们会持续修正这个判断。

@@ -1,0 +1,258 @@
+---
+// Phase 4.1 — Knowledge-graph cross-link rail.
+//
+// Two layouts (controlled by `variant` prop):
+//   - 'compact'  : single-line chip strip, embedded into list-page cards
+//                  (/policies, /levers, /timeline). Only renders when at
+//                  least one related entity exists. Zero visual cost when empty.
+//   - 'full'     : grouped sections with headings, used at the bottom of
+//                  blog post detail pages. Renders an empty placeholder note
+//                  when no relations exist (configurable via `hideWhenEmpty`).
+//
+// Source of truth: pass an `EntityRef` and the component calls getRelated()
+// from src/utils/graph.ts. Alternatively pass a pre-built `bundle` (used by
+// blog posts which build their own bundle from frontmatter).
+//
+// SAFE BY DEFAULT: when there is nothing to render and hideWhenEmpty=true
+// (the default), the component emits an empty Astro fragment — no <div>,
+// no whitespace shift on the host page.
+
+import { getRelated, type EntityRef, type RelatedBundle } from '~/utils/graph';
+
+interface Props {
+  /** Anchor entity. The component resolves relations via getRelated(). */
+  entity?: EntityRef;
+  /** Pre-built bundle (alternative to `entity`). Used when caller already
+   *  resolved relations from frontmatter / non-standard sources. */
+  bundle?: RelatedBundle;
+  /** 'compact' (default) | 'full'. */
+  variant?: 'compact' | 'full';
+  /** When true (default), render nothing if all groups are empty. */
+  hideWhenEmpty?: boolean;
+  /** Optional: hide specific groups even if non-empty. Useful when the host
+   *  page already shows "people" or similar inline (e.g. /debates speakers). */
+  exclude?: Array<keyof RelatedBundle>;
+  /** Optional class for outer wrapper. */
+  class?: string;
+}
+
+const { entity, bundle, variant = 'compact', hideWhenEmpty = true, exclude = [], class: extraClass = '' } = Astro.props;
+
+const empty = (): RelatedBundle => ({
+  policies: [],
+  debates: [],
+  levers: [],
+  timeline: [],
+  people: [],
+  postSlugs: [],
+});
+
+const data: RelatedBundle = bundle ?? (entity ? getRelated(entity) : empty());
+
+// Apply exclusions.
+const filtered: RelatedBundle = { ...data };
+for (const key of exclude) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (filtered as any)[key] = [];
+}
+
+const totalCount =
+  filtered.people.length +
+  filtered.policies.length +
+  filtered.debates.length +
+  filtered.levers.length +
+  filtered.timeline.length +
+  filtered.postSlugs.length;
+
+const isEmpty = totalCount === 0;
+const renderEmpty = !hideWhenEmpty && isEmpty;
+const skip = isEmpty && hideWhenEmpty;
+---
+
+{
+  !skip && variant === 'compact' && (
+    <div class={`mt-3 pt-3 border-t border-dashed border-gray-200 dark:border-slate-700 text-xs ${extraClass}`}>
+      <span class="text-gray-400 dark:text-gray-500 font-medium mr-2">关联：</span>
+      <div class="inline-flex flex-wrap gap-x-2 gap-y-1 align-baseline">
+        {filtered.people.map((p) => (
+          <a
+            href={`/people/${p.id}`}
+            class="text-blue-600 dark:text-blue-400 hover:underline"
+            title={p.name}
+            aria-label={`相关人物：${p.zhName || p.name}`}
+          >
+            👤 {p.zhName || p.name}
+          </a>
+        ))}
+        {filtered.policies.map((p) => (
+          <a
+            href="/policies"
+            class="text-purple-600 dark:text-purple-400 hover:underline"
+            aria-label={`相关政策：${p.title}`}
+          >
+            📋 {p.title}
+          </a>
+        ))}
+        {filtered.debates.slice(0, 5).map((d) => (
+          <a
+            href="/debates"
+            class="text-amber-700 dark:text-amber-400 hover:underline"
+            aria-label={`相关辩论：${d.zhTitle}`}
+          >
+            🏛️ {d.zhTitle.length > 24 ? d.zhTitle.slice(0, 24) + '…' : d.zhTitle}
+          </a>
+        ))}
+        {filtered.debates.length > 5 && <span class="text-gray-400">+{filtered.debates.length - 5} 条辩论</span>}
+        {filtered.levers.map((lv) => (
+          <a
+            href="/levers"
+            class="text-emerald-700 dark:text-emerald-400 hover:underline"
+            aria-label={`相关抓手：${lv.name}`}
+          >
+            🎯 抓手 {lv.number}：{lv.name}
+          </a>
+        ))}
+        {filtered.timeline.map((e) => (
+          <a
+            href="/timeline"
+            class="text-rose-700 dark:text-rose-400 hover:underline"
+            aria-label={`相关时间节点：${e.year} ${e.title}`}
+          >
+            📅 {e.year}
+          </a>
+        ))}
+        {filtered.postSlugs.map((slug) => (
+          <a
+            href={`/${slug}`}
+            class="text-indigo-700 dark:text-indigo-400 hover:underline"
+            aria-label={`相关分析：${slug}`}
+          >
+            📝 {slug}
+          </a>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+{
+  !skip && variant === 'full' && (
+    <aside
+      class={`mt-12 pt-8 border-t border-gray-200 dark:border-slate-700 ${extraClass}`}
+      aria-label="Related references"
+    >
+      <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-5 flex items-center gap-2">
+        <span>🔗</span> 相关阅读
+      </h2>
+
+      {renderEmpty ? (
+        <p class="text-sm text-gray-400 italic">尚未关联其他资源。</p>
+      ) : (
+        <div class="grid gap-5 md:grid-cols-2">
+          {filtered.people.length > 0 && (
+            <section>
+              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">人物</h3>
+              <ul class="space-y-1.5">
+                {filtered.people.map((p) => (
+                  <li>
+                    <a href={`/people/${p.id}`} class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+                      {p.zhName || p.name}
+                    </a>
+                    {p.zhTitle && <span class="text-xs text-gray-500 ml-2">{p.zhTitle}</span>}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {filtered.policies.length > 0 && (
+            <section>
+              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">政策</h3>
+              <ul class="space-y-1.5">
+                {filtered.policies.map((p) => (
+                  <li class="text-sm">
+                    <a href="/policies" class="text-purple-600 dark:text-purple-400 hover:underline">
+                      {p.title}
+                    </a>
+                    {p.date && <span class="text-xs text-gray-500 ml-2">{p.date}</span>}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {filtered.debates.length > 0 && (
+            <section>
+              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
+                国会辩论
+              </h3>
+              <ul class="space-y-1.5">
+                {filtered.debates.slice(0, 8).map((d) => (
+                  <li class="text-sm">
+                    <a href="/debates" class="text-amber-700 dark:text-amber-400 hover:underline">
+                      {d.zhTitle}
+                    </a>
+                    <span class="text-xs text-gray-500 ml-2">{d.date}</span>
+                  </li>
+                ))}
+                {filtered.debates.length > 8 && (
+                  <li class="text-xs text-gray-400 italic">…另有 {filtered.debates.length - 8} 条</li>
+                )}
+              </ul>
+            </section>
+          )}
+
+          {filtered.levers.length > 0 && (
+            <section>
+              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">抓手</h3>
+              <ul class="space-y-1.5">
+                {filtered.levers.map((lv) => (
+                  <li class="text-sm">
+                    <a href="/levers" class="text-emerald-700 dark:text-emerald-400 hover:underline">
+                      抓手 {lv.number}：{lv.name}
+                    </a>
+                    <span class="text-xs text-gray-500 ml-2">{lv.subtitle}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {filtered.timeline.length > 0 && (
+            <section>
+              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
+                时间节点
+              </h3>
+              <ul class="space-y-1.5">
+                {filtered.timeline.map((e) => (
+                  <li class="text-sm">
+                    <a href="/timeline" class="text-rose-700 dark:text-rose-400 hover:underline">
+                      {e.year} · {e.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {filtered.postSlugs.length > 0 && (
+            <section>
+              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
+                深度分析
+              </h3>
+              <ul class="space-y-1.5">
+                {filtered.postSlugs.map((slug) => (
+                  <li class="text-sm">
+                    <a href={`/${slug}`} class="text-indigo-700 dark:text-indigo-400 hover:underline">
+                      {slug}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </div>
+      )}
+    </aside>
+  )
+}

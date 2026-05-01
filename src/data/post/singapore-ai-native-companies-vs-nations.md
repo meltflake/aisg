@@ -11,6 +11,22 @@ tags:
   - Budget 2026
   - YC
 author: 'SG AI 观察'
+relatedPolicyIds:
+  - budget-2026-national-ai-acceleration
+  - public-ai-research-investment-2026-2030
+  - national-ai-strategy-20-nais-20
+relatedLeverNumbers:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+relatedTimelineYears:
+  - 2026
+relatedPersonIds:
+  - lawrence-wong
+  - josephine-teo
 ---
 
 > 本文把"生而 AI-native 的公司"和"新加坡作为 AI-native 国家"两类试验放在一起对照。前者是 YC 在 2026 年那期"How To Build A Company With AI From The Ground Up"里描述的 50–500 人样本；后者是 Budget 2026 描述的 5.7 million 人样本。两者用同一种架构、完全不同的杠杆。
