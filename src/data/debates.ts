@@ -7997,10 +7997,7 @@ export const POLICY_EVOLUTION = [
     descriptionEn:
       'As AI matures, data sovereignty and governance come to the fore; the government tightens oversight of AI firm acquisitions, drives AI ethics and safety rules, balancing innovation with risk control.',
     keyDebates: ['Meta收购Manus的监管评估', '物业代理AI编辑图像声明'],
-    keyDebatesEn: [
-      "Regulatory review of Meta's Manus acquisition",
-      'Property agents declaring AI-edited images',
-    ],
+    keyDebatesEn: ["Regulatory review of Meta's Manus acquisition", 'Property agents declaring AI-edited images'],
   },
   {
     period: '2018-2020 发展期',
@@ -8013,10 +8010,7 @@ export const POLICY_EVOLUTION = [
     descriptionEn:
       'Priority on AI talent development and industry adoption; SkillsFuture training system progressively matures; education begins integrating AI; focus on workforce transition and skills upgrading.',
     keyDebates: ['SkillsFuture AI培训参与率及支持', '强化工程人才培养路径'],
-    keyDebatesEn: [
-      'SkillsFuture AI training take-up and support',
-      'Strengthening engineering talent pipelines',
-    ],
+    keyDebatesEn: ['SkillsFuture AI training take-up and support', 'Strengthening engineering talent pipelines'],
   },
   {
     period: '2015-2017 萌芽期',
@@ -8029,10 +8023,7 @@ export const POLICY_EVOLUTION = [
     descriptionEn:
       "This phase focuses on AI infrastructure and early policy-framework exploration, emphasising both potential and risk awareness; the government begins to focus on AI's employment and economic impact, with regulation still nascent.",
     keyDebates: ['版权法防范深度伪造', '公共服务智能化与人力政策'],
-    keyDebatesEn: [
-      'Copyright law against deepfakes',
-      'Public-service AI use and HR policy',
-    ],
+    keyDebatesEn: ['Copyright law against deepfakes', 'Public-service AI use and HR policy'],
   },
 ];
 
@@ -8069,8 +8060,7 @@ export const RECURRING_CONTROVERSIES = [
     issue: 'AI企业并购监管',
     issueEn: 'Oversight of AI M&A',
     description: '是否应强化对AI初创企业被大企业收购的审查。',
-    descriptionEn:
-      'Whether scrutiny should be tightened over big-firm acquisitions of AI startups.',
+    descriptionEn: 'Whether scrutiny should be tightened over big-firm acquisitions of AI startups.',
     frequency: 3,
     relatedTopics: ['AI Governance & Regulation'],
     governmentPosition: '维持灵活自愿申报制度',
@@ -8083,8 +8073,7 @@ export const RECURRING_CONTROVERSIES = [
     issue: 'AI伦理与信息透明',
     issueEn: 'AI ethics and information transparency',
     description: 'AI生成内容声明及广告透明规范的必要性。',
-    descriptionEn:
-      'The need for declaration of AI-generated content and advertising transparency rules.',
+    descriptionEn: 'The need for declaration of AI-generated content and advertising transparency rules.',
     frequency: 3,
     relatedTopics: ['AI Safety & Ethics'],
     governmentPosition: '支持更新指引保障消费者',
@@ -8097,8 +8086,7 @@ export const RECURRING_CONTROVERSIES = [
     issue: '技能培训与资金支持',
     issueEn: 'Skills training and funding support',
     description: 'AI培训课程参与率、课程定制及资金支持力度争议。',
-    descriptionEn:
-      'Disputes over AI training participation rates, course customisation, and funding strength.',
+    descriptionEn: 'Disputes over AI training participation rates, course customisation, and funding strength.',
     frequency: 3,
     relatedTopics: ['AI & Employment'],
     governmentPosition: '鼓励终身学习，持续优化支持',
@@ -8111,8 +8099,7 @@ export const RECURRING_CONTROVERSIES = [
     issue: '版权法与深度伪造治理',
     issueEn: 'Copyright law and deepfake governance',
     description: '是否利用版权法打击AI深度伪造内容的争议。',
-    descriptionEn:
-      'Debate over using copyright law to combat AI-generated deepfake content.',
+    descriptionEn: 'Debate over using copyright law to combat AI-generated deepfake content.',
     frequency: 2,
     relatedTopics: ['Deepfakes & Disinformation'],
     governmentPosition: '版权法非主要治理工具',
@@ -8125,8 +8112,7 @@ export const RECURRING_CONTROVERSIES = [
     issue: '教育公平与AI技能培养',
     issueEn: 'Education equity and AI skills development',
     description: '如何平衡学术严谨与创新能力培养及资源分配。',
-    descriptionEn:
-      'How to balance academic rigour with creative-capacity development and resource allocation.',
+    descriptionEn: 'How to balance academic rigour with creative-capacity development and resource allocation.',
     frequency: 3,
     relatedTopics: ['AI in Education'],
     governmentPosition: '强调多元教学与能力培养',
@@ -8207,8 +8193,7 @@ export const MP_PROFILES = [
     focusAreasEn: ['AI economy', 'AI governance', 'Public sector'],
     debateCount: 19,
     notablePosition: '工人党副主席，质询AI在公共部门的透明度与问责机制',
-    notablePositionEn:
-      "Workers' Party Vice-Chair; questions AI transparency and accountability in the public sector.",
+    notablePositionEn: "Workers' Party Vice-Chair; questions AI transparency and accountability in the public sector.",
   },
   {
     name: 'Desmond Choo',
@@ -8239,45 +8224,74 @@ export const MP_PROFILES = [
 export const KEY_INSIGHTS = [
   {
     title: '数据主权成核心议题',
+    titleEn: 'Data sovereignty becomes a core issue',
     description: '随着AI产业发展，数据主权和防止外资垄断成为持续关注焦点，政府强调国际合作与安全防护并重。',
+    descriptionEn:
+      'As the AI industry grows, data sovereignty and preventing foreign monopolisation become persistent priorities; the government emphasises both international cooperation and security safeguards.',
     evidence: '新加坡AI经济与数据主权，AI企业收购与本地人才保障',
+    evidenceEn: "Singapore's AI economy and data sovereignty; AI firm acquisitions and local talent safeguards.",
     significance: 'high',
   },
   {
     title: '劳动力转型政策深化',
+    titleEn: 'Workforce transformation policy deepens',
     description: '政府推动包容性劳动力转型，支持中年员工再培训及技能转移，回应AI替代与互补争议。',
+    descriptionEn:
+      'The government drives inclusive workforce transformation, supporting mid-career reskilling and skills transfer in response to debates over AI substitution and complementarity.',
     evidence: 'AI对中小企业劳动力影响研究，就业转型图及中年员工支持',
+    evidenceEn: "Study of AI's impact on SME workforce; Jobs Transformation Maps and mid-career support.",
     significance: 'high',
   },
   {
     title: 'AI教育多元融合',
+    titleEn: 'Multi-faceted integration of AI in education',
     description: '教育政策强调分龄AI使用指导、脑科学融合及多元教学法，平衡学术严谨与创新能力培养。',
+    descriptionEn:
+      'Education policy emphasises age-progressive AI use guidance, integration with brain science, and diverse pedagogies to balance academic rigour with creative-capacity development.',
     evidence: '分龄生成式AI使用框架，脑科学与自适应AI教育合作，PSLE学术严谨与AI技能平衡',
+    evidenceEn:
+      'Age-progressive generative AI framework; brain-science and adaptive AI education collaboration; balancing PSLE rigour with AI skills.',
     significance: 'medium',
   },
   {
     title: '监管机制趋于灵活',
+    titleEn: 'Regulatory mechanisms move toward flexibility',
     description: 'AI企业并购采用自愿申报，监管强调创新与竞争平衡，存在监管充分性争议。',
+    descriptionEn:
+      'AI M&A uses voluntary notification; regulation emphasises balance between innovation and competition, with debate over whether oversight is sufficient.',
     evidence: 'Meta收购Manus的监管评估',
+    evidenceEn: "Regulatory review of Meta's Manus acquisition.",
     significance: 'medium',
   },
   {
     title: 'AI伦理与透明度提升',
+    titleEn: 'AI ethics and transparency rise',
     description: '针对AI生成内容声明及广告规范，政府推动指引更新，兼顾消费者保护与行业创新。',
+    descriptionEn:
+      'For AI-generated-content disclosure and advertising rules, the government drives guidance updates that balance consumer protection with industry innovation.',
     evidence: '物业代理AI编辑图像声明',
+    evidenceEn: 'Property agents declaring AI-edited images.',
     significance: 'medium',
   },
   {
     title: '医疗AI预防性应用加速',
+    titleEn: 'Preventive healthcare AI accelerates',
     description:
       "卫生部推出ACE-AI工具预测慢性病风险，强调'AI增强而非AI决定'原则，BRCA基因检测补贴与MediShield Life扩展标志医疗AI进入实质部署阶段。",
+    descriptionEn:
+      "MOH unveils the ACE-AI tool to predict chronic disease risk under an 'AI-enhanced, not AI-decided' principle; BRCA genetic-testing subsidies and MediShield Life expansion mark healthcare AI entering substantive deployment.",
     evidence: '2026卫生部供给委员会辩论：ACE-AI工具部署、BRCA1/2基因检测补贴',
+    evidenceEn: '2026 MOH Committee of Supply: ACE-AI rollout; BRCA1/2 genetic-testing subsidies.',
     significance: 'high',
   },
   {
     title: '技能培训资金支持不足',
+    titleEn: 'Skills-training funding remains insufficient',
     description: 'AI相关培训课程参与度提升，资金支持及课程定制仍为争议焦点，政府持续优化。',
+    descriptionEn:
+      'Participation in AI-related training is rising, but funding support and course customisation remain contested; the government continues to refine.',
     evidence: 'SkillsFuture AI培训参与率及支持，扩展SkillsFuture信用涵盖AI工具订阅',
+    evidenceEn: 'SkillsFuture AI training take-up and support; extending SkillsFuture Credit to AI tool subscriptions.',
     significance: 'medium',
   },
 ];
@@ -8285,90 +8299,138 @@ export const KEY_INSIGHTS = [
 export const POLICY_SIGNALS = [
   {
     signal: '加强AI相关投资与风险管理',
+    signalEn: 'Step up AI-related investment and risk management',
     year: '2026',
     status: '进行中',
+    statusEn: 'In progress',
     context: '应对全球地缘政治紧张与经济不确定性',
+    contextEn: 'Responding to global geopolitical tension and economic uncertainty.',
   },
   {
     signal: '加强数据主权与知识产权保护',
+    signalEn: 'Strengthen data sovereignty and IP protection',
     year: '2026',
     status: '进行中',
+    statusEn: 'In progress',
     context: '防止外资主导及数据流失风险',
+    contextEn: 'Preventing foreign-firm dominance and data-leakage risks.',
   },
   {
     signal: '强化本地人才培养与技能转移',
+    signalEn: 'Strengthen local talent development and skills transfer',
     year: '2026',
     status: '进行中',
+    statusEn: 'In progress',
     context: '保障AI企业收购后本地劳动力利益',
+    contextEn: 'Safeguarding local-workforce interests after AI firm acquisitions.',
   },
   {
     signal: '推动包容性劳动力转型',
+    signalEn: 'Push inclusive workforce transformation',
     year: '2026',
     status: '进行中',
+    statusEn: 'In progress',
     context: '支持被替代员工转岗和再培训',
+    contextEn: 'Supporting role conversion and reskilling for displaced workers.',
   },
   {
     signal: '推动个性化AI培训支持',
+    signalEn: 'Push personalised AI training support',
     year: '2026',
     status: '进行中',
+    statusEn: 'In progress',
     context: '提升SkillsFuture培训质量与覆盖',
+    contextEn: 'Lifting SkillsFuture training quality and coverage.',
   },
   {
     signal: '推动AI广告透明规范',
+    signalEn: 'Push transparency rules for AI in advertising',
     year: '2026',
     status: '进行中',
+    statusEn: 'In progress',
     context: '防止误导消费者，规范行业行为',
+    contextEn: 'Preventing consumer deception and regulating industry conduct.',
   },
   {
     signal: '持续跟踪AI采纳数据',
+    signalEn: 'Continuously track AI adoption data',
     year: '2026',
     status: '进行中',
+    statusEn: 'In progress',
     context: '监测不同规模企业AI应用差异',
+    contextEn: 'Monitoring AI-adoption gaps across firms of different sizes.',
   },
   {
     signal: '医疗AI预防性应用与健保制度改革',
+    signalEn: 'Preventive AI in healthcare and healthcare-financing reform',
     year: '2026',
     status: '进行中',
+    statusEn: 'In progress',
     context: 'ACE-AI部署、BRCA基因检测补贴、MediSave/MediShield Life改革应对超老龄社会',
+    contextEn:
+      'ACE-AI rollout, BRCA genetic-testing subsidy, and MediSave/MediShield Life reforms responding to a super-aged society.',
   },
   {
     signal: '推动AI与人力协同发展',
+    signalEn: 'Push joint development of AI and the human workforce',
     year: '2025',
     status: '进行中',
+    statusEn: 'In progress',
     context: '公共服务智能化与岗位调整',
+    contextEn: 'Public-service AI use and job adjustments.',
   },
 ];
 
 export const TENSION_MAP = [
   {
     dimension: '创新速度 vs 监管安全',
+    dimensionEn: 'Innovation speed vs regulatory safety',
     sideA: '鼓励快速创新与市场活力',
+    sideAEn: 'Encourage fast innovation and market vibrancy',
     sideB: '强调风险控制与公平竞争',
+    sideBEn: 'Emphasise risk control and fair competition',
     currentBalance: '采用灵活监管，鼓励自愿申报',
+    currentBalanceEn: 'Flexible regulation with voluntary notification.',
   },
   {
     dimension: '数据开放 vs 数据主权',
+    dimensionEn: 'Data openness vs data sovereignty',
     sideA: '推动国际数据合作与共享',
+    sideAEn: 'Push international data collaboration and sharing',
     sideB: '防范外资垄断与数据流失',
+    sideBEn: 'Guard against foreign monopoly and data leakage',
     currentBalance: '强调数据安全与国际合作并重',
+    currentBalanceEn: 'Emphasises both data security and international cooperation.',
   },
   {
     dimension: 'AI替代 vs 劳动力转型',
+    dimensionEn: 'AI substitution vs workforce transformation',
     sideA: 'AI替代部分岗位提升效率',
+    sideAEn: 'AI substitutes some roles to lift efficiency',
     sideB: '保障就业，支持再培训转岗',
+    sideBEn: 'Safeguard employment and support reskilling and conversion',
     currentBalance: '推动包容性转型与技能提升',
+    currentBalanceEn: 'Push inclusive transformation and skills upgrading.',
   },
   {
     dimension: '教育公平 vs 创新能力培养',
+    dimensionEn: 'Education equity vs creative-capacity development',
     sideA: '注重学术严谨与核心能力',
+    sideAEn: 'Focus on academic rigour and core competencies',
     sideB: '强调探究式与协作式创新学习',
+    sideBEn: 'Emphasise inquiry-based and collaborative learning',
     currentBalance: '融合多元教学，兼顾公平与创新',
+    currentBalanceEn: 'Integrate diverse pedagogies, balancing equity and innovation.',
   },
   {
     dimension: '资金支持 vs 培训课程定制',
+    dimensionEn: 'Funding support vs course customisation',
     sideA: '增加资金支持扩大培训覆盖',
+    sideAEn: 'Increase funding to broaden training coverage',
     sideB: '优化课程内容满足多样需求',
+    sideBEn: 'Optimise course content to meet diverse needs',
     currentBalance: '持续优化课程与资金配置',
+    currentBalanceEn: 'Continuously refine course content and funding allocation.',
   },
 ];
 

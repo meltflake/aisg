@@ -18,17 +18,7 @@ const { metadata } = Astro.props;
   </Fragment>
   <Fragment slot="header">
     <slot name="header">
-      <Header
-        links={headerData?.links[2] ? [headerData.links[2]] : undefined}
-        actions={[
-          {
-            text: 'Download',
-            href: 'https://github.com/arthelokyo/astrowind',
-          },
-        ]}
-        showToggleTheme
-        position="right"
-      />
+      <Header links={headerData?.links[2] ? [headerData.links[2]] : undefined} position="right" />
     </slot>
   </Fragment>
   <slot />

@@ -66,18 +66,14 @@ export function getHeaderData(lang: Lang) {
           { text: t(lang, labelKeys.opensource), href: lh('/opensource', lang) },
           { text: t(lang, labelKeys.communityOpensource), href: lh('/community-opensource', lang) },
           { text: t(lang, labelKeys.benchmarking), href: lh('/benchmarking', lang) },
-        ],
-      },
-      {
-        text: t(lang, labelKeys.about),
-        links: [
-          { text: t(lang, labelKeys.aboutSite), href: lh('/about', lang) },
           { text: t(lang, labelKeys.fieldnotes), href: lh('/fieldnotes', lang) },
           { text: t(lang, labelKeys.references), href: lh('/references', lang) },
         ],
       },
+      // About moved to footer-only per request — keeps the header focused
+      // on content navigation rather than meta links.
     ],
-    actions: [{ text: 'GitHub', href: 'https://github.com/meltflake/sgai', target: '_blank' }],
+    actions: [],
   };
 }
 
@@ -85,6 +81,7 @@ export function getFooterData(lang: Lang) {
   const updatedLabel = lang === 'en' ? 'Last updated' : '最近更新';
   const maintainedBy = lang === 'en' ? 'Maintained by' : '由';
   const closing = lang === 'en' ? '' : '维护';
+  const handle = 'wulujia';
   return {
     links: [
       {
@@ -129,9 +126,7 @@ export function getFooterData(lang: Lang) {
       { ariaLabel: 'Github', icon: 'tabler:brand-github', href: 'https://github.com/meltflake/sgai' },
       { ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset(lang === 'en' ? '/en/rss.xml' : '/rss.xml') },
     ],
-    footNote:
-      `${t(lang, 'siteName')} v${SITE_VERSION} · ${updatedLabel} ${SITE_UPDATED} · ${maintainedBy} ` +
-      `<a class="text-primary underline hover:text-secondary" href="https://github.com/meltflake">meltflake</a>${closing ? ' ' + closing : ''}`,
+    footNote: `${t(lang, 'siteName')} v${SITE_VERSION} · ${updatedLabel} ${SITE_UPDATED} · ${maintainedBy} ${handle}${closing ? ' ' + closing : ''}`,
   };
 }
 

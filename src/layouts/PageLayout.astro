@@ -31,7 +31,7 @@ const footerData = getFooterData(lang);
     <Announcement />
   </slot>
   <slot name="header">
-    <Header {...headerData} isSticky showRssFeed showToggleTheme lang={lang} />
+    <Header {...headerData} isSticky lang={lang} />
   </slot>
   <LangBanner currentLang={lang} />
   <main>

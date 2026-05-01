@@ -24,7 +24,8 @@ const ariaLabel = currentLang === 'en' ? t(currentLang, 'langToggleLabel') : 'åˆ
   type="button"
   data-other-lang={otherLang}
   aria-label={ariaLabel}
-  class={`inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 hover:text-primary border border-gray-200 dark:border-slate-700 hover:border-primary rounded-md px-2 py-1.5 transition-colors ${extraClass}`}
+  title={ariaLabel}
+  class={`inline-flex items-center text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 hover:text-primary border border-gray-200 dark:border-slate-700 hover:border-primary rounded-md px-2 py-1.5 min-w-[2rem] justify-center transition-colors ${extraClass}`}
 >
   <span aria-hidden="true">{otherLabel}</span>
   <span class="sr-only">{ariaLabel}</span>

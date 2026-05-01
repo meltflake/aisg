@@ -25,11 +25,53 @@ export interface Props {
 const { metadata = {}, lang } = Astro.props;
 const { language, textDirection } = I18N;
 const htmlLang = lang === 'en' ? 'en' : lang === 'zh' ? 'zh-CN' : language;
+const currentLang: 'zh' | 'en' = lang === 'en' ? 'en' : 'zh';
 ---
 
 <!doctype html>
 <html lang={htmlLang} dir={textDirection} class="2xl:text-[20px]">
   <head>
+    {
+      /* i18n auto-redirect — fires before paint when user has no stored
+        choice and browser language disagrees with current page. Search
+        engine bots (no JS) keep seeing the canonical page. */
+    }
+    <script is:inline define:vars={{ currentLang }}>
+      (function () {
+        try {
+          const stored = localStorage.getItem('sgai_lang');
+          let target = null;
+          if (stored === 'zh' || stored === 'en') {
+            target = stored;
+          } else {
+            const prefs = (
+              navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'en']
+            ).map(function (l) {
+              return (l || '').toLowerCase();
+            });
+            const topPref = prefs[0] || '';
+            if (topPref.indexOf('zh') === 0) target = 'zh';
+            else if (topPref.indexOf('en') === 0) target = 'en';
+          }
+          if (!target || target === currentLang) return;
+          const path = location.pathname;
+          let dest;
+          if (target === 'en') {
+            dest = path === '/' || path === '' ? '/en/' : '/en' + path;
+          } else {
+            if (path === '/en' || path === '/en/') dest = '/';
+            else if (path.indexOf('/en/') === 0) dest = path.slice(3);
+            else dest = path;
+          }
+          if (dest === path) return;
+          localStorage.setItem('sgai_lang', target);
+          location.replace(dest + location.search + location.hash);
+        } catch {
+          /* localStorage / navigator unavailable — leave page as-is */
+        }
+      })();
+    </script>
+
     <CommonMeta />
     <Favicons />
     <CustomStyles />
