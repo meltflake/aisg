@@ -1,17 +1,25 @@
 ---
+// Phase 3 — Editorial homepage rewrite.
+//
+// The previous version was 11 feature cards (template-feel) + a hero with
+// double CTAs + DEBATE_STATS dump. This version is FT/Stratechery-shaped:
+// a single thesis, a freshness signal strip, then three sections of actual
+// recent work (analyses, levers, debates). Build-time data only.
+
 import Layout from '~/layouts/PageLayout.astro';
-import Hero from '~/components/widgets/Hero.astro';
-import Features from '~/components/widgets/Features.astro';
-import Stats from '~/components/widgets/Stats.astro';
-import CallToAction from '~/components/widgets/CallToAction.astro';
 import JsonLd from '~/components/common/JsonLd.astro';
-import { stats, features } from '~/data/stats';
-import { DEBATE_STATS, KEY_INSIGHTS } from '~/data/debates';
+import { Icon } from 'astro-icon/components';
+import { findLatestPosts } from '~/utils/blog';
+import { getPermalink } from '~/utils/permalinks';
+import { debates, DEBATE_STATS } from '~/data/debates';
+import { levers } from '~/data/levers';
+import { categories as policyCategories } from '~/data/policies';
+import { SITE_UPDATED } from '~/version';
 
 const metadata = {
   title: 'SG AI 观察',
   ignoreTitleTemplate: true,
-  description: '深度观察新加坡 AI 生态与战略——追踪核心政策、国会辩论、创业生态与关键指标，独立视角的中文分析平台。',
+  description: '深度观察新加坡 AI 生态与战略——独立视角的中文分析平台。追踪政策、辩论、抓手与生态。',
 };
 
 const organizationSchema = {
@@ -31,121 +39,229 @@ const websiteSchema = {
   url: 'https://sgai.md/',
   inLanguage: 'zh-CN',
 };
+
+// ---- Editorial blocks (build-time computed) ----------------------------
+
+const latestPosts = await findLatestPosts({ count: 3 });
+
+// 4 levers chosen for cross-section visibility — keep the Hero strip honest
+// rather than chasing a "most-active" metric we don't yet maintain.
+const featuredLevers = levers.slice(0, 4);
+
+// Latest 5 debates by date (string sort works because YYYY-MM-DD format).
+const latestDebates = [...debates].sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, 5);
+
+// Counts for the freshness strip.
+const totalPolicies = policyCategories.flatMap((c) => c.policies).length;
+const totalDebates = DEBATE_STATS.total;
+const totalLeverItems = levers.reduce((sum, lv) => sum + lv.groups.flatMap((g) => g.items).length, 0);
 ---
 
 <Layout metadata={metadata}>
   <JsonLd schema={organizationSchema} />
   <JsonLd schema={websiteSchema} />
-  <Hero
-    actions={[
-      {
-        variant: 'primary',
-        text: '阅读核心观点',
-        href: '/singapore-ai-strategy-the-real-moat/',
-        icon: 'tabler:bulb',
-      },
-      { text: '浏览政策库', href: '/policies/' },
-    ]}
-  >
-    <Fragment slot="title">
-      🇸🇬 深度观察<br /><span class="text-accent dark:text-white">新加坡 AI 生态</span>与战略
-    </Fragment>
 
-    <Fragment slot="subtitle">
-      不只是信息整理，更是独立视角的深度分析。追踪 20 份核心政策、42 项关键指标、150 场国会辩论、650+ AI
-      创业公司，探究新加坡 AI 战略的真正护城河。
-    </Fragment>
-  </Hero>
-
-  <Features
-    id="features"
-    tagline="核心内容"
-    title="深度解读新加坡 AI 生态"
-    subtitle="政策文件、执行追踪、创业生态、国会辩论、国际对标、深度分析，持续更新。"
-    items={features}
-  />
-
-  <Stats stats={stats} />
-
-  <!-- 国会辩论专区 -->
-  <section class="py-12 md:py-16 bg-gray-50 dark:bg-slate-900">
-    <div class="max-w-6xl mx-auto px-4">
-      <div class="text-center mb-8">
-        <p class="text-sm font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-2">国会 AI 焦点</p>
-        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-3">
-          {DEBATE_STATS.total} 场国会辩论，解码政策风向
-        </h2>
-        <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          从 2015 年到 2026 年，新加坡议会围绕 AI 的每一次质询、答复与辩论，我们都做了中文摘要、立场分析和政策信号提炼。
-        </p>
-      </div>
-
-      <div class="grid md:grid-cols-3 gap-5 mb-8">
-        {
-          KEY_INSIGHTS.filter((ins) => ins.significance === 'high').map((ins) => (
-            <div class="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border-l-4 border-l-red-500 border border-gray-100 dark:border-slate-700">
-              <h3 class="font-semibold text-gray-800 dark:text-white text-sm mb-2">{ins.title}</h3>
-              <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{ins.description}</p>
-            </div>
-          ))
-        }
-      </div>
-
-      <div class="flex flex-wrap justify-center gap-6 text-center text-sm text-gray-500 dark:text-gray-400 mb-8">
-        <div>
-          <span class="block text-2xl font-bold text-gray-900 dark:text-white"
-            >{Object.keys(DEBATE_STATS.byTopic).length}</span
-          >
-          议题领域
-        </div>
-        <div>
-          <span class="block text-2xl font-bold text-gray-900 dark:text-white"
-            >{Object.keys(DEBATE_STATS.topSpeakers).length}+</span
-          >
-          活跃议员
-        </div>
-        <div>
-          <span class="block text-2xl font-bold text-gray-900 dark:text-white"
-            >{DEBATE_STATS.yearRange.from}–{DEBATE_STATS.yearRange.to}</span
-          >
-          时间跨度
-        </div>
-      </div>
-
-      <div class="text-center">
+  {/* Hero — single thesis, single CTA. Vermillion eyebrow + serif headline. */}
+  <section class="relative pt-12 md:pt-20 pb-10 md:pb-14">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6">
+      <p class="text-xs uppercase tracking-[0.18em] text-primary font-semibold mb-4">SG AI 观察</p>
+      <h1
+        class="font-serif text-3xl md:text-5xl leading-[1.2] font-semibold text-gray-900 dark:text-white mb-6 tracking-tight"
+      >
+        新加坡的 AI 战略，<br class="hidden md:inline" />真正的护城河不在技术，在制度。
+      </h1>
+      <p class="text-base md:text-lg leading-[1.85] text-gray-700 dark:text-gray-300 mb-8 max-w-prose">
+        这里追踪一个城邦在 AI
+        时代的国家级转型——政策文件、国会辩论、抓手图谱、创业生态、法律框架。不只是信息整理，更是独立的中文分析。
+      </p>
+      <div class="flex flex-wrap gap-4 items-center">
         <a
-          href="/debates/"
-          class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+          href="/singapore-ai-strategy-the-real-moat/"
+          class="inline-flex items-center gap-2 bg-primary hover:bg-secondary text-white font-semibold px-5 py-3 rounded-md transition-colors text-sm"
         >
-          浏览全部辩论记录
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="w-4 h-4"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg
-          >
+          阅读核心论证
+          <Icon name="tabler:arrow-right" class="w-4 h-4" />
+        </a>
+        <a
+          href="/blog/"
+          class="inline-flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary transition-colors underline-offset-4 hover:underline"
+        >
+          浏览全部分析 →
         </a>
       </div>
     </div>
   </section>
 
-  <CallToAction
-    actions={[
-      {
-        variant: 'primary',
-        text: '阅读核心观点',
-        href: '/singapore-ai-strategy-the-real-moat/',
-        icon: 'tabler:arrow-right',
-      },
-    ]}
-  >
-    <Fragment slot="title">新加坡的 AI 马六甲海峡在哪里？</Fragment>
-    <Fragment slot="subtitle">
-      我们的核心观点：新加坡真正的 AI 护城河不在技术，在制度。阅读核心观点，了解我们的分析框架。
-    </Fragment>
-  </CallToAction>
+  {/* Freshness strip — unobtrusive ticker showing the breadth of the dataset. */}
+  <section class="border-y border-gray-200 dark:border-slate-800 bg-gray-50/50 dark:bg-slate-900/40">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-5">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
+        <div>
+          <div class="text-2xl font-serif font-semibold text-gray-900 dark:text-white tabular-nums">
+            {totalPolicies}
+          </div>
+          <div class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider mt-1">核心政策</div>
+        </div>
+        <div>
+          <div class="text-2xl font-serif font-semibold text-gray-900 dark:text-white tabular-nums">{totalDebates}</div>
+          <div class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider mt-1">国会辩论</div>
+        </div>
+        <div>
+          <div class="text-2xl font-serif font-semibold text-gray-900 dark:text-white tabular-nums">
+            {totalLeverItems}
+          </div>
+          <div class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider mt-1">抓手项目</div>
+        </div>
+        <div>
+          <div class="text-2xl font-serif font-semibold text-gray-900 dark:text-white tabular-nums">
+            {SITE_UPDATED}
+          </div>
+          <div class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider mt-1">最近更新</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Latest analyses — editorial card stack. */}
+  <section class="py-12 md:py-16">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="flex items-baseline justify-between mb-8">
+        <h2 class="font-serif text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white">最新分析</h2>
+        <a
+          href="/blog/"
+          class="text-sm text-gray-500 hover:text-primary dark:text-gray-400 transition-colors hidden sm:inline"
+        >
+          查看全部 →
+        </a>
+      </div>
+      <ol class="space-y-8 md:space-y-10">
+        {
+          latestPosts.map((post, idx) => (
+            <li class="border-b border-gray-200 dark:border-slate-800 pb-8 last:border-b-0 last:pb-0">
+              <a href={getPermalink(post.permalink, 'post')} class="group block">
+                <div class="flex items-baseline gap-4 mb-2">
+                  <span class="font-serif text-sm text-primary tabular-nums">{String(idx + 1).padStart(2, '0')}</span>
+                  <span class="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                    {post.category?.title ?? '深度分析'} ·{' '}
+                    {new Date(post.publishDate).toLocaleDateString('zh-CN', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </span>
+                </div>
+                <h3 class="font-serif text-xl md:text-2xl font-semibold text-gray-900 dark:text-white mb-3 leading-snug group-hover:text-primary transition-colors">
+                  {post.title}
+                </h3>
+                {post.excerpt && (
+                  <p class="text-gray-600 dark:text-gray-400 leading-[1.85] max-w-prose">{post.excerpt}</p>
+                )}
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="mt-8 sm:hidden">
+        <a href="/blog/" class="text-sm text-primary hover:text-secondary font-medium">查看全部分析 →</a>
+      </div>
+    </div>
+  </section>
+
+  {/* Levers — 4 chosen, FT-tile shape: number + name + bottleneck. */}
+  <section class="py-12 md:py-16 border-t border-gray-200 dark:border-slate-800">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="flex items-baseline justify-between mb-2">
+        <h2 class="font-serif text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white">国家 AI 抓手图谱</h2>
+        <a
+          href="/levers/"
+          class="text-sm text-gray-500 hover:text-primary dark:text-gray-400 transition-colors hidden sm:inline"
+        >
+          完整图谱 →
+        </a>
+      </div>
+      <p class="text-gray-600 dark:text-gray-400 mb-8 max-w-prose leading-relaxed">
+        新加坡 AI 战略不能按部门理解，要按"AI 引入路径"理解。{totalLeverItems} 个具体落地项目，归到 6 个国家级抓手。
+      </p>
+      <div class="grid sm:grid-cols-2 gap-x-8 gap-y-6">
+        {
+          featuredLevers.map((lv) => (
+            <a
+              href={`/levers/#lever-${lv.number}`}
+              class="group block border-l-2 border-gray-200 dark:border-slate-700 hover:border-primary pl-4 py-1 transition-colors"
+            >
+              <div class="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1 tabular-nums">
+                抓手 {String(lv.number).padStart(2, '0')}
+              </div>
+              <div class="font-serif text-lg font-semibold text-gray-900 dark:text-white group-hover:text-primary transition-colors mb-1">
+                {lv.name}
+              </div>
+              <div class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{lv.subtitle}</div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {/* Latest debates — flat list, dates first, FT-style. */}
+  <section class="py-12 md:py-16 border-t border-gray-200 dark:border-slate-800">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="flex items-baseline justify-between mb-2">
+        <h2 class="font-serif text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white">最近国会辩论</h2>
+        <a
+          href="/debates/"
+          class="text-sm text-gray-500 hover:text-primary dark:text-gray-400 transition-colors hidden sm:inline"
+        >
+          全部 {totalDebates} 场 →
+        </a>
+      </div>
+      <p class="text-gray-600 dark:text-gray-400 mb-8 max-w-prose leading-relaxed">
+        从 {DEBATE_STATS.yearRange.from} 到 {DEBATE_STATS.yearRange.to}，议会围绕 AI 的每一次质询、答复与辩论。
+      </p>
+      <ul class="divide-y divide-gray-200 dark:divide-slate-800">
+        {
+          latestDebates.map((d) => (
+            <li class="py-4">
+              <a href="/debates/" class="group block">
+                <div class="flex items-baseline gap-4">
+                  <span class="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 tabular-nums w-24 shrink-0">
+                    {d.date}
+                  </span>
+                  <div class="flex-1 min-w-0">
+                    <div class="font-medium text-gray-900 dark:text-white group-hover:text-primary transition-colors leading-snug">
+                      {d.zhTitle || d.title}
+                    </div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400 mt-1 truncate">
+                      {d.type} · {d.topics.slice(0, 2).join(' · ')}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="mt-8 sm:hidden">
+        <a href="/debates/" class="text-sm text-primary hover:text-secondary font-medium">
+          全部 {totalDebates} 场辩论 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* Closing thesis tile. */}
+  <section class="py-12 md:py-20 border-t border-gray-200 dark:border-slate-800">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+      <p class="font-serif text-xl md:text-2xl text-gray-700 dark:text-gray-300 leading-[1.7] mb-6 italic">
+        "新加坡的 AI 马六甲海峡在哪里？真正的护城河不在算法，在制度——快速识别问题并果断转向的能力。"
+      </p>
+      <a
+        href="/singapore-ai-strategy-the-real-moat/"
+        class="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-secondary transition-colors underline underline-offset-4"
+      >
+        读完整论证
+        <Icon name="tabler:arrow-right" class="w-4 h-4" />
+      </a>
+    </div>
+  </section>
 </Layout>

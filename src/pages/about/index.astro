@@ -1,0 +1,157 @@
+---
+// Phase 3 — About page.
+//
+// Editorial single-column. Establishes who runs SG AI 观察, why it exists,
+// the methodology, and a conflict-of-interest disclosure. Linked from the
+// header nav (关于) and footer.
+
+import Layout from '~/layouts/PageLayout.astro';
+import JsonLd from '~/components/common/JsonLd.astro';
+import { Icon } from 'astro-icon/components';
+import { SITE_VERSION, SITE_UPDATED } from '~/version';
+
+const metadata = {
+  title: '关于本站',
+  description: '关于 SG AI 观察——一个由独立创业者维护的新加坡 AI 战略观察平台。研究方法、利益声明、联系方式。',
+};
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Luca Wu',
+  alternateName: '吴鲁加',
+  url: 'https://wlj.me',
+  jobTitle: 'Founder, CEO',
+  worksFor: [
+    { '@type': 'Organization', name: '知识星球 / Zsxq' },
+    { '@type': 'Organization', name: 'Slax' },
+    { '@type': 'Organization', name: 'Tealseed' },
+  ],
+};
+---
+
+<Layout metadata={metadata} breadcrumbs={[{ label: '关于本站' }]}>
+  <JsonLd schema={personSchema} />
+
+  <article class="prose prose-lg dark:prose-invert max-w-3xl mx-auto px-4 sm:px-6 py-12 md:py-16 font-serif">
+    <p class="not-prose text-xs uppercase tracking-[0.18em] text-primary font-semibold mb-4">关于本站</p>
+    <h1 class="font-serif !text-3xl md:!text-5xl !leading-[1.2] !font-semibold !mb-6 tracking-tight">
+      为什么记录新加坡的 AI 战略
+    </h1>
+
+    <p class="lead !text-lg md:!text-xl !leading-[1.85] text-gray-700 dark:text-gray-300">
+      我是 Luca（吴鲁加），坐标新加坡。SG AI 观察由我个人维护，独立运营，没有任何机构或政府背景。
+    </p>
+
+    <h2>这个站做什么</h2>
+    <p>
+      新加坡是一个城邦——人口 590 万，GDP 5300 亿美元——但它在 AI 时代的国家级动作远超体量。Smart Nation、National AI
+      Strategy 1.0/2.0、Budget 2026 AI 千亿赌注、SEA-LION 大模型、AI Verify
+      治理框架……这些动作中有一部分被海外低估，另一部分被本地高估。
+    </p>
+    <p>我做这个站，是因为发现没有一个中文资源在系统性地追踪：</p>
+    <ul>
+      <li><strong>政策原文</strong>——从 Smart Nation 2014 到 NAIRD 2026，按机构归类，可追溯到原始 PDF。</li>
+      <li><strong>国会辩论</strong>——150 场 Hansard 记录，按议题、议员、年份索引，每条带中文摘要和政策信号分析。</li>
+      <li><strong>抓手图谱</strong>——把跨部委的 110+ 个落地项目归到 6 个国家级"AI 引入路径"，看清整体形状。</li>
+      <li><strong>法律框架</strong>——Copyright §244 训练宽松 + Online Safety Bill 输出严管的双轨结构。</li>
+      <li><strong>创业生态</strong>——650+ AI 公司、9 家独角兽，按垂直领域和融资轮次。</li>
+    </ul>
+
+    <h2>方法论</h2>
+    <p>
+      所有数据来源于公开渠道：parliament.gov.sg / sprs.parl.gov.sg
+      的国会记录、各部委的政策原文、官方统计、上市公司财报、媒体报道。每条记录都标注 sourceUrl，可追溯。
+    </p>
+    <p>
+      分析部分（<a href="/blog/" class="text-primary hover:text-secondary">深度分析</a> 栏目）是我的个人观点，立场会显著偏离官方叙事——这是有意为之，否则没必要做这个站。
+    </p>
+    <p>
+      数据更新频率：国会 sitting 后 1-2
+      周内补充新辩论；政策文件月度审视；指标季度复盘。每次更新都会刷新页面顶部"数据更新"日期。
+    </p>
+
+    <h2>为什么是中文</h2>
+    <p>新加坡的官方语言是英文，AI 政策文档原文也是英文。但用中文写有两个理由：</p>
+    <p>
+      第一，中文世界的创业者、技术决策者、政策研究者对新加坡 AI
+      战略的兴趣在快速上升，但缺乏系统性的中文一手分析。海外媒体的报道往往滞后或失焦。
+    </p>
+    <p>
+      第二，新加坡 70% 华人，本地中文世界对国家战略的讨论需要一个独立平台。Channel
+      8、联合早报覆盖的是新闻面，缺一个做深度的角色。
+    </p>
+
+    <h2>利益声明</h2>
+    <p>
+      我是创业者，运营三家产品公司：知识星球（Zsxq，深圳，~50 人）、Slax（独立工具：Slax Note + Slax
+      Reader）、Tealseed（独立工具：EasyHabit + EatVenture）。
+    </p>
+    <p>
+      我个人持有这三家公司的股份。它们都不接受新加坡政府的任何资助，也不与本站讨论的任何政策、机构或公司有商业往来。
+    </p>
+    <p>
+      本站 <strong>不接受赞助、广告、付费订阅</strong>。所有内容免费开放，源码 <a
+        href="https://github.com/meltflake/sgai"
+        target="_blank"
+        rel="noopener"
+        class="text-primary hover:text-secondary">在 GitHub 公开</a
+      >。维护成本（域名 + Cloudflare）由我个人承担。
+    </p>
+    <p>如果未来出现利益冲突——比如某家被 SG AI 观察追踪的公司成为我的客户/投资人——我会在相关页面顶部明确标注。</p>
+
+    <h2>谁在用这个站</h2>
+    <p>主要受众有三类：</p>
+    <ul>
+      <li><strong>创业者 / 技术决策者</strong>——评估在新加坡设立 AI 业务的政策环境、人才池、合规要求。</li>
+      <li><strong>政策研究者</strong>——做跨经济体对标时需要新加坡的一手数据。</li>
+      <li><strong>媒体 / 分析师</strong>——写新加坡 AI 相关报道时需要可信赖的事实底座。</li>
+    </ul>
+
+    <h2>反馈与更正</h2>
+    <p>数据有错？分析有偏？欢迎通过以下任一渠道告诉我：</p>
+    <ul>
+      <li>
+        <a
+          href="https://github.com/meltflake/sgai/issues"
+          target="_blank"
+          rel="noopener"
+          class="text-primary hover:text-secondary">GitHub Issues</a
+        >——最佳渠道，可追溯
+      </li>
+      <li>
+        <a href="https://wlj.me" target="_blank" rel="noopener" class="text-primary hover:text-secondary"
+          >个人博客 wlj.me</a
+        >——更长的反馈
+      </li>
+    </ul>
+
+    <h2>版本与归档</h2>
+    <p
+      class="not-prose text-sm text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-slate-700 pt-6 mt-12"
+    >
+      当前版本 <span class="font-semibold text-gray-700 dark:text-gray-300">v{SITE_VERSION}</span>，最近更新
+      <span class="font-semibold text-gray-700 dark:text-gray-300">{SITE_UPDATED}</span>。<br />
+      源代码 MIT 许可证；内容 CC BY 4.0——转载注明出处即可，无需联系。
+    </p>
+
+    <div class="not-prose mt-10 flex flex-wrap gap-4">
+      <a
+        href="/blog/"
+        class="inline-flex items-center gap-2 bg-primary hover:bg-secondary text-white font-semibold px-5 py-3 rounded-md transition-colors text-sm"
+      >
+        阅读深度分析
+        <Icon name="tabler:arrow-right" class="w-4 h-4" />
+      </a>
+      <a
+        href="https://github.com/meltflake/sgai"
+        target="_blank"
+        rel="noopener"
+        class="inline-flex items-center gap-2 border border-gray-300 dark:border-slate-700 hover:border-primary text-gray-700 dark:text-gray-300 hover:text-primary font-medium px-5 py-3 rounded-md transition-colors text-sm"
+      >
+        <Icon name="tabler:brand-github" class="w-4 h-4" />
+        GitHub 源码
+      </a>
+    </div>
+  </article>
+</Layout>
