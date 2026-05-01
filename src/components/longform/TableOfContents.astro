@@ -36,14 +36,21 @@ if (items.length < minHeadings) {
 ---
 
 {
+  /* Inline collapsible TOC at ALL viewport widths.
+    The earlier xl/2xl fixed-sidebar variant overlapped the article at
+    1280-1700px because the centered max-w-3xl article (effectively 60rem
+    via the prose container) leaves only ~40-100px left gutter — not enough
+    for a 14rem TOC + buffer. The proper fix is a 3-column grid layout
+    (deferred to Phase 3 NarrativeLayout). Until then, the collapsible
+    inline version works at every width and is non-intrusive. */
+}
+{
   items.length >= minHeadings && (
-    <nav
-      id={id}
-      aria-label="目录"
-      class={`toc not-prose hidden xl:block xl:fixed xl:left-[max(1.5rem,calc((100vw-72rem)/2))] xl:top-[120px] xl:w-56 xl:max-h-[calc(100vh-160px)] xl:overflow-y-auto text-sm ${extraClass}`}
-    >
-      <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-2">目录</p>
-      <ol class="space-y-1.5 border-l border-gray-200 dark:border-slate-700 pl-3">
+    <details class={`toc-mobile not-prose mb-6 mx-auto max-w-3xl px-4 sm:px-6 ${extraClass}`} id={id} aria-label="目录">
+      <summary class="cursor-pointer text-sm font-semibold text-gray-700 dark:text-gray-300 py-2 border-y border-gray-200 dark:border-slate-700 select-none">
+        📑 目录（{items.length} 节）
+      </summary>
+      <ol class="mt-3 space-y-1.5 text-sm border-l border-gray-200 dark:border-slate-700 pl-3">
         {items.map((h) => (
           <li class={h.depth === 2 ? 'font-medium' : 'pl-3 text-gray-500 dark:text-gray-400'}>
             <a
@@ -51,26 +58,6 @@ if (items.length < minHeadings) {
               class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors block py-0.5"
               data-toc-link={h.slug}
             >
-              {h.text}
-            </a>
-          </li>
-        ))}
-      </ol>
-    </nav>
-  )
-}
-
-{/* Mobile / tablet collapsible TOC, inline above the article body. */}
-{
-  items.length >= minHeadings && (
-    <details class={`toc-mobile not-prose xl:hidden mb-6 mx-auto max-w-3xl px-4 sm:px-6 ${extraClass}`}>
-      <summary class="cursor-pointer text-sm font-semibold text-gray-700 dark:text-gray-300 py-2 border-y border-gray-200 dark:border-slate-700 select-none">
-        📑 目录（{items.length} 节）
-      </summary>
-      <ol class="mt-3 space-y-1.5 text-sm border-l border-gray-200 dark:border-slate-700 pl-3">
-        {items.map((h) => (
-          <li class={h.depth === 2 ? 'font-medium' : 'pl-3 text-gray-500 dark:text-gray-400'}>
-            <a href={`#${h.slug}`} class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors block py-0.5">
               {h.text}
             </a>
           </li>
