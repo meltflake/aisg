@@ -1,0 +1,240 @@
+---
+// Phase 4 — Debate detail page.
+//
+// One page per Debate.id (~150 pages). Shows full record, all speakers
+// resolved to people.ts where possible, full English transcript snippet,
+// and the cross-link rail. Pagefind picks up these pages so any token
+// from a debate's keypoints / summary / topics is searchable.
+
+import type { GetStaticPaths } from 'astro';
+import Layout from '~/layouts/PageLayout.astro';
+import JsonLd from '~/components/common/JsonLd.astro';
+import RelatedRail from '~/components/data/RelatedRail.astro';
+import { Icon } from 'astro-icon/components';
+import { debates } from '~/data/debates';
+import { findPersonId, getPerson, personDisplayName } from '~/utils/people';
+import { getPermalink } from '~/utils/permalinks';
+
+export const prerender = true;
+
+export const getStaticPaths = (() =>
+  debates.map((debate) => ({
+    params: { id: debate.id },
+    props: { debate },
+  }))) satisfies GetStaticPaths;
+
+const { debate } = Astro.props;
+
+const typeMap: Record<string, string> = {
+  'Oral Answers to Questions': '口头答复',
+  'Written Answers to Questions': '书面答复',
+  Budget: '预算辩论',
+  Motion: '动议',
+};
+
+const topicZh: Record<string, string> = {
+  'AI Economy & Industry': 'AI 经济与产业',
+  'AI & Employment': 'AI 与就业',
+  'AI Governance & Regulation': 'AI 治理与监管',
+  'AI & National Security': 'AI 与国家安全',
+  'AI in Public Sector': 'AI 与公共部门',
+  'AI Infrastructure & Research': 'AI 基础设施与研究',
+  'AI Safety & Ethics': 'AI 安全与伦理',
+  'AI in Education': 'AI 与教育',
+  'AI in Healthcare': 'AI 与医疗',
+  'AI Strategy': 'AI 战略',
+  'Deepfakes & Disinformation': '深度伪造与虚假信息',
+  'Generative AI': '生成式 AI',
+};
+
+const controversyLabels: Record<number, string> = {
+  1: '信息发布',
+  2: '温和质询',
+  3: '实质辩论',
+  4: '激烈争议',
+  5: '高度对立',
+};
+
+const speakers = debate.speakers.map((raw) => {
+  const pid = findPersonId(raw);
+  return { raw, pid, display: pid ? getPerson(pid)?.zhName || raw : raw };
+});
+
+const metadata = {
+  title: `${debate.zhTitle} · 国会辩论`,
+  description: debate.zhSummary,
+};
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: debate.zhTitle,
+  alternativeHeadline: debate.title,
+  description: debate.zhSummary,
+  datePublished: debate.date,
+  inLanguage: 'zh-CN',
+  isPartOf: {
+    '@type': 'CreativeWork',
+    name: 'Singapore Hansard',
+    url: 'https://sprs.parl.gov.sg/',
+  },
+};
+
+const breadcrumbs = [{ label: '国会 AI 焦点', href: getPermalink('/debates') }, { label: debate.zhTitle }];
+---
+
+<Layout metadata={metadata} breadcrumbs={breadcrumbs}>
+  <JsonLd schema={articleSchema} />
+
+  <article class="max-w-3xl mx-auto px-4 sm:px-6 py-12 md:py-16">
+    <p class="text-xs uppercase tracking-[0.18em] text-primary font-semibold mb-4">
+      {typeMap[debate.type] || debate.type} · {debate.date} · 第 {debate.parliament} 届国会
+    </p>
+    <h1 class="font-serif text-2xl md:text-4xl leading-tight font-semibold text-gray-900 dark:text-white mb-3">
+      {debate.zhTitle}
+    </h1>
+    <p class="text-sm md:text-base text-gray-500 dark:text-gray-400 italic mb-6 leading-relaxed">{debate.title}</p>
+
+    {
+      debate.topics && debate.topics.length > 0 && (
+        <div class="flex flex-wrap gap-2 mb-8">
+          {debate.topics.map((t) => (
+            <span class="text-xs bg-primary/10 text-primary px-3 py-1.5 rounded-full">{topicZh[t] || t}</span>
+          ))}
+          <span class="text-xs bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-full ml-auto">
+            争议度 {debate.controversyLevel} · {controversyLabels[debate.controversyLevel] || '未知'}
+          </span>
+        </div>
+      )
+    }
+
+    <p
+      class="font-serif text-lg leading-[1.85] text-gray-800 dark:text-gray-200 mb-8 border-l-4 border-primary pl-5 italic"
+    >
+      {debate.zhSummary}
+    </p>
+
+    {
+      debate.keyPoints && debate.keyPoints.length > 0 && (
+        <section class="mb-8">
+          <h2 class="font-serif text-xl font-semibold text-gray-900 dark:text-white mb-4">关键要点</h2>
+          <ul class="space-y-2 text-gray-700 dark:text-gray-300 leading-[1.85]">
+            {debate.keyPoints.map((kp) => (
+              <li class="flex gap-3">
+                <span class="text-primary shrink-0 mt-1">•</span>
+                <span>{kp}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      (debate.governmentStance || debate.oppositionStance) && (
+        <section class="mb-8 grid md:grid-cols-2 gap-4">
+          {debate.governmentStance && (
+            <div class="border border-gray-200 dark:border-slate-700 rounded-lg p-4">
+              <div class="text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-2">
+                政府立场
+              </div>
+              <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{debate.governmentStance}</p>
+            </div>
+          )}
+          {debate.oppositionStance && (
+            <div class="border border-gray-200 dark:border-slate-700 rounded-lg p-4">
+              <div class="text-xs font-semibold uppercase tracking-wider text-orange-600 dark:text-orange-400 mb-2">
+                质询立场
+              </div>
+              <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{debate.oppositionStance}</p>
+            </div>
+          )}
+        </section>
+      )
+    }
+
+    {
+      debate.policySignal && (
+        <section class="mb-8 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-4">
+          <div class="text-xs font-semibold uppercase tracking-wider text-purple-600 dark:text-purple-400 mb-1">
+            政策信号
+          </div>
+          <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{debate.policySignal}</p>
+        </section>
+      )
+    }
+
+    {
+      debate.notableQuote && (
+        <blockquote class="border-l-4 border-gray-300 dark:border-gray-600 pl-5 my-8 text-lg font-serif italic text-gray-700 dark:text-gray-300 leading-[1.85]">
+          "{debate.notableQuote}"
+        </blockquote>
+      )
+    }
+
+    {
+      speakers.length > 0 && (
+        <section class="mb-8 mt-10 pt-6 border-t border-gray-200 dark:border-slate-700">
+          <h2 class="text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 font-semibold mb-3">
+            参与人员（{speakers.length}）
+          </h2>
+          <ul class="flex flex-wrap gap-x-4 gap-y-2">
+            {speakers.map((s) => (
+              <li>
+                {s.pid ? (
+                  <a
+                    href={`/people/${s.pid}/`}
+                    class="text-primary hover:text-secondary text-sm font-medium"
+                    title={s.raw}
+                  >
+                    {personDisplayName(s.pid)}
+                  </a>
+                ) : (
+                  <span class="text-sm text-gray-700 dark:text-gray-300">{s.raw}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <details class="my-8 border border-gray-200 dark:border-slate-700 rounded-lg">
+      <summary
+        class="cursor-pointer px-4 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-primary"
+      >
+        原文节选（英文）
+      </summary>
+      <div
+        class="px-4 pb-4 text-sm text-gray-600 dark:text-gray-400 whitespace-pre-wrap leading-relaxed max-h-[60vh] overflow-y-auto"
+      >
+        {debate.summary}
+      </div>
+    </details>
+
+    <div class="mt-10 flex flex-wrap gap-3">
+      {
+        debate.sourceUrl && (
+          <a
+            href={debate.sourceUrl}
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-secondary border border-primary/30 hover:border-primary px-4 py-2 rounded-md transition-colors"
+          >
+            <Icon name="tabler:external-link" class="w-4 h-4" />
+            Hansard 原始记录
+          </a>
+        )
+      }
+    </div>
+
+    <RelatedRail entity={{ type: 'debate', id: debate.id }} variant="full" hideWhenEmpty={true} class="mt-12" />
+
+    <nav class="mt-12 pt-6 border-t border-gray-200 dark:border-slate-700">
+      <a href="/debates/" class="text-sm text-primary hover:text-secondary font-medium inline-flex items-center gap-1">
+        <Icon name="tabler:arrow-left" class="w-4 h-4" />
+        返回辩论库
+      </a>
+    </nav>
+  </article>
+</Layout>

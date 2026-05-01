@@ -149,7 +149,7 @@ Smart Nation 给新加坡带来了 GovTech 改革、SingPass 普及、PayNow 主
 
 ## 延伸阅读
 
-- [新加坡的 AI 马六甲海峡在哪里？](/blog/singapore-ai-strategy-the-real-moat) — AI 精炼枢纽策略的兴起与侵蚀
-- [📈 新加坡 AI 政策演进全景](/evolution) — 从 2014 智慧国家到 2026 全面 AI 战略的五阶段时间轴
-- [🏛️ 国会 AI 焦点](/debates) — Budget 2026 期间各部委 Committee of Supply 的完整辩论记录
-- [政策文件](/policies) — Budget 2026 官方文件与中文翻译
+- [新加坡的 AI 马六甲海峡在哪里？](/singapore-ai-strategy-the-real-moat/) — AI 精炼枢纽策略的兴起与侵蚀
+- [新加坡 AI 政策演进全景](/evolution/) — 从 2014 智慧国家到 2026 全面 AI 战略的五阶段时间轴
+- [国会 AI 焦点](/debates/) — Budget 2026 期间各部委 Committee of Supply 的完整辩论记录
+- [政策文件](/policies/) — Budget 2026 官方文件与中文翻译

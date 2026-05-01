@@ -1,0 +1,174 @@
+---
+// Phase 4 — Policy detail page.
+//
+// One page per Policy.id. Shows full content, source links, ministry,
+// authors (resolved via people.ts), and the cross-link rail.
+
+import type { GetStaticPaths } from 'astro';
+import Layout from '~/layouts/PageLayout.astro';
+import JsonLd from '~/components/common/JsonLd.astro';
+import RelatedRail from '~/components/data/RelatedRail.astro';
+import { Icon } from 'astro-icon/components';
+import { categories } from '~/data/policies';
+import { getPerson, personDisplayName } from '~/utils/people';
+import { getPermalink } from '~/utils/permalinks';
+
+export const prerender = true;
+
+export const getStaticPaths = (() => {
+  const all = categories.flatMap((c) =>
+    c.policies.map((p) => ({ ...p, _categoryName: c.name, _categoryIcon: c.icon }))
+  );
+  return all
+    .filter((p) => p.id)
+    .map((policy) => ({
+      params: { id: policy.id! },
+      props: { policy },
+    }));
+}) satisfies GetStaticPaths;
+
+const { policy } = Astro.props;
+const authors = (policy.authorPersonIds || []).map((id) => getPerson(id)).filter(Boolean);
+
+const metadata = {
+  title: `${policy.title} · 政策档案`,
+  description: policy.summary,
+};
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'GovernmentService',
+  name: policy.titleEn,
+  alternateName: policy.title,
+  description: policy.summary,
+  serviceType: '政策文件',
+  ...(policy.ministry ? { provider: { '@type': 'GovernmentOrganization', name: policy.ministry } } : {}),
+};
+
+const breadcrumbs = [{ label: '政策文件', href: getPermalink('/policies') }, { label: policy.title }];
+---
+
+<Layout metadata={metadata} breadcrumbs={breadcrumbs}>
+  <JsonLd schema={articleSchema} />
+
+  <article class="max-w-3xl mx-auto px-4 sm:px-6 py-12 md:py-16">
+    <p class="text-xs uppercase tracking-[0.18em] text-primary font-semibold mb-4">
+      {policy._categoryIcon}
+      {policy._categoryName} · {policy.date}
+    </p>
+    <h1 class="font-serif text-3xl md:text-4xl leading-tight font-semibold text-gray-900 dark:text-white mb-3">
+      {policy.title}
+    </h1>
+    <p class="text-base md:text-lg text-gray-500 dark:text-gray-400 italic mb-6">{policy.titleEn}</p>
+
+    <div class="flex flex-wrap gap-2 mb-8">
+      {
+        policy.sourceOrgUrl ? (
+          <a
+            href={policy.sourceOrgUrl}
+            target="_blank"
+            rel="noopener"
+            class="text-xs bg-primary/10 text-primary px-3 py-1.5 rounded hover:bg-primary/15 transition-colors"
+          >
+            {policy.source}
+          </a>
+        ) : (
+          <span class="text-xs bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded">
+            {policy.source}
+          </span>
+        )
+      }
+      {
+        policy.ministry && (
+          <span class="text-xs bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded">
+            {policy.ministry}
+          </span>
+        )
+      }
+      <span class="text-xs bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded">
+        {policy.date}
+      </span>
+    </div>
+
+    <p
+      class="font-serif text-lg leading-[1.85] text-gray-800 dark:text-gray-200 mb-8 border-l-4 border-primary pl-5 italic"
+    >
+      {policy.summary}
+    </p>
+
+    <div class="prose prose-lg dark:prose-invert max-w-none font-serif">
+      <p class="!leading-[1.85]">{policy.content}</p>
+    </div>
+
+    {
+      authors.length > 0 && (
+        <div class="mt-10 pt-6 border-t border-gray-200 dark:border-slate-700">
+          <h2 class="text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 font-semibold mb-3">
+            主要作者 / 推动者
+          </h2>
+          <ul class="flex flex-wrap gap-x-4 gap-y-2">
+            {authors.map((p) => (
+              <li>
+                <a href={`/people/${p!.id}/`} class="text-primary hover:text-secondary text-sm font-medium">
+                  {personDisplayName(p!.id)}
+                </a>
+                <span class="text-xs text-gray-500 dark:text-gray-400 ml-1">{p!.zhTitle || p!.title}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+
+    <div class="mt-10 flex flex-wrap gap-3">
+      {
+        policy.sourceUrl && (
+          <a
+            href={policy.sourceUrl}
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-secondary border border-primary/30 hover:border-primary px-4 py-2 rounded-md transition-colors"
+          >
+            <Icon name="tabler:link" class="w-4 h-4" />
+            来源
+          </a>
+        )
+      }
+      {
+        policy.pdfUrl && (
+          <a
+            href={policy.pdfUrl}
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-secondary border border-primary/30 hover:border-primary px-4 py-2 rounded-md transition-colors"
+          >
+            <Icon name="tabler:file-text" class="w-4 h-4" />
+            原文 PDF
+          </a>
+        )
+      }
+      {
+        policy.translatedPdfUrl && (
+          <a
+            href={policy.translatedPdfUrl}
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-secondary border border-primary/30 hover:border-primary px-4 py-2 rounded-md transition-colors"
+          >
+            <Icon name="tabler:language" class="w-4 h-4" />
+            中文翻译
+          </a>
+        )
+      }
+    </div>
+
+    <RelatedRail entity={{ type: 'policy', id: policy.id! }} variant="full" hideWhenEmpty={true} class="mt-12" />
+
+    <nav class="mt-12 pt-6 border-t border-gray-200 dark:border-slate-700">
+      <a href="/policies/" class="text-sm text-primary hover:text-secondary font-medium inline-flex items-center gap-1">
+        <Icon name="tabler:arrow-left" class="w-4 h-4" />
+        返回政策库
+      </a>
+    </nav>
+  </article>
+</Layout>

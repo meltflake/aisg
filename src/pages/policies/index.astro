@@ -25,7 +25,15 @@ import { categories } from '~/data/policies';
           <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {cat.policies.map((policy) => (
               <div class="bg-white dark:bg-slate-900 rounded-lg shadow-md p-6 border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-shadow">
-                <h3 class="text-lg font-bold mb-1">{policy.title}</h3>
+                <h3 class="text-lg font-bold mb-1">
+                  {policy.id ? (
+                    <a href={`/policies/${policy.id}/`} class="hover:text-primary transition-colors">
+                      {policy.title}
+                    </a>
+                  ) : (
+                    policy.title
+                  )}
+                </h3>
                 <p class="text-sm text-muted mb-2">{policy.titleEn}</p>
                 <div class="flex gap-2 mb-3 flex-wrap">
                   {policy.sourceOrgUrl ? (

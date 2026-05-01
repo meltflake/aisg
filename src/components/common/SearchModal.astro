@@ -1,0 +1,165 @@
+---
+// Phase 4 — Pagefind-powered search modal.
+//
+// Triggered by the / shortcut or by clicking the search icon in the header.
+// Pagefind ships its own UI script + worker; we just provide the trigger
+// surface, modal shell, and keyboard wiring. The Pagefind index is built
+// during `astro build` (see astro.config.ts -> pagefind()), so search is
+// only meaningful in production builds. In `astro dev` the modal opens
+// but reports "Search index not built yet" — expected.
+
+import { Icon } from 'astro-icon/components';
+---
+
+<button
+  id="search-trigger"
+  type="button"
+  class="text-muted dark:text-gray-400 hover:text-primary dark:hover:text-white inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm border border-gray-200 dark:border-slate-700 hover:border-primary transition-colors"
+  aria-label="搜索"
+  aria-keyshortcuts="/"
+>
+  <Icon name="tabler:search" class="w-4 h-4" />
+  <span class="hidden lg:inline text-xs">搜索</span>
+  <kbd
+    class="hidden lg:inline-flex items-center font-mono text-[0.65rem] text-gray-400 dark:text-gray-500 border border-gray-200 dark:border-slate-700 rounded px-1.5 py-0.5"
+    >/</kbd
+  >
+</button>
+
+<dialog
+  id="search-dialog"
+  class="rounded-lg p-0 backdrop:bg-black/60 backdrop:backdrop-blur-sm w-full max-w-2xl bg-white dark:bg-slate-900 dark:text-gray-100 shadow-2xl"
+  aria-label="站内搜索"
+>
+  <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-slate-700">
+    <span class="text-sm font-semibold text-gray-700 dark:text-gray-200">站内搜索</span>
+    <button
+      id="search-close"
+      type="button"
+      class="text-gray-400 hover:text-primary dark:hover:text-white"
+      aria-label="关闭搜索"
+    >
+      <Icon name="tabler:x" class="w-5 h-5" />
+    </button>
+  </div>
+  <div id="search" class="p-2 min-h-[60vh]">
+    <p id="search-fallback" class="hidden p-6 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+      搜索索引尚未构建。请运行 <code class="font-mono text-xs">npm run build</code> 后再试，或访问已部署的 sgai.md 使用搜索。
+    </p>
+  </div>
+</dialog>
+
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+
+<script>
+  // Lazy-init: only fetch Pagefind UI when the modal opens for the first
+  // time. This keeps the homepage TTI clean.
+  let initialized = false;
+
+  function loadScript(src: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = src;
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error('failed to load ' + src));
+      document.head.appendChild(s);
+    });
+  }
+
+  async function initPagefind() {
+    if (initialized) return;
+    initialized = true;
+
+    try {
+      // Pagefind's UI bundle is emitted by astro-pagefind into /pagefind/
+      // at build time. We inject it via <script src> so Vite doesn't try
+      // to resolve it during dev/build.
+      await loadScript('/pagefind/pagefind-ui.js');
+      // @ts-expect-error - PagefindUI is exposed as a global by the script above
+      new window.PagefindUI({
+        element: '#search',
+        showSubResults: true,
+        showImages: false,
+        translations: {
+          placeholder: '搜索政策、辩论、抓手、人物、博文……',
+          clear_search: '清空',
+          load_more: '加载更多',
+          search_label: '站内搜索',
+          filters_label: '过滤',
+          zero_results: '"[SEARCH_TERM]" 未找到结果',
+          many_results: '为 "[SEARCH_TERM]" 找到 [COUNT] 条结果',
+          one_result: '为 "[SEARCH_TERM]" 找到 [COUNT] 条结果',
+          alt_search: '"[SEARCH_TERM]" 未找到结果。改用 "[DIFFERENT_TERM]" 显示结果',
+          search_suggestion: '"[SEARCH_TERM]" 未找到结果。试试这些建议：',
+          searching: '正在搜索 "[SEARCH_TERM]"……',
+        },
+      });
+    } catch (err) {
+      const fb = document.getElementById('search-fallback');
+      if (fb) fb.classList.remove('hidden');
+      console.warn('Pagefind not available:', err);
+    }
+  }
+
+  function openSearch() {
+    const dlg = document.getElementById('search-dialog') as HTMLDialogElement | null;
+    if (!dlg) return;
+    if (!dlg.open) dlg.showModal();
+    initPagefind();
+    setTimeout(() => {
+      const input = dlg.querySelector<HTMLInputElement>('input[type="text"]');
+      input?.focus();
+    }, 50);
+  }
+
+  function closeSearch() {
+    const dlg = document.getElementById('search-dialog') as HTMLDialogElement | null;
+    if (dlg?.open) dlg.close();
+  }
+
+  document.getElementById('search-trigger')?.addEventListener('click', openSearch);
+  document.getElementById('search-close')?.addEventListener('click', closeSearch);
+
+  // Global "/" shortcut. Avoid hijacking when user is typing in a field.
+  document.addEventListener('keydown', (e) => {
+    const t = e.target as HTMLElement | null;
+    const tag = (t?.tagName || '').toLowerCase();
+    const isEditable = tag === 'input' || tag === 'textarea' || (t?.isContentEditable ?? false);
+    if (e.key === '/' && !isEditable && !e.metaKey && !e.ctrlKey) {
+      e.preventDefault();
+      openSearch();
+    }
+    if (e.key === 'Escape') closeSearch();
+  });
+
+  // Click outside the inner panel on the backdrop to dismiss.
+  document.getElementById('search-dialog')?.addEventListener('click', (e) => {
+    const dlg = e.currentTarget as HTMLDialogElement;
+    const rect = dlg.getBoundingClientRect();
+    const isInDialog =
+      e.clientY >= rect.top && e.clientY <= rect.bottom && e.clientX >= rect.left && e.clientX <= rect.right;
+    if (!isInDialog) closeSearch();
+  });
+</script>
+
+<style is:global>
+  /* Tone Pagefind UI to match the editorial look. */
+  :root {
+    --pagefind-ui-scale: 0.9;
+    --pagefind-ui-primary: rgb(200 16 46);
+    --pagefind-ui-text: rgb(26 26 26);
+    --pagefind-ui-background: rgb(250 247 242);
+    --pagefind-ui-border: rgb(229 229 224);
+    --pagefind-ui-tag: rgb(243 240 234);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 6px;
+    --pagefind-ui-font: var(--aw-font-serif);
+  }
+
+  .dark {
+    --pagefind-ui-text: rgb(229 226 220);
+    --pagefind-ui-background: rgb(15 15 18);
+    --pagefind-ui-border: rgb(40 40 48);
+    --pagefind-ui-tag: rgb(28 28 34);
+  }
+</style>

@@ -9,6 +9,7 @@ import mdx from '@astrojs/mdx';
 import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
 import compress from 'astro-compress';
+import pagefind from 'astro-pagefind';
 import type { AstroIntegration } from 'astro';
 
 import astrowind from './vendor/integration';
@@ -75,6 +76,8 @@ export default defineConfig({
     astrowind({
       config: './src/config.yaml',
     }),
+
+    pagefind(),
   ],
 
   image: {

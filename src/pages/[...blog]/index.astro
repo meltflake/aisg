@@ -18,6 +18,7 @@ import TableOfContents from '~/components/longform/TableOfContents.astro';
 import AuthorBio from '~/components/longform/AuthorBio.astro';
 import NextPrevPost from '~/components/longform/NextPrevPost.astro';
 import ReadingProgress from '~/components/longform/ReadingProgress.astro';
+import Footnotes from '~/components/longform/Footnotes.astro';
 import { debates } from '~/data/debates';
 import { categories as policyCategories } from '~/data/policies';
 import { levers } from '~/data/levers';
@@ -104,6 +105,7 @@ const relatedBundle: RelatedBundle = {
   <SinglePost post={{ ...post, image: image }} url={url}>
     {post.Content ? <post.Content /> : <Fragment set:html={post.content || ''} />}
   </SinglePost>
+  <Footnotes citations={post.citations} />
   <AuthorBio author={post.author} relatedPersonIds={post.relatedPersonIds} />
   <div class="max-w-3xl mx-auto px-4 sm:px-6">
     <RelatedRail bundle={relatedBundle} variant="full" />

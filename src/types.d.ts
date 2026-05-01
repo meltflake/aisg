@@ -53,6 +53,12 @@ export interface Post {
   relatedLeverNumbers?: number[];
   relatedTimelineYears?: number[];
   relatedPersonIds?: string[];
+
+  // Phase 2 — long-form citations. Rendered by Footnotes.astro at the end
+  // of an article; referenced inline via <Cite id="..." /> which emits
+  // a numbered superscript link.
+  citations?: Array<{ id: string; text: string; url?: string }>;
+  tocDepth?: number;
 }
 
 export interface Taxonomy {

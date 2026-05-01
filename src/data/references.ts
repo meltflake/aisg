@@ -70,7 +70,7 @@ export const sections: ReferenceSection[] = [
         text: 'Microsoft AI Economy Institute — Global AI Adoption 2025',
         url: 'https://www.microsoft.com/en-us/corporate-responsibility/topics/ai-economy-institute/reports/global-ai-adoption-2025/',
         note: '新加坡 AI 采用率全球第 2（60.9%），2026.1 发布',
-        translation: '/microsoft-global-ai-adoption-2025',
+        translation: '/microsoft-global-ai-adoption-2025/',
       },
       { text: 'AI Diffusion 技术论文', url: 'https://arxiv.org/abs/2511.02781', note: '报告方法论详解，arXiv 2025.11' },
       { text: 'data.gov.sg', url: 'https://data.gov.sg/', note: '新加坡政府开放数据' },

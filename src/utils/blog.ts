@@ -61,6 +61,8 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     relatedLeverNumbers,
     relatedTimelineYears,
     relatedPersonIds,
+    citations,
+    tocDepth,
   } = data;
 
   const slug = cleanSlug(id); // cleanSlug(rawSlug.split('/').pop());
@@ -110,6 +112,8 @@ const getNormalizedPost = async (post: CollectionEntry<'post'>): Promise<Post> =
     relatedLeverNumbers,
     relatedTimelineYears,
     relatedPersonIds,
+    citations,
+    tocDepth,
   };
 };
 

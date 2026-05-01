@@ -1,0 +1,54 @@
+---
+// Phase 2 — Footnotes block.
+//
+// Reads `citations` from the host post and renders a numbered list at the
+// end of the article. Pairs with the inline <Cite id="..." /> component
+// that emits the superscript link to each citation.
+//
+// SAFE: emits nothing when citations array is empty / missing.
+
+interface Citation {
+  id: string;
+  text: string;
+  url?: string;
+}
+
+interface Props {
+  citations?: Citation[];
+  /** Optional class for the wrapper. */
+  class?: string;
+}
+
+const { citations = [], class: extraClass = '' } = Astro.props;
+---
+
+{
+  citations.length > 0 && (
+    <section
+      class={`max-w-3xl mx-auto px-4 sm:px-6 mt-12 pt-8 border-t border-gray-200 dark:border-slate-700 ${extraClass}`}
+      aria-label="参考文献"
+    >
+      <h2 class="text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 font-semibold mb-4">参考文献</h2>
+      <ol class="space-y-2 text-sm text-gray-700 dark:text-gray-300 list-decimal pl-5">
+        {citations.map((c) => (
+          <li id={`fn-${c.id}`} class="leading-relaxed scroll-mt-24">
+            {c.url ? (
+              <a href={c.url} target="_blank" rel="noopener" class="text-primary hover:text-secondary underline">
+                {c.text}
+              </a>
+            ) : (
+              <span>{c.text}</span>
+            )}
+            <a
+              href={`#cite-${c.id}`}
+              class="ml-2 text-xs text-gray-400 hover:text-primary"
+              aria-label="返回正文引用位置"
+            >
+              ↩
+            </a>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}

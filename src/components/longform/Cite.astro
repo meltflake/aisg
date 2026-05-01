@@ -1,0 +1,29 @@
+---
+// Phase 2 — Inline citation marker.
+//
+// Usage in MDX: <Cite id="nais-2-0-pdf" /> renders [N] linking to #fn-N
+// in the Footnotes block. The citation list is owned by the post's
+// frontmatter `citations` array; this component is a presentational link.
+//
+// To use, the host post detail page must surface `post.citations` (the
+// content collection schema already accepts it; see content/config.ts).
+
+interface Props {
+  /** Matches a citation `id` in the host post's frontmatter `citations`. */
+  id: string;
+  /** Optional override for the displayed number (otherwise just renders `id`). */
+  n?: number | string;
+}
+
+const { id, n } = Astro.props;
+const display = n ?? id;
+---
+
+<sup class="cite">
+  <a
+    id={`cite-${id}`}
+    href={`#fn-${id}`}
+    class="text-primary hover:text-secondary no-underline font-semibold tabular-nums"
+    aria-label={`参考文献 ${display}`}>[{display}]</a
+  >
+</sup>
