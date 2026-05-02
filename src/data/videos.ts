@@ -127,7 +127,7 @@ export const videos: VideoItem[] = [
     duration: '30:36',
     summary: '卫生部长王乙康深入探讨 AI 在医疗保健中的应用以及新加坡应对超老龄社会的策略。',
     summaryEn:
-      "Health Minister Ong Ye Kung explores AI applications in healthcare and Singapore's strategy for a super-aged society in depth.",
+      "Health Minister Ong Ye Kung talks through AI applications in healthcare and Singapore's strategy for a super-aged society.",
     topic: 'AI 产业与应用',
     topicEn: 'AI Industry & Applications',
     youtubeUrl: 'https://www.youtube.com/watch?v=ExrOgIkoE_A',
@@ -253,7 +253,7 @@ export const videos: VideoItem[] = [
     duration: '14:52',
     summary: '杨莉明全面介绍新加坡国家 AI 战略,涵盖人才培养、产业应用和国际合作三大支柱。',
     summaryEn:
-      "Josephine Teo gives a comprehensive overview of Singapore's national AI strategy across three pillars: talent development, industrial applications and international cooperation.",
+      "Josephine Teo walks through Singapore's national AI strategy across three pillars: talent, industry, and international cooperation.",
     topic: 'AI 战略与愿景',
     topicEn: 'AI Strategy & Vision',
     youtubeUrl: 'https://www.youtube.com/watch?v=v69BoHQ0LOE',
@@ -361,7 +361,7 @@ export const videos: VideoItem[] = [
     duration: '27:26',
     summary: '杨莉明在彭博新经济论坛全面讨论新加坡 AI 战略、人才培养和全球治理合作。',
     summaryEn:
-      "At the Bloomberg New Economy Forum, Josephine Teo comprehensively discusses Singapore's AI strategy, talent development and global governance cooperation.",
+      "At the Bloomberg New Economy Forum, Josephine Teo discusses Singapore's AI strategy, talent development and global governance cooperation.",
     topic: 'AI 战略与愿景',
     topicEn: 'AI Strategy & Vision',
     youtubeUrl: 'https://www.youtube.com/watch?v=S5NeniPvDjU',
@@ -378,8 +378,7 @@ export const videos: VideoItem[] = [
     date: '2025-11-19',
     duration: '06:17',
     summary: '杨莉明探讨 AI 如何赋能中小企业转型、重塑教育体系并惠及社会各阶层。',
-    summaryEn:
-      'Josephine Teo explores how AI can power SME transformation, reshape education systems and benefit every stratum of society.',
+    summaryEn: 'Josephine Teo on how AI can help SMEs transform, reshape education, and reach every part of society.',
     topic: 'AI 产业与应用',
     topicEn: 'AI Industry & Applications',
     youtubeUrl: 'https://www.youtube.com/watch?v=W2lLMv3CfaA',
@@ -415,7 +414,7 @@ export const videos: VideoItem[] = [
     duration: '29:38',
     summary: '杨莉明在李光耀公共政策学院深度探讨 AI 时代的就业变革与公共政策应对。',
     summaryEn:
-      'At the Lee Kuan Yew School of Public Policy, Josephine Teo explores employment shifts in the AI era and the public policy response in depth.',
+      'At the Lee Kuan Yew School of Public Policy, Josephine Teo digs into how AI is shifting employment and what public policy should do about it.',
     topic: 'AI 人才与教育',
     topicEn: 'AI Talent & Education',
     youtubeUrl: 'https://www.youtube.com/watch?v=OEaCDyKvGRw',
@@ -487,7 +486,7 @@ export const videos: VideoItem[] = [
     duration: '34:36',
     summary: '尚达曼总统与比尔盖茨深入对话,探讨 AI 在公共卫生、教育和发展中的变革潜力。',
     summaryEn:
-      "President Tharman Shanmugaratnam and Bill Gates discuss in depth AI's transformative potential in public health, education and development.",
+      'President Tharman Shanmugaratnam and Bill Gates dig into what AI could change in public health, education and development.',
     topic: 'AI 产业与应用',
     topicEn: 'AI Industry & Applications',
     youtubeUrl: 'https://www.youtube.com/watch?v=TchCCgLS7wk',
@@ -523,7 +522,7 @@ export const videos: VideoItem[] = [
     duration: '03:56',
     summary: '官方视频全面介绍新加坡国家 AI 战略 2.0 的核心内容、15 项行动计划和实施路径。',
     summaryEn:
-      "Official video providing a comprehensive overview of Singapore's National AI Strategy 2.0 — its core content, 15 action plans and implementation roadmap.",
+      "Official video walking through Singapore's National AI Strategy 2.0 — core content, 15 action plans, and implementation roadmap.",
     topic: 'AI 战略与愿景',
     topicEn: 'AI Strategy & Vision',
     youtubeUrl: 'https://www.youtube.com/watch?v=6qHBTi3YQIQ',
@@ -721,7 +720,7 @@ export const videos: VideoItem[] = [
     duration: '46:02',
     summary: 'AI Singapore 创始主席何德华等专家深入讨论新加坡 AI 生态建设和产业应用前景。',
     summaryEn:
-      "AI Singapore founding chairman Ho Teck Hua and other experts discuss Singapore's AI ecosystem build-out and industrial application prospects in depth.",
+      "AI Singapore founding chairman Ho Teck Hua and other experts talk through how Singapore's AI scene is being built out and where industrial applications are heading.",
     topic: 'AI 产业与应用',
     topicEn: 'AI Industry & Applications',
     youtubeUrl: 'https://www.youtube.com/watch?v=uSmV2rg0Z3s',
@@ -784,7 +783,7 @@ export const videos: VideoItem[] = [
   {
     id: 'v038',
     title: '经济策略评审: 全球竞争力委员会——AI 重塑经济格局',
-    titleEn: 'Economic Strategy Review: Global Competitiveness Committee — AI reshapes the economic landscape',
+    titleEn: 'Economic Strategy Review: Global Competitiveness Committee — AI reshapes the economy',
     speaker: 'Lawrence Wong',
     speakerTitle: '新加坡总理',
     speakerTitleEn: 'Prime Minister of Singapore',
@@ -793,7 +792,7 @@ export const videos: VideoItem[] = [
     duration: '03:30',
     summary: '经济策略评审揭示新加坡如何在 AI 重塑全球格局的背景下保持竞争力,从科技枢纽到本土企业国际化。',
     summaryEn:
-      'The Economic Strategy Review lays out how Singapore stays competitive as AI reshapes the global landscape — from tech hub status to internationalising homegrown firms.',
+      'The Economic Strategy Review lays out how Singapore stays competitive as AI reshapes the global economy — from tech hub status to taking homegrown firms global.',
     topic: 'AI 战略与愿景',
     topicEn: 'AI Strategy & Vision',
     youtubeUrl: 'https://www.youtube.com/watch?v=a86yBs7k3hs',
@@ -883,7 +882,7 @@ export const videos: VideoItem[] = [
     duration: '03:00',
     summary: '记录新加坡从建立国家 AI 奥赛到在国际 AI 奥赛取得历史性成绩的历程,展示 AI 人才培养成果。',
     summaryEn:
-      "Documents Singapore's journey from establishing the National AI Olympiad to achieving historic results at the International AI Olympiad, showcasing AI talent development outcomes.",
+      'Tracks Singapore from setting up the National AI Olympiad to landing historic results at the International AI Olympiad — and what it shows about AI talent development.',
     topic: 'AI 人才与教育',
     topicEn: 'AI Talent & Education',
     youtubeUrl: 'https://www.youtube.com/watch?v=apkbbEdI4Co',
@@ -901,7 +900,7 @@ export const videos: VideoItem[] = [
     duration: '05:00',
     summary: 'AI Singapore 的 AIAP 自 2018 年以来已培养超过 400 名 AI 工程师,面向各背景开放,推动新加坡 AI 人才发展。',
     summaryEn:
-      "Since 2018, AI Singapore's AIAP has trained more than 400 AI engineers, open to applicants of all backgrounds and driving Singapore's AI talent development.",
+      "Since 2018, AI Singapore's AIAP has trained more than 400 AI engineers; open to applicants of all backgrounds and a major channel for Singapore's AI talent pipeline.",
     topic: 'AI 人才与教育',
     topicEn: 'AI Talent & Education',
     youtubeUrl: 'https://www.youtube.com/watch?v=wuNXn3aF5Js',
@@ -919,7 +918,7 @@ export const videos: VideoItem[] = [
     duration: '04:00',
     summary: '由 AISG 主办、IMDA 支持的全国 AI 学生挑战赛已吸引超 2000 名参与者,培养下一代 AI 人才。',
     summaryEn:
-      'Hosted by AISG and supported by IMDA, the National AI Student Challenge has drawn over 2,000 participants, cultivating the next generation of AI talent.',
+      'Hosted by AISG and supported by IMDA, the National AI Student Challenge has drawn over 2,000 participants — building the next generation of AI talent.',
     topic: 'AI 人才与教育',
     topicEn: 'AI Talent & Education',
     youtubeUrl: 'https://www.youtube.com/watch?v=ObJJZqr-Py0',

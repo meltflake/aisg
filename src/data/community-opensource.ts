@@ -101,7 +101,7 @@ export const corporateLabProjects: OpenSourceProject[] = [
     org: 'Alibaba DAMO-NLP-SG',
     orgType: 'corporate-lab',
     description: '前沿视频理解多模态模型',
-    descriptionEn: 'State-of-the-art multimodal video understanding model',
+    descriptionEn: 'A leading multimodal video understanding model',
     url: 'https://huggingface.co/DAMO-NLP-SG',
   },
   {
@@ -149,7 +149,7 @@ export const startupProjects: OpenSourceProject[] = [
 export const summary = {
   note: '新加坡的 AI 开源贡献远超政府项目本身。Salesforce 新加坡实验室的 BLIP 系列是全球视觉语言 AI 的基石，NUS 孵化的 Colossal-AI 是最流行的分布式训练框架之一，NTU 的 OpenMMLab 是计算机视觉领域的事实标准。',
   noteEn:
-    "Singapore's open-source AI contributions extend well beyond the government's own projects. Salesforce's Singapore lab produced the BLIP family, a cornerstone of global vision-language AI; NUS-incubated Colossal-AI is among the most popular distributed-training frameworks; and NTU's OpenMMLab is a de facto standard in computer vision.",
+    "Singapore's open-source AI work goes well beyond the government's own projects. Salesforce's Singapore lab produced the BLIP family, a cornerstone of global vision-language AI; NUS-incubated Colossal-AI is one of the most popular distributed-training frameworks; and NTU's OpenMMLab is a de facto standard in computer vision.",
   dataDate: '2026-02-17',
 };
 

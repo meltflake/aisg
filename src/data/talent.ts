@@ -26,7 +26,7 @@ export const programmes: TalentProgramme[] = [
     icon: '🎯',
     description: '新加坡旗舰 AI 工程人才培养项目，提供沉浸式实战训练，学员在真实 AI 项目中与导师并肩工作。',
     descriptionEn:
-      "Singapore's flagship AI engineering talent programme — full-time immersive training where apprentices work alongside mentors on real AI projects.",
+      "Singapore's flagship AI engineering programme — full-time immersive training, with apprentices working alongside mentors on real AI projects.",
     stats: [
       { label: '时长', labelEn: 'Duration', value: '9 个月 / 6 个月', valueEn: '9 months / 6 months' },
       { label: '津贴', labelEn: 'Stipend', value: 'SGD 4,000/月', valueEn: 'SGD 4,000/month' },
@@ -50,7 +50,7 @@ export const programmes: TalentProgramme[] = [
     icon: '💻',
     description: '16 周实战项目，2-4 人组队开发 AI 解决方案，适合有一定技术基础的学习者。',
     descriptionEn:
-      '16-week project programme — teams of 2-4 build AI solutions, designed for learners with some technical background.',
+      '16-week hands-on programme — teams of 2-4 build AI projects; designed for learners with some technical background.',
     stats: [
       { label: '时长', labelEn: 'Duration', value: '16 周', valueEn: '16 weeks' },
       { label: '团队规模', labelEn: 'Team size', value: '2-4 人', valueEn: '2-4 people' },

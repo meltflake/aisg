@@ -270,7 +270,7 @@ export const zh = {
 export const en: Partial<Record<keyof typeof zh, string>> = {
   siteName: 'Singapore AI Observatory',
   siteShortName: 'SG AI',
-  siteTagline: 'In-depth coverage of Singapore’s AI strategy and ecosystem',
+  siteTagline: 'In-depth coverage of Singapore’s AI strategy',
   siteDescription:
     'Independent analysis of Singapore’s AI strategy — tracking policies, parliamentary debates, levers, and the startup ecosystem.',
 
@@ -312,7 +312,7 @@ export const en: Partial<Record<keyof typeof zh, string>> = {
   translation: 'Chinese translation',
   englishTranslation: 'English translation',
   participants: 'Participants',
-  authors: 'Authors / Champions',
+  authors: 'Lead authors / drivers',
   policySignal: 'Policy Signal',
   governmentStance: 'Government Position',
   oppositionStance: 'Opposition Position',
@@ -325,9 +325,9 @@ export const en: Partial<Record<keyof typeof zh, string>> = {
   heroHeadline: 'Singapore’s AI strategy:',
   heroHeadline2: 'the real moat is institutional, not technical.',
   heroSubtitle:
-    'Tracking a city-state’s national-scale transformation in the AI era — policy documents, parliamentary debates, lever maps, startup ecosystem, and legal framework. Not just curation. Independent analysis.',
+    'Tracking how one city-state is reorganising itself for the AI era — policies, parliamentary debates, levers, startups, and law. Not just a feed. Independent analysis.',
   heroSubtitleNeutral:
-    'A city-state’s national-scale transformation in the AI era — independent analysis of policy, parliament, levers, ecosystem, and law.',
+    'How one city-state is reorganising itself for the AI era — independent analysis of policy, parliament, levers, startups, and law.',
   ctaReadCore: 'Read the core argument',
   ctaBrowseAll: 'Browse all analyses →',
   freshnessPolicies: 'Core policies',
@@ -340,17 +340,16 @@ export const en: Partial<Record<keyof typeof zh, string>> = {
   viewAllDebatesCta: 'All {count} debates →',
   leversSection: 'National AI Levers',
   leversBlurb:
-    'Singapore’s AI strategy cannot be read by ministry — read it by AI-injection path. {count} concrete projects mapped to 6 national-scale levers.',
+    'Singapore’s AI strategy doesn’t map cleanly to ministries — read it by how AI gets pushed in. {count} concrete projects, 6 national-level levers.',
   recentDebatesSection: 'Recent Parliamentary Debates',
   recentDebatesBlurb: 'Every parliamentary question, response, and debate on AI from {from} to {to}.',
   closingThesis:
-    'Where is Singapore’s AI Strait of Malacca? The real moat is not the algorithm — it is the institution’s capacity to identify problems quickly and pivot decisively.',
+    'Where is Singapore’s AI Strait of Malacca? The real moat isn’t the algorithm — it’s the state’s ability to spot problems early and turn the ship fast.',
   closingCta: 'Read the full argument',
   leverWord: 'Lever',
 
   policiesPageTitle: 'AI Policy Library',
-  policiesPageBlurb:
-    'Singapore’s core AI-related policy documents, organised by category and reverse chronological within each.',
+  policiesPageBlurb: 'Singapore’s core AI policy documents, grouped by category, newest first within each.',
   debatesPageTitle: 'Parliamentary AI Focus',
   blogIndexTitle: 'Analysis',
   aboutPageTitle: 'About',

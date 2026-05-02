@@ -21,7 +21,7 @@ export const ecosystemCategories: EcosystemCategory[] = [
     nameEn: 'Foundational Research',
     icon: '🔬',
     description: '世界级研究机构支撑 AI 基础科学突破',
-    descriptionEn: 'World-class research institutions underpinning fundamental AI breakthroughs',
+    descriptionEn: 'World-class research institutions powering foundational AI breakthroughs',
     entities: [
       {
         name: 'A*STAR',
@@ -37,7 +37,7 @@ export const ecosystemCategories: EcosystemCategory[] = [
         description:
           '新加坡国立大学，AI 研究排名亚洲前列。2024.3 成立 NUS AI Institute，整合基础 AI、应用 AI 及社会影响研究',
         descriptionEn:
-          "National University of Singapore; among Asia's top AI research universities. Launched the NUS AI Institute in March 2024 to integrate foundational AI, applied AI and societal impact research",
+          "National University of Singapore; among Asia's top AI research universities. Launched the NUS AI Institute in March 2024, bringing together foundational AI, applied AI and societal impact research",
         url: 'https://www.nus.edu.sg/',
       },
       {
@@ -68,7 +68,7 @@ export const ecosystemCategories: EcosystemCategory[] = [
     nameEn: 'Governance Framework',
     icon: '⚖️',
     description: '多层次 AI 治理框架与监管机构',
-    descriptionEn: 'Multi-layered AI governance frameworks and regulators',
+    descriptionEn: 'Layered AI governance frameworks and regulators',
     entities: [
       {
         name: 'PDPC',
@@ -141,7 +141,7 @@ export const ecosystemCategories: EcosystemCategory[] = [
     nameEn: 'Innovation & Incubation',
     icon: '🚀',
     description: '从实验到产品的 AI 创新加速',
-    descriptionEn: 'Accelerating AI innovation from experiment to product',
+    descriptionEn: 'From experiment to product — accelerating AI innovation',
     entities: [
       {
         name: '100E（已归档）',
@@ -213,7 +213,7 @@ export const ecosystemCategories: EcosystemCategory[] = [
     nameEn: 'Talent Development',
     icon: '🎓',
     description: '全方位 AI 人才发展生态',
-    descriptionEn: 'Full-stack ecosystem for AI talent development',
+    descriptionEn: 'A full pipeline for AI talent development',
     entities: [
       {
         name: 'LearnAI',
@@ -254,7 +254,7 @@ export const ecosystemCategories: EcosystemCategory[] = [
     nameEn: 'International Cooperation',
     icon: '🌏',
     description: '积极参与全球 AI 治理与合作',
-    descriptionEn: 'Active participation in global AI governance and cooperation',
+    descriptionEn: 'An active hand in global AI governance and cooperation',
     entities: [
       {
         name: 'GPAI',

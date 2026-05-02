@@ -222,7 +222,7 @@ export const regionDetails: RegionDetail[] = [
         nameEn: 'Innovation & Technology Development Blueprint',
         year: '2022',
         description: '首份全面科技发展规划，涵盖 AI、生物科技、金融科技等领域',
-        descriptionEn: 'First comprehensive tech development plan, covering AI, biotech, fintech and other areas',
+        descriptionEn: 'First full-spectrum tech development plan, covering AI, biotech, fintech and other areas',
       },
       {
         name: '智慧城市蓝图 2.0',
@@ -710,7 +710,7 @@ export const regionDetails: RegionDetail[] = [
       '在网络安全 AI 领域全球领先',
     ],
     strengthsEn: [
-      "World's highest startup density; an extremely active AI startup ecosystem",
+      "World's highest startup density; an extremely active AI startup scene",
       'Military intelligence units such as Unit 8200 supply top-tier AI talent',
       'Unicorns like Wiz (acquired by Google for US$32 billion) showcase entrepreneurial strength',
       'Global leader in cybersecurity AI',
@@ -781,7 +781,7 @@ export const regionDetails: RegionDetail[] = [
         nameEn: 'AI Basic Act',
         year: '2024',
         description: '2024 年国会通过，2025 年生效，亚洲首部综合性 AI 法律',
-        descriptionEn: "Passed by the National Assembly in 2024 and effective 2025; Asia's first comprehensive AI law",
+        descriptionEn: "Passed by the National Assembly in 2024 and effective 2025; Asia's first full-scope AI law",
       },
       {
         name: 'AI 半导体战略',
@@ -812,7 +812,7 @@ export const regionDetails: RegionDetail[] = [
     governance:
       '韩国 2024 年通过 AI 基本法（2025 年生效），是亚洲首部综合性 AI 立法。法案采取风险分级管理，设立 AI 委员会，要求高风险 AI 进行影响评估，同时兼顾创新促进。比新加坡的自愿框架更具法律约束力。',
     governanceEn:
-      "South Korea passed the AI Basic Act in 2024 (effective 2025), Asia's first comprehensive AI legislation. The Act takes a risk-tiered approach, establishes an AI Committee, requires impact assessments for high-risk AI, and balances innovation promotion. It is more legally binding than Singapore's voluntary framework.",
+      "South Korea passed the AI Basic Act in 2024 (effective 2025) — Asia's first full-scope AI law. The Act uses a risk-tiered approach, sets up an AI Committee, requires impact assessments for high-risk AI, and tries to balance innovation. It is more legally binding than Singapore's voluntary framework.",
     keyInitiatives: [
       '₩100 万亿公私 AI 基金',
       'AI 基本法实施（2025）',
@@ -1052,7 +1052,7 @@ export const regionDetails: RegionDetail[] = [
       '高成本可能限制大规模 AI 基础设施建设',
     ],
     weaknessesEn: [
-      "AI startup ecosystem less vibrant than Singapore's (no Southeast Asian market hinterland)",
+      "AI startup scene less active than Singapore's (no Southeast Asian market hinterland)",
       'Government less proactive in AI industrialisation than Singapore (e.g. AISG)',
       'Federalism slows policy coordination',
       'High costs may constrain large-scale AI infrastructure build-out',

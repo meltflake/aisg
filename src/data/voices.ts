@@ -44,7 +44,7 @@ export const institutions: Institution[] = [
     zhName: '数码发展及新闻部',
     role: '新加坡 AI 政策的顶层设计和统筹协调部门，发布演讲稿、政策文件和官方回应。',
     roleEn:
-      "The lead ministry for top-level design and coordination of Singapore's AI policy; publishes speeches, policy documents and official responses.",
+      "The lead ministry for Singapore's AI policy — sets direction, coordinates across government, and publishes speeches, policy documents and official responses.",
     channels: [
       {
         platform: 'website',
@@ -64,7 +64,7 @@ export const institutions: Institution[] = [
     zhName: '资讯通信媒体发展局',
     role: 'AI 治理框架制定和行业推广的执行机构，发布 AI Verify、Model AI Governance Framework。',
     roleEn:
-      'The executive agency responsible for AI governance frameworks and industry adoption; publisher of AI Verify and the Model AI Governance Framework.',
+      'The agency that builds AI governance frameworks and pushes industry adoption; publisher of AI Verify and the Model AI Governance Framework.',
     channels: [
       { platform: 'website', url: 'https://www.imda.gov.sg/', label: '官网', labelEn: 'Website', primary: true },
       { platform: 'linkedin', url: 'https://www.linkedin.com/company/imda-sg/' },
@@ -101,7 +101,7 @@ export const institutions: Institution[] = [
     zhName: '智慧国家计划',
     role: '新加坡数字化转型的总体框架，涵盖 AI、数字基础设施和数字包容。',
     roleEn:
-      "The overarching framework for Singapore's digital transformation, covering AI, digital infrastructure and digital inclusion.",
+      "The umbrella framework for Singapore's digital transformation — AI, digital infrastructure, digital inclusion.",
     channels: [
       { platform: 'website', url: 'https://www.smartnation.gov.sg/', label: '官网', labelEn: 'Website', primary: true },
       { platform: 'youtube', url: 'https://www.youtube.com/@smartnationsingapore' },
@@ -114,7 +114,7 @@ export const institutions: Institution[] = [
     nameEn: 'AI Verify Foundation',
     zhName: 'AI Verify 基金会',
     role: '开源 AI 治理测试工具，推动 AI 可信赖性的国际标准。',
-    roleEn: 'Open-source AI governance testing toolkit; advances international standards for trustworthy AI.',
+    roleEn: 'Open-source AI governance testing toolkit; works to set international standards for trustworthy AI.',
     channels: [
       { platform: 'website', url: 'https://aiverifyfoundation.sg/', label: '官网', labelEn: 'Website', primary: true },
       { platform: 'github', url: 'https://github.com/aiverify-foundation' },

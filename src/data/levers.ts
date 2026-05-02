@@ -60,9 +60,9 @@ export const levers: Lever[] = [
     subtitle: '数据 + 算力 + 物理基础设施',
     subtitleEn: 'Data + Compute + Physical Infrastructure',
     whatStateDoes: '把企业自己买不起的算力和数据底座建好',
-    whatStateDoesEn: 'Build the compute and data substrate that companies cannot afford on their own',
+    whatStateDoesEn: 'Build the compute and data layer companies cannot afford to build themselves',
     bottleneckSolved: '企业自己买不起算力',
-    bottleneckSolvedEn: 'Companies cannot afford compute on their own',
+    bottleneckSolvedEn: 'Companies cannot afford their own compute',
     transmissionMode: 'transmitted',
     groups: [
       {
@@ -111,7 +111,7 @@ export const levers: Lever[] = [
             scale: '多重合作',
             scaleEn: 'Multiple partnerships',
             description: 'NVIDIA 在新加坡形成多机构 AI 加速生态',
-            descriptionEn: 'NVIDIA has built a multi-institution AI acceleration ecosystem in Singapore',
+            descriptionEn: 'NVIDIA has built a multi-institution AI acceleration network in Singapore',
             sourceUrl: 'https://www.edb.gov.sg/',
           },
           {
@@ -254,7 +254,7 @@ export const levers: Lever[] = [
       },
     ],
     insight: '国家把企业最大的固定成本（算力 + 数据）变成公共物品。',
-    insightEn: "The state turns enterprises' largest fixed costs (compute + data) into public goods.",
+    insightEn: 'The state turns the biggest fixed costs (compute + data) into public goods.',
     championPersonIds: ['lawrence-wong', 'josephine-teo'],
     relatedPolicyIds: ['budget-2026-national-ai-acceleration', 'public-ai-research-investment-2026-2030'],
     relatedPostSlugs: ['singapore-ai-native-companies-vs-nations', 'singapore-ai-strategy-the-real-moat'],
@@ -267,9 +267,9 @@ export const levers: Lever[] = [
     subtitle: '规则 + 沙盒 + 法律',
     subtitleEn: 'Rules + Sandboxes + Law',
     whatStateDoes: '让企业敢部署',
-    whatStateDoesEn: 'Make companies confident enough to deploy',
+    whatStateDoesEn: 'Give companies enough certainty to deploy',
     bottleneckSolved: '企业不敢部署因为合规风险不可测',
-    bottleneckSolvedEn: 'Companies hesitate to deploy because compliance risk is unmeasurable',
+    bottleneckSolvedEn: 'Companies hold back because compliance risk is unmeasurable',
     transmissionMode: 'transmitted',
     groups: [
       {
@@ -500,7 +500,7 @@ export const levers: Lever[] = [
     ],
     insight: '"训练宽松 + 输出严管"——日本和新加坡是世界上目前唯二做到这一点的国家。',
     insightEn:
-      '"Permissive on training + strict on outputs" — Japan and Singapore are currently the only two countries in the world doing this.',
+      '"Permissive on training, strict on outputs" — Japan and Singapore are the only two countries doing this.',
     championPersonIds: ['josephine-teo'],
     relatedPolicyIds: [
       'model-ai-governance-framework',
@@ -733,7 +733,7 @@ export const levers: Lever[] = [
     ],
     insight: '从全民到企业到教育到中年再训练——五层管线串起来才是完整的 AI 人才池。',
     insightEn:
-      'From the whole population to enterprises to education to mid-career retraining — only when the five layers connect do you get a complete AI talent pool.',
+      'Whole population, enterprises, schools, mid-career retraining — the talent pool only works when all five layers line up.',
   },
   {
     number: 4,
@@ -1141,7 +1141,7 @@ export const levers: Lever[] = [
     ],
     insight: '同时在 11 个部委铺开旗舰应用——这是国家级"queryable organization"的实操样本。',
     insightEn:
-      'Rolling out flagship applications simultaneously across 11 ministries — this is the operational template for a national-scale "queryable organization."',
+      'Flagship applications rolling out across 11 ministries at once — this is what a national-scale "queryable organisation" looks like in practice.',
   },
   {
     number: 5,
@@ -1151,9 +1151,9 @@ export const levers: Lever[] = [
     subtitle: 'Procurement / 自身率先',
     subtitleEn: 'Procurement / Leading by Example',
     whatStateDoes: '让公务员率先用 AI，给企业看先例',
-    whatStateDoesEn: 'Get civil servants using AI first, giving enterprises a precedent to follow',
+    whatStateDoesEn: 'Put civil servants on AI first, so businesses have a precedent',
     bottleneckSolved: '企业看不到先例',
-    bottleneckSolvedEn: 'Enterprises see no precedent to follow',
+    bottleneckSolvedEn: 'Businesses have no precedent to point to',
     transmissionMode: 'direct',
     groups: [
       {
@@ -1376,7 +1376,7 @@ export const levers: Lever[] = [
     ],
     insight: 'DIS 把 AI 写进军种结构、GovTech Pair 把全公务员变 AI 操作员——这是国家级 IC + DRI + AI Founder 模型成立。',
     insightEn:
-      'DIS writes AI into the structure of a service branch and GovTech Pair turns every civil servant into an AI operator — this is the national-scale IC + DRI + AI Founder model in action.',
+      'DIS writes AI into a service branch’s structure and GovTech Pair turns every civil servant into an AI operator — the IC + DRI + AI Founder model, at national scale.',
   },
   {
     number: 6,
@@ -1386,7 +1386,7 @@ export const levers: Lever[] = [
     subtitle: '国际治理 + 外资 + 标准制定',
     subtitleEn: 'International Governance + Foreign Capital + Standard-Setting',
     whatStateDoes: '让外资把 AI 治理总部放新加坡',
-    whatStateDoesEn: 'Get foreign companies to base their AI governance HQ in Singapore',
+    whatStateDoesEn: 'Get foreign firms to base their AI governance HQ in Singapore',
     bottleneckSolved: '企业不知道总部该放哪',
     bottleneckSolvedEn: "Companies don't know where to place their HQ",
     transmissionMode: 'direct',
@@ -1591,7 +1591,7 @@ export const levers: Lever[] = [
     ],
     insight: '用 0.07% 的全球人口拿到 G7 级 AI 治理话语权——这是新加坡战略最不可复制的部分。',
     insightEn:
-      "Securing G7-level AI governance influence with 0.07% of the world's population — the least replicable part of Singapore's strategy.",
+      "Punching at G7-level AI governance influence with 0.07% of the world's population — the least replicable part of Singapore's strategy.",
   },
 ];
 

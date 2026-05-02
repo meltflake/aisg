@@ -25,7 +25,7 @@ export const timelineEvents: TimelineEvent[] = [
     description:
       '新加坡将首次举办 International Olympiad in AI (IOAI)，将全球 AI 青年人才汇聚狮城，展现新加坡在 AI 教育和人才培养领域的国际领导力。',
     descriptionEn:
-      "Singapore will host the International Olympiad in AI (IOAI) for the first time, bringing the world's top young AI talent to the Lion City and signalling Singapore's international leadership in AI education and talent development.",
+      "Singapore will host the International Olympiad in AI (IOAI) for the first time, drawing the world's top young AI talent to the Lion City and underlining Singapore's lead in AI education and talent development.",
     tags: ['人才', '国际'],
   },
   {
@@ -36,7 +36,7 @@ export const timelineEvents: TimelineEvent[] = [
     description:
       '1 月：MDDI 宣布 2026-2030 公共 AI 研究投资计划，投资超 10 亿新元（7.79 亿美元）用于公共 AI 研究，聚焦负责任和资源高效的 AI、全链条人才培养、产业应用。同月举办 AI Research Week 2026，与 AAAI 第 40 届会议同期。Microsoft AI Economy Institute 报告显示新加坡 AI 采用率 60.9%，全球第二（仅次于 UAE 64.0%），美国仅 28.3%。2 月：预算案将 AI 提升至空前高度，成立由总理亲自主持的 National AI Council；推出 4 项 AI Mission；Enterprise Innovation Scheme 400% AI 税务扣除；启动 one-north AI 园区建设；National AI Literacy Programme。3 月：新加坡正式成为超老龄社会（65 岁以上 > 21%）；卫生部长宣布 ACE-AI 预测工具（Synapxe 开发），2027 年初推广至 1,100+ Healthier SG 诊所；BRCA1/2 基因检测最高 70% 补贴（2026.12 起）；MediShield Life 覆盖预防性乳房切除术（Q3）及输卵管卵巢切除术（Q4）；MediSave 限额提升惠及 91 万+ 患者。',
     descriptionEn:
-      "January: MDDI announced the 2026–2030 public AI research investment plan, committing over S$1B (US$779M) to public AI research, focused on responsible and resource-efficient AI, end-to-end talent development, and industry applications. AI Research Week 2026 was held the same month, co-located with the 40th AAAI conference. The Microsoft AI Economy Institute report ranked Singapore's AI adoption rate at 60.9%, second globally (behind UAE at 64.0%; US at 28.3%). February: Budget 2026 elevated AI to an unprecedented priority — establishing a National AI Council chaired by the Prime Minister himself; launching 4 AI Missions; introducing a 400% AI tax deduction under the Enterprise Innovation Scheme; breaking ground on the one-north AI district; rolling out the National AI Literacy Programme. March: Singapore officially became a super-aged society (>21% aged 65+); the Health Minister announced the ACE-AI predictive tool (developed by Synapxe), to be deployed across 1,100+ Healthier SG clinics from early 2027; BRCA1/2 genetic testing subsidies of up to 70% (from Dec 2026); MediShield Life coverage extended to prophylactic mastectomy (Q3) and salpingo-oophorectomy (Q4); MediSave limits raised, benefiting 910,000+ patients.",
+      "January: MDDI announced the 2026–2030 public AI research plan, committing over S$1B (US$779M), focused on responsible and resource-efficient AI, full-pipeline talent development, and industry applications. AI Research Week 2026 was held the same month, co-located with the 40th AAAI conference. The Microsoft AI Economy Institute report ranked Singapore's AI adoption rate at 60.9%, second globally (behind UAE at 64.0%; US at 28.3%). February: Budget 2026 elevated AI to an unprecedented priority — establishing a National AI Council chaired by the Prime Minister himself; launching 4 AI Missions; introducing a 400% AI tax deduction under the Enterprise Innovation Scheme; breaking ground on the one-north AI district; rolling out the National AI Literacy Programme. March: Singapore officially became a super-aged society (>21% aged 65+); the Health Minister announced the ACE-AI predictive tool (developed by Synapxe), to be deployed across 1,100+ Healthier SG clinics from early 2027; BRCA1/2 genetic testing subsidies of up to 70% (from Dec 2026); MediShield Life coverage extended to prophylactic mastectomy (Q3) and salpingo-oophorectomy (Q4); MediSave limits raised, benefiting 910,000+ patients.",
     tags: ['预算', '战略', '国际', '医疗'],
     personIds: ['lawrence-wong', 'josephine-teo'],
     relatedPolicyIds: [
@@ -65,7 +65,7 @@ export const timelineEvents: TimelineEvent[] = [
     description:
       'Smart Nation 2.0 落地，发布 1.2 亿新元 AI 应用基金和五大国家 AI 项目（智能货运、市政服务、慢性病管理、个性化教育、边境清关）。AI 预算突破 10 亿新元。3 月 NUS AI Institute 成立，整合校内 AI 研究资源。SEA-LION 大语言模型正式发布；AMP 启动；参加首尔 AI 安全峰会；CSA 发布 AI 安全指南。',
     descriptionEn:
-      'Smart Nation 2.0 launched, with a S$120M AI application fund and five National AI Projects (intelligent freight, municipal services, chronic disease management, personalised education, border clearance). AI budget broke through S$1B. NUS AI Institute was established in March, consolidating university-wide AI research. The SEA-LION large language model was officially released; the AI Trailblazers Maturity Programme (AMP) launched; Singapore attended the Seoul AI Safety Summit; CSA released AI security guidelines.',
+      'Smart Nation 2.0 launched, with a S$120M AI application fund and five National AI Projects (intelligent freight, municipal services, chronic disease management, personalised education, border clearance). The AI budget passed S$1B. The NUS AI Institute was established in March, consolidating university-wide AI research. The SEA-LION large language model was officially released; the AI Trailblazers Maturity Programme (AMP) launched; Singapore attended the Seoul AI Safety Summit; CSA released AI security guidelines.',
     tags: ['战略', '技术', '国际'],
   },
   {
@@ -76,7 +76,7 @@ export const timelineEvents: TimelineEvent[] = [
     description:
       '国家 AI 战略 2.0 发布，从"重点应用"升级为"系统性赋能"。AI Verify 测试框架开源并成立 AI Verify Foundation。生成式 AI 治理框架提案。参加 Bletchley Park 首届 AI 安全峰会。',
     descriptionEn:
-      'National AI Strategy 2.0 was released, upgrading the framework from "focused applications" to "system-wide enablement". The AI Verify testing framework was open-sourced and the AI Verify Foundation was established. A proposed governance framework for generative AI was published. Singapore attended the inaugural Bletchley Park AI Safety Summit.',
+      'National AI Strategy 2.0 was released, shifting the framework from "focused applications" to "system-wide enablement". The AI Verify testing framework was open-sourced and the AI Verify Foundation was established. A proposed governance framework for generative AI was published. Singapore attended the inaugural Bletchley Park AI Safety Summit.',
     tags: ['战略', '治理', '国际'],
   },
   {

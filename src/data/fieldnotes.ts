@@ -79,10 +79,10 @@ export const fieldNotes: FieldNote[] = [
           '单一文化的公司很难真正国际化——这是长期观察的结论，不是政治正确',
         ],
         pointsEn: [
-          'Singapore does not mandate a fixed local-headcount ratio, but it cares deeply about team diversity.',
+          'Singapore does not require a fixed local-headcount ratio, but it cares a lot about team diversity.',
           'Unacceptable: an all-China team, an all-India team, an all-US team.',
           'Acceptable: China + North America + Europe + Australia.',
-          'Monocultural companies rarely become truly international — this is a long-running empirical observation, not political correctness.',
+          'Monocultural companies rarely become truly international — this is a long-running observation from experience, not political correctness.',
         ],
         highlight: '多元化不是门面，是实质要求',
         highlightEn: 'Diversity is not window-dressing; it is a substantive requirement',
@@ -138,7 +138,7 @@ export const fieldNotes: FieldNote[] = [
         pointsEn: [
           'R&D grants: a good fit for technical teams of up to 10 people, available for genuine R&D work tied to core technology.',
           'Local fresh-graduate training subsidy: hire five local fresh graduates full-time, mentored by the CTO or core engineering staff, with the government subsidising part of the salary.',
-          "Enterprise Compute Initiative: the government subsidises local enterprises' use of AI infrastructure providers; participation requires a Singapore-based team and can be combined with AWS, Microsoft or Google.",
+          "Enterprise Compute Initiative: the government subsidises local companies' use of AI infrastructure providers; you need a Singapore-based team to participate, and it can be combined with AWS, Microsoft or Google.",
         ],
       },
       {
@@ -161,6 +161,6 @@ export const fieldNotes: FieldNote[] = [
     takeaway:
       '新加坡的政策，是为"已经跑起来、但不想在结构上翻车"的公司准备的。如果还在验证 PMF，政府不重要。但当风险从"能不能做成"变成"结构、合规、长期可持续性"时，这种对话就有价值了。',
     takeawayEn:
-      'Singapore\'s policy stack is built for companies that already work — and that do not want to crash on structural issues. If you are still validating PMF, the government does not matter much. But once your risk shifts from "can we make this work" to "structure, compliance, long-term sustainability", this kind of conversation becomes valuable.',
+      'Singapore\'s policy stack is built for companies that already work — and don\'t want to crash on structural issues. If you\'re still validating PMF, the government doesn\'t matter much. But once your risk shifts from "can we make this work" to "structure, compliance, long-term sustainability", this kind of conversation starts to pay off.',
   },
 ];

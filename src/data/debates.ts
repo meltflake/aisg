@@ -175,7 +175,7 @@ export const debates: Debate[] = [
     relatedPostSlugs: [],
     topics: ['AI & Economy', 'AI Startups & Ecosystem', 'AI & Workforce'],
     zhSummary: `贸工部供给委员会辩论聚焦AI驱动的经济结构转型。议员质询产业转型地图(ITM)是否真正推动生产力提升而非仅助企业降本，追问如何衡量真正的生产力增益（管理升级、流程再造、商业模式变革）而非简单的数字工具采用率。关注焦点包括：中小企业AI实施困难、AI创业生态中大学/A*STAR研究成果商业化、投资退出缺口、AI暗模式（如虚假评论与订阅陷阱）对消费者的威胁。提出构建政府门户AI助手，基于企业画像自动推荐补贴和方案。`,
-    summaryShortEn: `The MTI Committee of Supply debate focused on AI-driven structural economic transformation. MPs questioned whether Industry Transformation Maps (ITMs) genuinely drive productivity gains or merely help firms cut costs, pressing on how to measure real productivity uplift (management upgrades, process redesign, business model change) rather than simple adoption rates of digital tools. Focus areas: SMEs struggling with AI implementation, the gap between university/A*STAR research and commercial exit in the AI startup ecosystem, AI-enabled dark patterns (fake reviews, subscription traps) threatening consumers. A proposal: an AI assistant on government portals that recommends grants and schemes based on each firm's profile.`,
+    summaryShortEn: `The MTI Committee of Supply debate focused on AI-driven structural economic transformation. MPs asked whether Industry Transformation Maps (ITMs) genuinely drive productivity gains or merely help firms cut costs, pressing on how to measure real productivity uplift (management upgrades, process redesign, business model change) rather than simple adoption rates of digital tools. Focus areas: SMEs struggling with AI implementation, the gap between university/A*STAR research and commercial exit in the AI startup scene, AI-enabled dark patterns (fake reviews, subscription traps) threatening consumers. A proposal: an AI assistant on government portals that recommends grants and schemes based on each firm's profile.`,
     keyPoints: [
       '产业转型地图需回应AI时代要求',
       '衡量真正生产力增益而非工具采用率',
@@ -202,7 +202,7 @@ export const debates: Debate[] = [
     policySignalEn: 'Industrial policy shifts from digitalisation to AI-native transformation.',
     notableQuote: null,
     notableQuoteEn: null,
-    summary: `The MTI Committee of Supply debate focused on AI-driven economic transformation. MPs questioned whether Industry Transformation Maps are driving genuine productivity gains or merely helping firms manage costs. Key concerns: measuring real outcomes (management upgrading, process redesign, business model transformation) rather than just digital tool adoption; SMEs struggling with AI implementation; startup ecosystem gaps between university/A*STAR research and commercial exit; rise of AI-enabled dark patterns (fake reviews, subscription traps). A proposal was floated for an integrated AI assistant on government portals to automatically recommend schemes based on firm profiles.`,
+    summary: `The MTI Committee of Supply debate focused on AI-driven economic transformation. MPs asked whether Industry Transformation Maps are driving real productivity gains or merely helping firms manage costs. Key concerns: measuring real outcomes (management upgrades, process redesign, business model change) rather than just digital tool adoption; SMEs struggling with AI implementation; gaps between university/A*STAR research and commercial exit in the startup scene; rise of AI-enabled dark patterns (fake reviews, subscription traps). A proposal was floated for an AI assistant on government portals that recommends schemes based on each firm's profile.`,
     sourceUrl: 'https://sprs.parl.gov.sg/search/#/sprs3topic?reportid=budget-2894',
   },
   {
@@ -686,7 +686,7 @@ export const debates: Debate[] = [
     policySignalEn: 'AI moves from point-use cases to being positioned as a regional economic engine.',
     notableQuote: null,
     notableQuoteEn: null,
-    summary: `The MOT Committee of Supply debate featured two significant AI dimensions. First, the Next-Generation Port at Tuas leverages frontier technologies — automation, advanced sensors, predictive analytics and AI — to maintain global competitiveness, while emphasising responsible deployment to manage workforce transitions. Second, an MP articulated a bolder vision: the national AI mission as a "force multiplier" under the Sijori framework, enabling cross-border smart factories, optimising multimodal logistics flows, embedding trade finance, and strengthening regional medical and bio-manufacturing supply chains. The strategic question posed was how to elevate infrastructure expansion into a coordinated AI-enabled economic engine generating high-value jobs.`,
+    summary: `The MOT Committee of Supply debate featured two significant AI dimensions. First, the Next-Generation Port at Tuas uses frontier technologies — automation, advanced sensors, predictive analytics and AI — to stay globally competitive, while stressing responsible deployment to manage workforce transitions. Second, an MP laid out a bolder vision: the national AI mission as a "force multiplier" under the Sijori framework, enabling cross-border smart factories, optimising multimodal logistics flows, embedding trade finance, and strengthening regional medical and bio-manufacturing supply chains. The strategic question: how to lift infrastructure expansion into a coordinated AI-enabled economic engine generating high-value jobs.`,
     sourceUrl: 'https://sprs.parl.gov.sg/search/#/sprs3topic?reportid=budget-2915',
   },
   {
@@ -705,7 +705,7 @@ export const debates: Debate[] = [
     relatedPostSlugs: [],
     topics: ['AI & Economy', 'AI in Public Sector'],
     zhSummary: `国家发展部供给委员会辩论中讨论了AI和机器人技术对建筑业的变革潜力。技术进步如何帮助建筑行业节省时间、降低成本、减少人力需求成为核心议题。AI和机器人有望将建筑业转变为快速、智能和高度自动化的行业。`,
-    summaryShortEn: `The MND Committee of Supply debate discussed the transformative potential of AI and robotics in construction. How tech progress can save time, cut costs, and reduce manpower demand was the core thread. AI and robotics promise to turn construction into a fast, smart, highly automated industry, addressing the sector's chronic labour shortages and productivity issues.`,
+    summaryShortEn: `The MND Committee of Supply debate discussed how AI and robotics could remake construction. The core thread: how tech progress can save time, cut costs, and reduce manpower demand. AI and robotics promise to turn construction into a fast, smart, highly automated industry, addressing the sector's chronic labour shortages and productivity issues.`,
     keyPoints: ['AI和机器人改造建筑业', '节省时间、降低成本、减少人力', '推动建筑业智能化自动化'],
     keyPointsEn: [
       'AI and robotics reshape construction',
@@ -721,7 +721,7 @@ export const debates: Debate[] = [
     policySignalEn: 'AI automation accelerates in the construction industry.',
     notableQuote: null,
     notableQuoteEn: null,
-    summary: `The MND Committee of Supply debate discussed the transformative potential of AI and robotics for Singapore's construction industry. The key question was how advances in technology can save time, cut costs and reduce manpower requirements. AI and robotics were identified as capable of transforming construction into a fast, smart and highly automated industry, addressing chronic labour shortages and productivity challenges in the sector.`,
+    summary: `The MND Committee of Supply debate looked at how AI and robotics could remake Singapore's construction industry. The key question was how tech advances can save time, cut costs and reduce manpower requirements. AI and robotics were identified as capable of turning construction into a fast, smart and highly automated industry, addressing chronic labour shortages and productivity challenges in the sector.`,
     sourceUrl: 'https://sprs.parl.gov.sg/search/#/sprs3topic?reportid=budget-2914',
   },
   {
@@ -836,7 +836,7 @@ export const debates: Debate[] = [
     policySignalEn: 'AI for climate enters the policy agenda.',
     notableQuote: null,
     notableQuoteEn: null,
-    summary: `During the MSE Committee of Supply debate, MPs questioned whether the Ministry has explored leveraging AI to enhance Singapore's climate resilience initiatives. The discussion centred on harnessing the latest technologies to anticipate extreme weather events before they occur and sharpening project accuracy through AI. Multiple MPs raised concerns about the practical impacts of climate change on Singapore and the role of technology in building adaptive capacity.`,
+    summary: `During the MSE Committee of Supply debate, MPs asked whether the Ministry has looked at using AI to strengthen Singapore's climate resilience efforts. The discussion focused on using the latest technologies to spot extreme weather events ahead of time and improve project accuracy through AI. Multiple MPs raised concerns about the practical impacts of climate change on Singapore and the role of technology in building adaptive capacity.`,
     sourceUrl: 'https://sprs.parl.gov.sg/search/#/sprs3topic?reportid=budget-2905',
   },
   {
@@ -1150,7 +1150,7 @@ The Minister for Education (Mr Desmond Lee)
       'AI Infrastructure & Research',
     ],
     zhSummary: `议员质询新加坡竞争监管机构是否审查Meta收购本地AI初创Manus，及此类收购对本地AI创新生态的影响。政府回应当前无审查行动，强调采用自愿合并申报制度，鼓励创新同时防范反竞争风险。核心争议在于监管框架是否足够应对快速发展的AI产业并购。`,
-    summaryShortEn: `An MP asked whether the Competition and Consumer Commission of Singapore is reviewing Meta's acquisition of local AI startup Manus and how such acquisitions affect the domestic AI innovation ecosystem. The government replied there is no current review and stressed Singapore's voluntary merger notification regime, which encourages innovation while guarding against anti-competitive risks. The core debate is whether the framework is sufficient for fast-moving AI-industry M&A.`,
+    summaryShortEn: `An MP asked whether the Competition and Consumer Commission of Singapore is reviewing Meta's acquisition of local AI startup Manus and how such acquisitions affect the domestic AI startup scene. The government replied there is no current review and stressed Singapore's voluntary merger notification regime, which encourages innovation while guarding against anti-competitive risks. The core debate is whether the framework is sufficient for fast-moving AI-industry M&A.`,
     keyPoints: ['采用自愿合并申报', '无当前审查行动', '关注AI市场竞争'],
     keyPointsEn: ['Voluntary merger notification regime', 'No current review action', 'Focus on AI market competition'],
     governmentStance: '支持自愿申报，保障创新与竞争',
@@ -2093,7 +2093,7 @@ The Minister for Trade and Industry (Mr Gan Kim Yong)
     relatedPostSlugs: [],
     topics: ['AI Economy & Industry', 'AI & Employment', 'AI Infrastructure & Research', 'AI in Public Sector'],
     zhSummary: `议员质询疫情后就业恢复、通胀压力及弱势群体保障。人力部部长回应新加坡失业率降至2.8%，通过技能培训、渐进式工资模式及退休保障等多项措施支持不同年龄和弱势群体就业，强调收入增长超过通胀，整体劳动力市场稳健。核心争议聚焦于如何持续提升低收入者福利及应对全球经济不确定性。`,
-    summaryShortEn: `MPs raised post-pandemic employment recovery, inflation pressure, and protection of vulnerable groups. The Manpower Minister replied that resident unemployment has dropped to 2.8%, with skills training, the Progressive Wage Model and retirement security supporting employment across different age and vulnerable groups; income growth has outpaced inflation and the labour market remains robust. The core debate: how to keep lifting low-income welfare and respond to global economic uncertainty.`,
+    summaryShortEn: `MPs raised post-pandemic employment recovery, inflation pressure, and protection of vulnerable groups. The Manpower Minister replied that resident unemployment has dropped to 2.8%, with skills training, the Progressive Wage Model and retirement security supporting employment across different age and vulnerable groups; income growth has outpaced inflation and the labour market remains strong. The core debate: how to keep lifting low-income welfare and respond to global economic uncertainty.`,
     keyPoints: ['疫情后就业恢复', '低收入者工资提升', '弱势群体保障加强'],
     keyPointsEn: [
       'Post-pandemic employment recovery',
@@ -4929,7 +4929,7 @@ The Senior Minister of State for Communications and Information (Dr Janil Puthuc
       'AI in Public Sector',
     ],
     zhSummary: `议员质询政府如何利用ChatGPT等新型人工智能技术提升电子政务服务，是否会替代现有聊天机器人以改善用户体验。政府回应已在多项数字服务中应用AI，强调新技术可提升服务质量和效率，但需确保准确性和可靠性，且将制定使用指南保障责任和数据安全。核心争议点在于技术应用的安全性与实用性平衡。`,
-    summaryShortEn: `An MP asked how the Public Service intends to leverage new AI technologies such as ChatGPT in e-government services and whether they will replace existing chatbots. The government replied that AI is already used in multiple digital services and that new technology can lift quality and efficiency, but accuracy and reliability must be ensured first; usage guidance will be developed to safeguard accountability and data security. The core debate: balancing safety with usefulness in deployment.`,
+    summaryShortEn: `An MP asked how the Public Service plans to use new AI technologies such as ChatGPT in e-government services and whether they will replace existing chatbots. The government replied that AI is already used in multiple digital services and that new technology can lift quality and efficiency, but accuracy and reliability must come first; usage guidance will be developed to safeguard accountability and data security. The core debate: balancing safety with usefulness in deployment.`,
     keyPoints: ['政府已应用AI服务', '新技术提升服务质量', '强调准确性与安全'],
     keyPointsEn: [
       'AI already used across government services',
@@ -5718,7 +5718,7 @@ The Senior Minister of State for Communications and Information (Dr Janil Puthuc
       'AI Infrastructure & Research',
     ],
     zhSummary: `议员质询政府如何在推动数字基础设施和技术创新（如6G、Web 4.0）的同时，保障弱势群体数字包容，防止数字鸿沟扩大。关注数字监管的及时性与适度性，尤其是加密货币和元宇宙等新兴领域的风险与机遇。政府需在经济活力与社会凝聚力之间寻求平衡，确保全民赋能与安全防护。`,
-    summaryShortEn: `MPs asked how the government balances investment in digital infrastructure and tech innovation (6G, Web 4.0) with digital inclusion of vulnerable groups to prevent a widening digital divide. They focused on the timeliness and proportionality of digital regulation, especially in emerging areas like crypto and the metaverse. The government must balance economic vitality with social cohesion, ensuring whole-of-population empowerment and safety.`,
+    summaryShortEn: `MPs asked how the government balances investment in digital infrastructure and tech innovation (6G, Web 4.0) with digital inclusion of vulnerable groups to prevent a widening digital divide. They focused on the timeliness and proportionality of digital regulation, especially in emerging areas like crypto and the metaverse. The government must balance economic vitality with social cohesion, making sure the whole population stays included and safe.`,
     keyPoints: ['数字基础设施领先布局', '数字包容防止边缘化', '数字监管需及时适度'],
     keyPointsEn: [
       'Lead the way on digital infrastructure',
@@ -5787,7 +5787,7 @@ On the one hand, for survival and to keep relevant, Singapore has to continually
     relatedPostSlugs: [],
     topics: ['AI & Employment', 'AI in Healthcare', 'AI & National Security', 'AI in Public Sector'],
     zhSummary: `议员质询国防部关于更新医疗分类系统的进展，关注如何实现更全面的服役能力评估及岗位匹配。政府回应该系统旨在提升人力资源运用效率，结合服役者技能与职业背景。核心争议在于如何确保评估的全面性及实际部署中技能的合理匹配。`,
-    summaryShortEn: `MPs asked MINDEF about progress on updating the medical classification system, focusing on how to achieve more comprehensive operational-fitness assessment and job matching. The government replied that the system aims to lift HR efficiency by combining servicemen's skills with their professional background. The core debate: how to ensure assessment is comprehensive and skills are properly matched in deployment.`,
+    summaryShortEn: `MPs asked MINDEF about progress on updating the medical classification system, focusing on how to make operational-fitness assessment and job matching more thorough. The government replied that the system aims to lift HR efficiency by combining servicemen's skills with their professional background. The core debate: how to make assessment thorough and ensure skills are properly matched in deployment.`,
     keyPoints: ['医疗分类系统更新', '服役能力全面评估', '技能与岗位匹配'],
     keyPointsEn: [
       'Medical classification system update',
@@ -5941,7 +5941,7 @@ Dr Ng Eng Hen
     relatedPostSlugs: [],
     topics: ['AI Safety & Ethics', 'AI Economy & Industry', 'AI in Education', 'AI in Healthcare'],
     zhSummary: `议员质询新加坡通讯与资讯部关于发展人工智能生态系统及其应用的举措。政府回应介绍了国家人工智能战略及五大国家AI项目，强调通过产学研合作、资金投入及人才培养推动AI创新与应用，同时注重AI治理与国际合作。核心争议点在于如何平衡技术发展与伦理监管，确保AI安全可信。`,
-    summaryShortEn: `An MP asked MCI about its initiatives to develop the AI ecosystem and its deployment in Singapore. The government cited the National AI Strategy and the five National AI Projects, emphasising industry-academia-research collaboration, funding, and talent development to drive AI innovation and adoption while prioritising governance and international cooperation. The core debate: balancing tech development with ethics oversight to keep AI safe and trustworthy.`,
+    summaryShortEn: `An MP asked MCI about its initiatives to grow the AI scene and its deployment in Singapore. The government cited the National AI Strategy and the five National AI Projects, stressing industry-academia-research collaboration, funding, and talent development to drive AI innovation and adoption while prioritising governance and international cooperation. The core debate: balancing tech development with ethics oversight to keep AI safe and trustworthy.`,
     keyPoints: ['国家人工智能战略', '五大国家AI项目', 'AI治理与国际合作'],
     keyPointsEn: ['National AI Strategy', 'Five National AI Projects', 'AI governance and international cooperation'],
     governmentStance: '推动AI创新应用与安全监管并重',
@@ -6601,7 +6601,7 @@ It has made a good start in helping organisations improve their AI governance pr
     relatedPostSlugs: [],
     topics: ['AI Economy & Industry', 'AI Infrastructure & Research', 'AI in Public Sector'],
     zhSummary: `质询方关注在当前经济形势下，Tech@SG计划是否仍需继续以协助科技企业雇佣外籍人才。政府回应强调科技人才短缺的全球竞争，必须加快培养本地科技人才，同时通过培训和教育扩大人才池，确保新加坡在全球科技生态中保持竞争力。核心争议点在于如何平衡引进外籍人才与优先发展本地人才。`,
-    summaryShortEn: `MPs questioned whether the Tech@SG programme — which helps tech firms hire foreign talent — should continue under current economic conditions. The government emphasised global competition over scarce tech talent and the need to accelerate local tech talent development while expanding the talent pool through training and education to keep Singapore competitive in the global tech ecosystem. The core debate: balancing the inflow of foreign talent with prioritising local talent development.`,
+    summaryShortEn: `MPs questioned whether the Tech@SG programme — which helps tech firms hire foreign talent — should continue under current economic conditions. The government stressed global competition for scarce tech talent and the need to accelerate local tech talent development while expanding the talent pool through training and education to keep Singapore competitive globally. The core debate: balancing the inflow of foreign talent with prioritising local talent development.`,
     keyPoints: ['科技人才全球短缺', '加速本地人才培养', '科技企业需专业人才'],
     keyPointsEn: [
       'Global tech talent shortage',
@@ -7440,7 +7440,7 @@ This precipitated the start of National Service in 1967 and the focused developm
     relatedPostSlugs: [],
     topics: ['AI Economy & Industry', 'AI in Education', 'AI in Public Sector'],
     zhSummary: `质询新加坡年轻人创业趋势及创业公司成功率，政府回应指出本地年轻创业者比例上升，创业意愿增强，创业生态系统稳步发展，且国际排名优异。核心争议在于如何定义创业成功及与其他国家的比较。`,
-    summaryShortEn: `An MP asked about young Singaporeans' entrepreneurship trends and the success rate of startups. The government replied that the share of young local entrepreneurs is rising, entrepreneurial intent is stronger, the startup ecosystem is steadily growing, and Singapore performs well in international rankings. The core debate: how to define startup success and how Singapore compares with other countries.`,
+    summaryShortEn: `An MP asked about entrepreneurship trends among young Singaporeans and the success rate of startups. The government replied that the share of young local entrepreneurs is rising, entrepreneurial intent is stronger, the startup scene is steadily growing, and Singapore performs well in international rankings. The core debate: how to define startup success and how Singapore compares with other countries.`,
     keyPoints: ['年轻创业者比例提升', '创业生态持续成长', '国际排名表现良好'],
     keyPointsEn: [
       'Rising share of young entrepreneurs',

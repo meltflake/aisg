@@ -101,7 +101,7 @@ export const people: Person[] = [
     party: 'PAP',
     summary: '新加坡 AI 政策的核心推动者，主导国家 AI 战略、Agentic AI 治理框架、AI 双语人才计划。',
     summaryEn:
-      "The primary driver of Singapore's AI policy agenda; leads the National AI Strategy, the Agentic AI governance framework, and the bilingual AI talent programme.",
+      "The lead force behind Singapore's AI policy; runs the National AI Strategy, the Agentic AI governance framework, and the bilingual AI talent programme.",
     channels: [
       { platform: 'twitter', url: 'https://x.com/joteo_ylm', label: '@joteo_ylm' },
       {
@@ -126,7 +126,7 @@ export const people: Person[] = [
     party: 'PAP',
     summary: '亲自担任国家 AI 委员会主席，2026 预算案将 AI 列为国家优先事项。',
     summaryEn:
-      'Personally chairs the National AI Council; Budget 2026 elevated AI to a national priority under his direction.',
+      'Chairs the National AI Council himself; under his lead, Budget 2026 elevated AI to a national priority.',
     channels: [
       {
         platform: 'facebook',
@@ -149,7 +149,7 @@ export const people: Person[] = [
     party: 'PAP',
     summary: 'Smart Nation 倡议发起人，推动新加坡 AI 国际合作，包括新韩 AI 连接峰会。',
     summaryEn:
-      "Architect of the Smart Nation initiative; drives Singapore's international AI cooperation, including the Singapore–Korea AI Connectivity Summit.",
+      "Architect of the Smart Nation initiative; leads Singapore's international AI cooperation, including the Singapore–Korea AI Connectivity Summit.",
     channels: [
       {
         platform: 'facebook',
@@ -172,7 +172,7 @@ export const people: Person[] = [
     party: null,
     summary: '在国际论坛频繁发声谈 AI 治理与社会影响，推动全球 AI 安全对话。',
     summaryEn:
-      'A frequent voice at international forums on AI governance and societal impact; advances the global AI safety dialogue.',
+      'A regular voice at international forums on AI governance and its social impact; pushes the global AI safety conversation forward.',
     channels: [
       {
         platform: 'website',
@@ -219,7 +219,7 @@ export const people: Person[] = [
     party: null,
     summary: 'AI Singapore 创始人，推动 SEA-LION、AIAP 等核心项目，新加坡 AI 研究生态的奠基者。',
     summaryEn:
-      "Founder of AI Singapore; drives flagship programmes including SEA-LION and AIAP, and is the founding figure of Singapore's AI research ecosystem.",
+      "Founder of AI Singapore; leads flagship programmes including SEA-LION and AIAP, and is the founding figure of Singapore's AI research scene.",
     channels: [
       {
         platform: 'website',
