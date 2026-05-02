@@ -22,6 +22,7 @@ export interface ProgressAgainstTarget {
   currentEn?: string;
   target?: string;
   targetEn?: string;
+  /** 0–100; when present, UI renders a progress bar. Caller must clamp. */
   pct?: number;
   description?: string;
   descriptionEn?: string;
@@ -41,7 +42,7 @@ export interface MetricRow {
   categoryEn?: string;
 }
 
-interface DimensionBase {
+export interface DimensionBase {
   id: DimensionId;
   icon: string;
   title: string;
@@ -91,6 +92,7 @@ export interface OverallSummary {
 
 export const dataDate = '2026-05-02';
 
+// TODO(Task 8): fill oneLiner / oneLinerEn / topRankings / methodologyNote / methodologyNoteEn
 export const overallSummary: OverallSummary = {
   oneLiner: '',
   asOf: dataDate,
