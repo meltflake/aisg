@@ -1,7 +1,8 @@
 ---
+// TODO(Task 11): rewrite as 6-dimension dashboard
 import Layout from '~/layouts/PageLayout.astro';
 import Headline from '~/components/ui/Headline.astro';
-import { sections } from '~/data/tracker';
+import { dataDate } from '~/data/tracker';
 
 const lang = 'en' as const;
 ---
@@ -16,58 +17,7 @@ const lang = 'en' as const;
   lang={lang}
 >
   <section class="px-4 py-16 sm:px-6 mx-auto lg:px-8 max-w-5xl">
-    <Headline
-      title="📊 Execution Tracker"
-      subtitle="Tracking the key indicators of Singapore's AI strategy. Sourced from public official channels."
-    />
-
-    <div class="space-y-8">
-      {
-        sections.map((section) => (
-          <div>
-            <h2 class="text-xl font-bold mb-4">
-              {section.icon} {section.titleEn || section.title}
-            </h2>
-            <div class="overflow-x-auto">
-              <table class="w-full text-sm border-collapse">
-                <thead>
-                  <tr class="bg-slate-100 dark:bg-slate-800">
-                    <th class="text-left p-3 border border-subtle">Indicator</th>
-                    <th class="text-left p-3 border border-subtle">Value</th>
-                    <th class="text-left p-3 border border-subtle">Source / date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {section.rows.map((row) => (
-                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                      <td class="p-3 border border-subtle">{row.nameEn || row.name}</td>
-                      <td class="p-3 border border-subtle font-semibold">{row.valueEn || row.value}</td>
-                      <td class="p-3 border border-subtle text-muted">
-                        {row.sourceUrl ? (
-                          <a
-                            href={row.sourceUrl}
-                            target="_blank"
-                            rel="noopener"
-                            class="text-blue-600 dark:text-blue-400 hover:underline"
-                          >
-                            {row.sourceEn || row.source} ↗
-                          </a>
-                        ) : (
-                          row.sourceEn || row.source
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        ))
-      }
-    </div>
-
-    <p class="mt-8 text-sm text-muted">
-      ⚠️ Data current to end-2024; some figures are estimates. Updates and corrections welcome.
-    </p>
+    <Headline title="📊 Execution Tracker" subtitle="Dashboard rebuild in progress — coming soon." />
+    <p class="text-sm text-muted">Data as of {dataDate}</p>
   </section>
 </Layout>
