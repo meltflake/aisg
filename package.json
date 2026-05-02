@@ -20,6 +20,7 @@
     "check:graph": "tsx scripts/verify-graph.ts",
     "check:video-transcripts": "tsx scripts/videos/check-transcript-i18n.ts",
     "check:i18n": "node scripts/i18n-check.mjs",
+    "generate:og-image": "node scripts/generate-og-image.mjs",
     "fetch:video-transcripts": "tsx scripts/videos/fetch-transcripts.ts",
     "translate:video-transcripts": "tsx scripts/videos/translate-transcripts.ts",
     "fix": "npm run fix:eslint && npm run fix:prettier",

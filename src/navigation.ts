@@ -86,10 +86,7 @@ export function getFooterData(lang: Lang) {
     links: [
       {
         title: t(lang, labelKeys.analysis),
-        links: [
-          { text: lang === 'en' ? 'All articles' : '全部文章', href: lh('/blog', lang) },
-          { text: t(lang, labelKeys.aboutSite), href: lh('/about', lang) },
-        ],
+        links: [{ text: lang === 'en' ? 'All articles' : '全部文章', href: lh('/blog', lang) }],
       },
       {
         title: t(lang, labelKeys.policy),

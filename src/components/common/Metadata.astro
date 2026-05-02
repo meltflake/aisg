@@ -32,6 +32,8 @@ const {
 const lang: Lang = langOverride ?? getLangFromPath(String(Astro.url.pathname));
 const siteName = t(lang, 'siteName');
 const ogLocale = lang === 'en' ? 'en_US' : 'zh_CN';
+const hasDefaultOgImage = Boolean(METADATA?.openGraph?.images?.length);
+const hasPageOgImage = Boolean(openGraph?.images?.length);
 // Localized title template + default. Falls back to config when missing.
 const defaultTitle = lang === 'en' ? siteName : (METADATA?.title?.default ?? siteName);
 const titleTemplate = lang === 'en' ? `%s — ${siteName}` : (METADATA?.title?.template ?? `%s — ${siteName}`);
@@ -53,7 +55,7 @@ const seoProps: AstroSeoProps = merge(
       type: 'website',
     },
     twitter: {
-      cardType: openGraph?.images?.length ? 'summary_large_image' : 'summary',
+      cardType: hasPageOgImage || hasDefaultOgImage ? 'summary_large_image' : 'summary',
     },
   },
   {

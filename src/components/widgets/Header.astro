@@ -67,11 +67,16 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       },
     ]}
   >
-    <div class:list={[{ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex justify-between']}>
-      <a class="flex items-center" href={getHomePermalink()}>
+    <div
+      class:list={[
+        { 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' },
+        'flex min-w-0 items-center justify-between gap-2',
+      ]}
+    >
+      <a class="flex min-w-0 flex-1 items-center md:flex-none" href={getHomePermalink()}>
         <Logo />
       </a>
-      <div class="flex items-center md:hidden">
+      <div class="flex shrink-0 items-center md:hidden">
         <ToggleMenu />
       </div>
     </div>

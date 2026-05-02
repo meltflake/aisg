@@ -4,11 +4,13 @@ import logoUrl from '~/assets/favicons/logo.png';
 
 const lang = getLangFromPath(new URL(Astro.url).pathname);
 const siteName = t(lang, 'siteName');
+const siteShortName = t(lang, 'siteShortName');
 ---
 
 <span
-  class="inline-flex items-center gap-2.5 self-center ml-2 rtl:ml-0 rtl:mr-2 text-2xl md:text-xl font-bold text-gray-900 whitespace-nowrap dark:text-white"
+  class="inline-flex min-w-0 max-w-full items-center gap-2.5 self-center ml-2 rtl:ml-0 rtl:mr-2 text-xl sm:text-2xl md:text-xl font-bold text-gray-900 whitespace-nowrap dark:text-white"
 >
-  <img src={logoUrl.src} alt="" width="40" height="40" class="h-10 w-10 md:h-9 md:w-9 shrink-0" />
-  {siteName}
+  <img src={logoUrl.src} alt="" width="40" height="40" class="h-9 w-9 sm:h-10 sm:w-10 md:h-9 md:w-9 shrink-0" />
+  <span class="truncate sm:hidden">{siteShortName}</span>
+  <span class="hidden sm:inline">{siteName}</span>
 </span>

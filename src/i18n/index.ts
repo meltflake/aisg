@@ -164,6 +164,7 @@ export function t(lang: Lang, key: keyof typeof zh): string {
 export const zh = {
   // Site identity
   siteName: '新加坡 AI 观察',
+  siteShortName: '新加坡 AI',
   siteTagline: '深度观察新加坡 AI 生态与战略',
   siteDescription: '深度观察新加坡 AI 生态与战略——独立视角的中文分析平台。追踪政策、辩论、抓手与生态。',
 
@@ -268,6 +269,7 @@ export const zh = {
 
 export const en: Partial<Record<keyof typeof zh, string>> = {
   siteName: 'Singapore AI Observatory',
+  siteShortName: 'SG AI',
   siteTagline: 'In-depth coverage of Singapore’s AI strategy and ecosystem',
   siteDescription:
     'Independent analysis of Singapore’s AI strategy — tracking policies, parliamentary debates, levers, and the startup ecosystem.',
