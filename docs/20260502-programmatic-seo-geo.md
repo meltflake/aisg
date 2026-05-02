@@ -60,19 +60,28 @@ sgai.md 的核心资产不是少数导航页，而是每一个可被引用的实
 
 ## 6. 视频 transcript 刷新
 
-视频 transcript 通过脚本生成，不手工维护。
+视频 transcript 通过脚本生成，不手工维护。流程分两步：先抓 YouTube 原始字幕，再翻译成默认语言。
 
 ```bash
 npm run fetch:video-transcripts
 npm run fetch:video-transcripts -- --limit=3
 npm run fetch:video-transcripts -- --force
+npm run fetch:video-transcripts -- --emit-only
+npm run translate:video-transcripts
+npm run check:video-transcripts
 ```
 
-脚本位置：`scripts/videos/fetch-transcripts.ts`
+脚本位置：
+
+- `scripts/videos/fetch-transcripts.ts`：抓字幕 / 根据缓存重建数据
+- `scripts/videos/translate-transcripts.ts`：把非默认语言字幕翻译成默认中文
+- `scripts/videos/check-transcript-i18n.ts`：检查 transcript i18n 完整性
 
 输出文件：`src/data/video-transcripts.ts`
 
 缓存目录：`scripts/videos/data/`，已被 git ignore。当前 YouTube 自动字幕并非每条视频都有，脚本会跳过不可用 transcript；详情页会自动显示 transcript 可用性。
+
+数据字段遵守 i18n 约定：`paragraphs` 是默认中文 transcript，`paragraphsEn` 是英文 transcript。抓到英文字幕后必须运行 `translate:video-transcripts`，不能让中文页直接展示英文原文。
 
 ## 7. LLM / GEO 可读面
 
@@ -99,6 +108,8 @@ npm run check:i18n
 
 ```bash
 npm run fetch:video-transcripts
+npm run translate:video-transcripts
+npm run check:video-transcripts
 npm run check
 ```
 

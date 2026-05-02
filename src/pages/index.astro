@@ -45,6 +45,7 @@ const websiteSchema = {
 // Filter to zh-only posts on the zh homepage.
 const allLatestPosts = await findLatestPosts({ count: 20 });
 const latestPosts = allLatestPosts.filter((p) => (p.lang ?? 'zh') === 'zh').slice(0, 3);
+const [featuredPost, ...secondaryPosts] = latestPosts;
 
 // 4 levers chosen for cross-section visibility — keep the Hero strip honest
 // rather than chasing a "most-active" metric we don't yet maintain.
@@ -136,33 +137,67 @@ const totalLeverItems = levers.reduce((sum, lv) => sum + lv.groups.flatMap((g) =
           查看全部 →
         </a>
       </div>
-      <ol class="space-y-8 md:space-y-10">
+      <div class="grid gap-8 lg:grid-cols-[minmax(0,1.45fr)_minmax(280px,0.85fr)] lg:items-start">
         {
-          latestPosts.map((post, idx) => (
-            <li class="border-b border-subtle pb-8 last:border-b-0 last:pb-0">
-              <a href={getPermalink(post.permalink, 'post')} class="group block">
-                <div class="flex items-baseline gap-4 mb-2">
-                  <span class="font-serif text-sm text-primary tabular-nums">{String(idx + 1).padStart(2, '0')}</span>
+          featuredPost && (
+            <article class="border-y border-subtle py-6 lg:py-8">
+              <a href={getPermalink(featuredPost.permalink, 'post')} class="group block">
+                <div class="flex items-baseline gap-4 mb-3">
+                  <span class="font-serif text-sm text-primary tabular-nums">01</span>
                   <span class="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    {post.category?.title ?? '深度分析'} ·{' '}
-                    {new Date(post.publishDate).toLocaleDateString('zh-CN', {
+                    {featuredPost.category?.title ?? '深度分析'} ·{' '}
+                    {new Date(featuredPost.publishDate).toLocaleDateString('zh-CN', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric',
                     })}
                   </span>
                 </div>
-                <h3 class="font-serif text-xl md:text-2xl font-semibold text-gray-900 dark:text-white mb-3 leading-snug group-hover:text-primary transition-colors">
-                  {post.title}
+                <h3 class="font-serif text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white mb-4 leading-snug group-hover:text-primary transition-colors">
+                  {featuredPost.title}
                 </h3>
-                {post.excerpt && (
-                  <p class="text-gray-600 dark:text-gray-400 leading-[1.85] max-w-prose">{post.excerpt}</p>
+                {featuredPost.excerpt && (
+                  <p class="text-gray-600 dark:text-gray-400 leading-[1.9] max-w-2xl">{featuredPost.excerpt}</p>
                 )}
               </a>
-            </li>
-          ))
+            </article>
+          )
         }
-      </ol>
+        {
+          secondaryPosts.length > 0 && (
+            <aside class="lg:border-l lg:border-subtle lg:pl-7">
+              <div class="mb-3 text-xs uppercase tracking-[0.18em] text-gray-500 dark:text-gray-400">继续阅读</div>
+              <ol class="divide-y divide-subtle">
+                {secondaryPosts.map((post, idx) => (
+                  <li class="py-5 first:pt-0 last:pb-0">
+                    <a href={getPermalink(post.permalink, 'post')} class="group block">
+                      <div class="flex items-baseline gap-3 mb-2">
+                        <span class="font-serif text-sm text-primary tabular-nums">
+                          {String(idx + 2).padStart(2, '0')}
+                        </span>
+                        <span class="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                          {new Date(post.publishDate).toLocaleDateString('zh-CN', {
+                            month: 'short',
+                            day: 'numeric',
+                          })}
+                        </span>
+                      </div>
+                      <h3 class="font-serif text-lg font-semibold text-gray-900 dark:text-white leading-snug group-hover:text-primary transition-colors">
+                        {post.title}
+                      </h3>
+                      {post.excerpt && (
+                        <p class="mt-3 text-sm text-gray-600 dark:text-gray-400 leading-[1.75] line-clamp-4">
+                          {post.excerpt}
+                        </p>
+                      )}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </aside>
+          )
+        }
+      </div>
       <div class="mt-8 sm:hidden">
         <a href="/blog/" class="text-sm text-primary hover:text-secondary font-medium">查看全部分析 →</a>
       </div>

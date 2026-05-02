@@ -4,7 +4,7 @@ import { Icon } from 'astro-icon/components';
 
 import JsonLd from '~/components/common/JsonLd.astro';
 import Layout from '~/layouts/PageLayout.astro';
-import { getVideoTranscript } from '~/data/video-transcripts';
+import { getVideoTranscript, getVideoTranscriptLanguage, getVideoTranscriptParagraphs } from '~/data/video-transcripts';
 import { SPEAKER_TYPE_LABELS_EN, videos } from '~/data/videos';
 import { findPersonId } from '~/utils/people';
 import { pickLocalized } from '~/i18n';
@@ -18,6 +18,8 @@ export const getStaticPaths = (() =>
 
 const { video } = Astro.props;
 const transcript = getVideoTranscript(video.id);
+const transcriptParagraphs = getVideoTranscriptParagraphs(video.id, lang);
+const transcriptLanguage = getVideoTranscriptLanguage(video.id, lang);
 const speakerPersonId = findPersonId(video.speaker);
 const title = pickLocalized(video, 'title', lang) || video.title;
 const summary = pickLocalized(video, 'summary', lang) || video.summary;
@@ -58,7 +60,7 @@ const videoSchema = {
   thumbnailUrl: [`https://i.ytimg.com/vi/${yid}/hqdefault.jpg`],
   embedUrl: `https://www.youtube.com/embed/${yid}`,
   contentUrl: video.youtubeUrl,
-  inLanguage: transcript?.language || 'en',
+  inLanguage: transcriptLanguage || 'en',
   publisher: { '@type': 'Organization', name: video.channel },
 };
 ---
@@ -129,12 +131,12 @@ const videoSchema = {
     <section class="mb-10">
       <h2 class="font-serif text-xl font-semibold text-gray-900 dark:text-white mb-4">Readable Transcript</h2>
       {
-        transcript?.paragraphs.length ? (
+        transcriptParagraphs.length ? (
           <div class="prose prose-slate dark:prose-invert max-w-none">
             <p class="text-xs text-gray-500">
-              Caption language: {transcript.language} · Fetched: {transcript.fetchedAt}
+              Caption language: {transcriptLanguage} · Fetched: {transcript?.fetchedAt}
             </p>
-            {transcript.paragraphs.map((paragraph) => (
+            {transcriptParagraphs.map((paragraph) => (
               <p>{paragraph}</p>
             ))}
           </div>

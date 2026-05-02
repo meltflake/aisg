@@ -14,13 +14,25 @@ interface TranscriptRecord {
   error?: string;
 }
 
+interface TranscriptTranslation {
+  videoId: string;
+  targetLanguage: 'zh';
+  sourceLanguage: string;
+  translatedAt: string;
+  source: 'openai' | 'manual' | 'source';
+  model?: string;
+  paragraphs: string[];
+}
+
 const RAW_DIR = resolve('scripts/videos/data/transcripts');
+const TRANSLATION_DIR = resolve('scripts/videos/data/translations');
 const TMP_DIR = resolve('scripts/videos/data/transcripts-tmp');
 const OUT_FILE = resolve('src/data/video-transcripts.ts');
 const LANGS = ['en', 'zh-Hans', 'zh-Hant', 'zh'];
 
 const args = new Set(process.argv.slice(2));
 const force = args.has('--force');
+const emitOnly = args.has('--emit-only');
 const limitArg = process.argv.find((arg) => arg.startsWith('--limit='));
 const limit = limitArg ? Number(limitArg.split('=')[1]) : undefined;
 const idsArg = process.argv.find((arg) => arg.startsWith('--ids='));
@@ -91,6 +103,20 @@ function cachedRecord(videoId: string): TranscriptRecord | null {
   return JSON.parse(readFileSync(path, 'utf8')) as TranscriptRecord;
 }
 
+function isChineseLanguage(language: string): boolean {
+  return language.toLowerCase().startsWith('zh');
+}
+
+function isEnglishLanguage(language: string): boolean {
+  return language.toLowerCase().startsWith('en');
+}
+
+function readTranslation(videoId: string, targetLanguage: 'zh'): TranscriptTranslation | null {
+  const path = join(TRANSLATION_DIR, `${videoId}.${targetLanguage}.json`);
+  if (!existsSync(path)) return null;
+  return JSON.parse(readFileSync(path, 'utf8')) as TranscriptTranslation;
+}
+
 function downloadTranscript(video: (typeof videos)[number]): TranscriptRecord {
   const cached = cachedRecord(video.id);
   if (cached) return cached;
@@ -159,15 +185,48 @@ function downloadTranscript(video: (typeof videos)[number]): TranscriptRecord {
 }
 
 function emitData(records: TranscriptRecord[]): void {
-  const available = records.filter((record) => record.paragraphs.length > 0);
-  const data = JSON.stringify(Object.fromEntries(available.map((record) => [record.videoId, record])), null, 2);
+  const available = records
+    .filter((record) => record.paragraphs.length > 0)
+    .map((record) => {
+      const zhTranslation = readTranslation(record.videoId, 'zh');
+      const paragraphs = isChineseLanguage(record.language) ? record.paragraphs : zhTranslation?.paragraphs || [];
+      const paragraphsEn = isEnglishLanguage(record.language) ? record.paragraphs : undefined;
+
+      return [
+        record.videoId,
+        {
+          videoId: record.videoId,
+          youtubeId: record.youtubeId,
+          captionLanguage: record.language,
+          fetchedAt: record.fetchedAt,
+          source: record.source,
+          paragraphs,
+          ...(paragraphsEn ? { paragraphsEn } : {}),
+          ...(zhTranslation
+            ? {
+                translatedAt: zhTranslation.translatedAt,
+                translationSource: zhTranslation.source,
+                translationModel: zhTranslation.model,
+              }
+            : {}),
+          ...(record.error ? { error: record.error } : {}),
+        },
+      ] as const;
+    });
+  const data = JSON.stringify(Object.fromEntries(available), null, 2);
   const body = `export interface VideoTranscript {
   videoId: string;
   youtubeId: string;
-  language: string;
+  captionLanguage: string;
   fetchedAt: string;
   source: 'youtube-subtitles' | 'manual' | 'unavailable';
+  /** Default-locale readable transcript (zh). */
   paragraphs: string[];
+  /** English readable transcript. Usually the original YouTube caption track. */
+  paragraphsEn?: string[];
+  translatedAt?: string;
+  translationSource?: 'openai' | 'manual' | 'source';
+  translationModel?: string;
   error?: string;
 }
 
@@ -175,6 +234,20 @@ export const videoTranscripts: Record<string, VideoTranscript> = ${data};
 
 export function getVideoTranscript(videoId: string): VideoTranscript | undefined {
   return videoTranscripts[videoId];
+}
+
+export function getVideoTranscriptParagraphs(videoId: string, lang: 'zh' | 'en'): string[] {
+  const transcript = getVideoTranscript(videoId);
+  if (!transcript) return [];
+  if (lang === 'en') return transcript.paragraphsEn || [];
+  return transcript.paragraphs;
+}
+
+export function getVideoTranscriptLanguage(videoId: string, lang: 'zh' | 'en'): string | undefined {
+  const transcript = getVideoTranscript(videoId);
+  if (!transcript) return undefined;
+  if (lang === 'en') return transcript.paragraphsEn?.length ? transcript.captionLanguage || 'en' : undefined;
+  return transcript.paragraphs.length ? 'zh-CN' : undefined;
 }
 `;
 
@@ -193,25 +266,27 @@ function loadCachedRecords(): TranscriptRecord[] {
 
 const selected = videos.filter((video) => !requestedIds || requestedIds.has(video.id)).slice(0, limit);
 
-for (const video of selected) {
-  process.stdout.write(`Fetching ${video.id} ${video.youtubeUrl} ... `);
-  try {
-    const record = downloadTranscript(video);
-    process.stdout.write(record.paragraphs.length ? `ok (${record.language})\n` : 'unavailable\n');
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    const record: TranscriptRecord = {
-      videoId: video.id,
-      youtubeId: youtubeId(video.youtubeUrl),
-      language: '',
-      fetchedAt: new Date().toISOString().slice(0, 10),
-      source: 'unavailable',
-      paragraphs: [],
-      error: message,
-    };
-    mkdirSync(RAW_DIR, { recursive: true });
-    writeFileSync(join(RAW_DIR, `${video.id}.json`), `${JSON.stringify(record, null, 2)}\n`);
-    process.stdout.write(`error: ${message}\n`);
+if (!emitOnly) {
+  for (const video of selected) {
+    process.stdout.write(`Fetching ${video.id} ${video.youtubeUrl} ... `);
+    try {
+      const record = downloadTranscript(video);
+      process.stdout.write(record.paragraphs.length ? `ok (${record.language})\n` : 'unavailable\n');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      const record: TranscriptRecord = {
+        videoId: video.id,
+        youtubeId: youtubeId(video.youtubeUrl),
+        language: '',
+        fetchedAt: new Date().toISOString().slice(0, 10),
+        source: 'unavailable',
+        paragraphs: [],
+        error: message,
+      };
+      mkdirSync(RAW_DIR, { recursive: true });
+      writeFileSync(join(RAW_DIR, `${video.id}.json`), `${JSON.stringify(record, null, 2)}\n`);
+      process.stdout.write(`error: ${message}\n`);
+    }
   }
 }
 

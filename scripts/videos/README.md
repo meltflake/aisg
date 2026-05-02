@@ -54,12 +54,12 @@ npm run fix:prettier
 npm run check
 ```
 
-### 4. 抓取字幕并生成 transcript 数据
+### 4. 抓取字幕、翻译并生成 transcript 数据
 
 详情页 `/videos/[id]/` 会读取 `src/data/video-transcripts.ts`。该文件由脚本生成，原始 VTT / JSON 缓存在 `scripts/videos/data/transcripts/`（已 gitignore）。
 
 ```bash
-# 抓取全部视频字幕并生成 src/data/video-transcripts.ts
+# 抓取全部视频字幕，并用已有翻译缓存重建 src/data/video-transcripts.ts
 npm run fetch:video-transcripts
 
 # 只抓前 5 条，方便测试
@@ -70,9 +70,31 @@ npm run fetch:video-transcripts -- --ids=v053,v054
 
 # 强制重新抓取已有缓存
 npm run fetch:video-transcripts -- --force
+
+# 只根据缓存重建 src/data/video-transcripts.ts，不重新访问 YouTube
+npm run fetch:video-transcripts -- --emit-only
+```
+
+抓到的 YouTube 字幕通常是英文。中文站点不能直接渲染英文 transcript，必须再跑翻译：
+
+```bash
+# 需要 OPENAI_API_KEY；默认模型可用 OPENAI_TRANSLATION_MODEL 覆盖
+npm run translate:video-transcripts
+
+# 测试前几条或指定条目
+npm run translate:video-transcripts -- --limit=3
+npm run translate:video-transcripts -- --ids=v053,v054
+
+# 强制重翻已有缓存
+npm run translate:video-transcripts -- --force
+
+# 检查所有有英文字幕的记录都有中文默认 transcript
+npm run check:video-transcripts
 ```
 
 脚本依赖本机 `yt-dlp`，优先抓 `en` 字幕，再尝试 `zh-Hans` / `zh-Hant` / `zh`。不是每条 YouTube 视频都有可抓字幕；没有字幕的记录会保留在缓存 JSON，但不会写入页面数据。
+
+输出数据遵守项目 i18n 约定：`paragraphs` 是默认中文 transcript，`paragraphsEn` 是英文 transcript。新增语言时继续按 `paragraphsJa`、`paragraphsKo` 这类兄弟字段扩展。
 
 ## 监控的频道
 

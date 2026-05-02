@@ -4,6 +4,28 @@
 
 ---
 
+## 0.6.2 — 2026-05-02
+
+### 首页：最新分析区视觉平衡微调
+
+- 中文与英文首页的“最新分析 / Latest Analyses”从单列文章列表改为桌面双栏：左侧主稿，右侧“继续阅读 / Continue Reading”两篇次稿。
+- 移动端保持单列阅读流，不改变首页整体节奏。
+- 目的：减少桌面端右侧大面积空白，让文章区左右视觉重量更均衡。
+
+## 0.6.1 — 2026-05-02
+
+### i18n：视频字幕双语化
+
+修复 v0.6.0 的 transcript 漏洞：YouTube 抓到的字幕多数是英文，但中文视频详情页也直接渲染同一份英文 `paragraphs`。
+
+- `src/data/video-transcripts.ts` 改为默认中文 `paragraphs` + 英文 `paragraphsEn`，保留 `captionLanguage`、`translatedAt`、`translationSource`、`translationModel` 方便追溯。
+- 新增 `npm run translate:video-transcripts`：读取 `yt-dlp` 抓到的英文字幕，用 OpenAI 翻译成简体中文，缓存到 `scripts/videos/data/translations/`，再重建页面数据。
+- 新增 `npm run check:video-transcripts` 并并入 `npm run check`，只要英文 transcript 存在但中文默认 transcript 缺失，CI 会失败。
+- 中文 `/videos/[id]/` 只渲染中文 transcript；英文 `/en/videos/[id]/` 只渲染英文 transcript。
+- 本轮 51 条可用视频字幕全部补齐中文翻译；3 条 YouTube 本身无可抓字幕，继续按“无字幕”处理。
+
+验证：`npm run check:video-transcripts` 通过，确认 51 条 transcript 均有 zh / en 段落且段落数一致。
+
 ## 0.6.0 — 2026-05-02
 
 ### SEO / GEO：程序化详情页 + LLM 抓取入口
