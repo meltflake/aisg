@@ -1,16 +1,13 @@
 ---
-// Phase 3 — Editorial homepage rewrite.
+// Editorial homepage — thesis-first.
 //
-// The previous version was 11 feature cards (template-feel) + a hero with
-// double CTAs + DEBATE_STATS dump. This version is FT/Stratechery-shaped:
-// a single thesis, a freshness signal strip, then three sections of actual
-// recent work (analyses, levers, debates). Build-time data only.
+// Hero (thesis + CTA) → breathing room → lever map (visual evidence) →
+// freshness strip (data signal) → debates (recency) → closing thesis.
+// Build-time data only. The "latest analyses" feed lives at /blog/.
 
 import Layout from '~/layouts/PageLayout.astro';
 import JsonLd from '~/components/common/JsonLd.astro';
 import { Icon } from 'astro-icon/components';
-import { findLatestPosts } from '~/utils/blog';
-import { getPermalink } from '~/utils/permalinks';
 import { debates, DEBATE_STATS } from '~/data/debates';
 import { levers } from '~/data/levers';
 import { leverSlug } from '~/utils/entity-pages';
@@ -43,11 +40,6 @@ const websiteSchema = {
 
 // ---- Editorial blocks (build-time computed) ----------------------------
 
-// Filter to zh-only posts on the zh homepage.
-const allLatestPosts = await findLatestPosts({ count: 20 });
-const latestPosts = allLatestPosts.filter((p) => (p.lang ?? 'zh') === 'zh').slice(0, 3);
-const [featuredPost, ...secondaryPosts] = latestPosts;
-
 // Levers split by transmission mode — the structure itself is the argument.
 // Pass-through (state → enterprises) is the larger column; Direct is small.
 const leverProjectCount = (lv: (typeof levers)[number]) => lv.groups.flatMap((g) => g.items).length;
@@ -71,7 +63,7 @@ const totalLeverItems = levers.reduce((sum, lv) => sum + lv.groups.flatMap((g) =
     /* Hero — thesis + lever map in one fold. The structure (4 pass-through
       vs 2 direct) is the argument; copy is intentionally compact. */
   }
-  <section class="relative pt-12 md:pt-16 pb-8 md:pb-10">
+  <section class="relative pt-16 md:pt-24 pb-20 md:pb-32">
     <div class="max-w-5xl mx-auto px-4 sm:px-6">
       <p class="text-xs uppercase tracking-[0.18em] text-primary font-semibold mb-4">新加坡 AI 观察</p>
       <h1
@@ -104,9 +96,9 @@ const totalLeverItems = levers.reduce((sum, lv) => sum + lv.groups.flatMap((g) =
     /* Lever map — visual evidence for the hero thesis. Two columns by
       transmissionMode: pass-through (4) wide-left, direct (2) narrow-right. */
   }
-  <section class="pb-12 md:pb-16">
+  <section class="pb-16 md:pb-24">
     <div class="max-w-5xl mx-auto px-4 sm:px-6">
-      <div class="flex items-baseline justify-between mb-2 gap-4 flex-wrap">
+      <div class="flex items-baseline justify-between mb-3 gap-4 flex-wrap">
         <h2 class="font-serif text-xl md:text-2xl font-semibold text-gray-900 dark:text-white">
           国家级 AI-native 抓手图谱
         </h2>
@@ -114,41 +106,31 @@ const totalLeverItems = levers.reduce((sum, lv) => sum + lv.groups.flatMap((g) =
           完整图谱 →
         </a>
       </div>
-      <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 max-w-prose leading-relaxed">
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-10 max-w-prose leading-relaxed">
         6 个抓手覆盖 {totalLeverItems} 个具体落地项目。按"AI 引入路径"重新切片，跨多个部委串成完整执行管线。
       </p>
 
-      <div class="grid gap-6 md:grid-cols-[2fr_1fr] md:gap-8">
+      <div class="grid gap-10 md:grid-cols-[2fr_1fr] md:gap-12">
         {/* Pass-through column (4 levers) */}
         <div>
-          <div class="flex items-center gap-2 mb-4">
-            <span class="text-xs uppercase tracking-[0.18em] text-primary font-semibold">穿透到企业</span>
-            <span class="text-xs text-gray-400 dark:text-gray-500 tabular-nums">
-              {passThroughLevers.length}
-            </span>
+          <div class="text-xs uppercase tracking-[0.18em] text-primary font-semibold mb-6">
+            穿透到企业 · 国家通过这些抓手放大企业转型
           </div>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">
-            国家通过这些抓手把企业 AI 转型放大
-          </p>
-          <div class="grid sm:grid-cols-2 gap-x-6 gap-y-5">
+          <div class="grid sm:grid-cols-2 gap-x-8 gap-y-7">
             {
               passThroughLevers.map((lv) => (
                 <a
                   href={`/levers/${leverSlug(lv)}/`}
-                  class="group block border-l-2 border-subtle hover:border-primary pl-4 py-1 transition-colors"
+                  class="group block border-l-2 border-subtle hover:border-primary pl-4 transition-colors"
                 >
-                  <div class="flex items-baseline justify-between gap-2 mb-1">
-                    <div class="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 tabular-nums">
-                      抓手 {String(lv.number).padStart(2, '0')}
-                    </div>
-                    <div class="text-xs text-gray-400 dark:text-gray-500 tabular-nums">
-                      {leverProjectCount(lv)} 项目
-                    </div>
+                  <div class="font-serif text-lg md:text-xl font-semibold text-gray-900 dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-tight">
+                    <span class="mr-1.5">{lv.icon}</span>
+                    {lv.name}
                   </div>
-                  <div class="font-serif text-base md:text-lg font-semibold text-gray-900 dark:text-white group-hover:text-primary transition-colors mb-1">
-                    {lv.icon} {lv.name}
+                  <div class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    {lv.subtitle}
+                    <span class="text-gray-400 dark:text-gray-500 tabular-nums"> · {leverProjectCount(lv)} 项目</span>
                   </div>
-                  <div class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">{lv.subtitle}</div>
                 </a>
               ))
             }
@@ -156,45 +138,30 @@ const totalLeverItems = levers.reduce((sum, lv) => sum + lv.groups.flatMap((g) =
         </div>
 
         {/* Direct column (2 levers) */}
-        <div class="md:border-l md:border-subtle md:pl-8">
-          <div class="flex items-center gap-2 mb-4">
-            <span class="text-xs uppercase tracking-[0.18em] text-amber-700 dark:text-amber-400 font-semibold">
-              国家直接做
-            </span>
-            <span class="text-xs text-gray-400 dark:text-gray-500 tabular-nums">{directLevers.length}</span>
+        <div class="md:border-l md:border-subtle md:pl-12">
+          <div class="text-xs uppercase tracking-[0.18em] text-amber-700 dark:text-amber-400 font-semibold mb-6">
+            国家直接做 · 不依赖企业
           </div>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">国家自己直接做，不依赖企业</p>
-          <div class="grid gap-y-5">
+          <div class="grid gap-y-7">
             {
               directLevers.map((lv) => (
                 <a
                   href={`/levers/${leverSlug(lv)}/`}
-                  class="group block border-l-2 border-amber-200 dark:border-amber-900/60 hover:border-amber-600 pl-4 py-1 transition-colors"
+                  class="group block border-l-2 border-amber-200 dark:border-amber-900/60 hover:border-amber-600 pl-4 transition-colors"
                 >
-                  <div class="flex items-baseline justify-between gap-2 mb-1">
-                    <div class="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 tabular-nums">
-                      抓手 {String(lv.number).padStart(2, '0')}
-                    </div>
-                    <div class="text-xs text-gray-400 dark:text-gray-500 tabular-nums">
-                      {leverProjectCount(lv)} 项目
-                    </div>
+                  <div class="font-serif text-lg md:text-xl font-semibold text-gray-900 dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-tight">
+                    <span class="mr-1.5">{lv.icon}</span>
+                    {lv.name}
                   </div>
-                  <div class="font-serif text-base md:text-lg font-semibold text-gray-900 dark:text-white group-hover:text-primary transition-colors mb-1">
-                    {lv.icon} {lv.name}
+                  <div class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    {lv.subtitle}
+                    <span class="text-gray-400 dark:text-gray-500 tabular-nums"> · {leverProjectCount(lv)} 项目</span>
                   </div>
-                  <div class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">{lv.subtitle}</div>
                 </a>
               ))
             }
           </div>
         </div>
-      </div>
-
-      <div class="mt-6 pt-6 border-t border-subtle text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-        7 条传导杠杆里，只有 2 条是国家直接做的；其他 5 条都是国家穿透到企业的杠杆。{' '}
-        <a href="/levers/" class="text-primary hover:text-secondary underline underline-offset-4">
-          了解 7 条传导杠杆 →
-        </a>
       </div>
     </div>
   </section>
@@ -225,85 +192,6 @@ const totalLeverItems = levers.reduce((sum, lv) => sum + lv.groups.flatMap((g) =
           </div>
           <div class="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider mt-1">最近更新</div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  {/* Latest analyses — editorial card stack. */}
-  <section class="py-12 md:py-16">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6">
-      <div class="flex items-baseline justify-between mb-8">
-        <h2 class="font-serif text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white">最新分析</h2>
-        <a
-          href="/blog/"
-          class="text-sm text-gray-500 hover:text-primary dark:text-gray-400 transition-colors hidden sm:inline"
-        >
-          查看全部 →
-        </a>
-      </div>
-      <div class="grid gap-8 lg:grid-cols-[minmax(0,1.45fr)_minmax(280px,0.85fr)] lg:items-start">
-        {
-          featuredPost && (
-            <article class="border-y border-subtle py-6 lg:py-8">
-              <a href={getPermalink(featuredPost.permalink, 'post')} class="group block">
-                <div class="flex items-baseline gap-4 mb-3">
-                  <span class="font-serif text-sm text-primary tabular-nums">01</span>
-                  <span class="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    {featuredPost.category?.title ?? '深度分析'} ·{' '}
-                    {new Date(featuredPost.publishDate).toLocaleDateString('zh-CN', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
-                  </span>
-                </div>
-                <h3 class="font-serif text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white mb-4 leading-snug group-hover:text-primary transition-colors">
-                  {featuredPost.title}
-                </h3>
-                {featuredPost.excerpt && (
-                  <p class="text-gray-600 dark:text-gray-400 leading-[1.9] max-w-2xl">{featuredPost.excerpt}</p>
-                )}
-              </a>
-            </article>
-          )
-        }
-        {
-          secondaryPosts.length > 0 && (
-            <aside class="lg:border-l lg:border-subtle lg:pl-7">
-              <div class="mb-3 text-xs uppercase tracking-[0.18em] text-gray-500 dark:text-gray-400">继续阅读</div>
-              <ol class="divide-y divide-subtle">
-                {secondaryPosts.map((post, idx) => (
-                  <li class="py-5 first:pt-0 last:pb-0">
-                    <a href={getPermalink(post.permalink, 'post')} class="group block">
-                      <div class="flex items-baseline gap-3 mb-2">
-                        <span class="font-serif text-sm text-primary tabular-nums">
-                          {String(idx + 2).padStart(2, '0')}
-                        </span>
-                        <span class="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                          {new Date(post.publishDate).toLocaleDateString('zh-CN', {
-                            month: 'short',
-                            day: 'numeric',
-                          })}
-                        </span>
-                      </div>
-                      <h3 class="font-serif text-lg font-semibold text-gray-900 dark:text-white leading-snug group-hover:text-primary transition-colors">
-                        {post.title}
-                      </h3>
-                      {post.excerpt && (
-                        <p class="mt-3 text-sm text-gray-600 dark:text-gray-400 leading-[1.75] line-clamp-4">
-                          {post.excerpt}
-                        </p>
-                      )}
-                    </a>
-                  </li>
-                ))}
-              </ol>
-            </aside>
-          )
-        }
-      </div>
-      <div class="mt-8 sm:hidden">
-        <a href="/blog/" class="text-sm text-primary hover:text-secondary font-medium">查看全部分析 →</a>
       </div>
     </div>
   </section>
