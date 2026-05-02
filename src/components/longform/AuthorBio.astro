@@ -1,14 +1,13 @@
 ---
 // Phase 2.3 — Author bio block at the end of long-form posts.
 //
-// Resolution order:
-//   1. If the post has `relatedPersonIds[0]` and that resolves in
-//      allPeople, render full Person card (avatar placeholder + name +
-//      title + summary + channels). Links to /people/[id]/.
-//   2. Else if `author` matches a Person by name (via findPersonId),
+// Resolution order (frontmatter `author` is authoritative; never infer
+// authorship from `relatedPersonIds`, which exists for cross-reference,
+// not attribution — politicians cited in a post are not its authors):
+//   1. If `author` matches a Person by name (via findPersonId),
 //      render full Person card.
-//   3. Else fall back to a minimal byline showing the author string.
-//   4. If no author at all, render nothing.
+//   2. Else if `author` exists, render minimal byline with the string.
+//   3. Else render nothing.
 //
 // SAFE: emits empty fragment when nothing to render.
 
@@ -18,18 +17,16 @@ import { getLangFromPath, localizedHref, channelLabel, pickLocalized } from '~/i
 
 interface Props {
   author?: string;
+  /** Accepted for API compatibility but intentionally unused for attribution. */
   relatedPersonIds?: string[];
   class?: string;
 }
 
-const { author, relatedPersonIds = [], class: extraClass = '' } = Astro.props;
+const { author, class: extraClass = '' } = Astro.props;
 const lang = getLangFromPath(new URL(Astro.url).pathname);
 
 let person: Person | undefined;
-if (relatedPersonIds.length > 0) {
-  person = getPerson(relatedPersonIds[0]);
-}
-if (!person && author) {
+if (author) {
   const id = findPersonId(author);
   if (id) person = getPerson(id);
 }
