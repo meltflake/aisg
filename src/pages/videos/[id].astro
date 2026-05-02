@@ -164,21 +164,18 @@ const videoSchema = {
     {
       transcriptParagraphs.length > 0 && (
         <section class="mb-10">
-          <details class="group">
-            <summary class="cursor-pointer list-none flex items-center gap-2 font-serif text-xl font-semibold text-gray-900 dark:text-white mb-4 hover:text-primary transition-colors">
-              <Icon name="tabler:chevron-right" class="w-5 h-5 transition-transform group-open:rotate-90" />
-              {digest ? '完整字幕（原文整理）' : '可读字幕整理'}
-            </summary>
-            <div class="prose prose-slate dark:prose-invert max-w-none mt-3">
-              <p class="text-xs text-gray-500">
-                字幕语言：{transcriptLanguage} · 抓取日期：{transcript?.fetchedAt}
-                {transcript?.translatedAt && ` · 翻译日期：${transcript.translatedAt}`}
-              </p>
-              {transcriptParagraphs.map((paragraph) => (
-                <p>{paragraph}</p>
-              ))}
-            </div>
-          </details>
+          <h2 class="font-serif text-xl font-semibold text-gray-900 dark:text-white mb-4">
+            {digest ? '完整字幕（原文整理）' : '可读字幕整理'}
+          </h2>
+          <div class="prose prose-slate dark:prose-invert max-w-none">
+            <p class="text-xs text-gray-500">
+              字幕语言：{transcriptLanguage} · 抓取日期：{transcript?.fetchedAt}
+              {transcript?.translatedAt && ` · 翻译日期：${transcript.translatedAt}`}
+            </p>
+            {transcriptParagraphs.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </div>
         </section>
       )
     }
