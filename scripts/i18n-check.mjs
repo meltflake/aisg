@@ -81,6 +81,10 @@ function visibleText(htmlSrc) {
   s = s.replace(/<script[\s\S]*?<\/script>/gi, ' ');
   s = s.replace(/<style[\s\S]*?<\/style>/gi, ' ');
   s = s.replace(/<template[\s\S]*?<\/template>/gi, ' ');
+  // English Hansard originals can contain quoted Chinese names, idioms,
+  // titles, or programme names. Strip only explicitly marked original-source
+  // blocks so EN UI/content leaks are still caught elsewhere.
+  s = s.replace(/<section[^>]*data-i18n-allow-cjk=["']hansard-original["'][^>]*>[\s\S]*?<\/section>/gi, ' ');
   // Strip <head>...</head> entirely — meta/title is checked separately
   s = s.replace(/<head[\s\S]*?<\/head>/i, ' ');
   // Remove HTML comments

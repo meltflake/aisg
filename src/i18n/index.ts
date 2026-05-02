@@ -214,7 +214,7 @@ export const zh = {
   governmentStance: '政府立场',
   oppositionStance: '质询立场',
   keyPoints: '关键要点',
-  fullTextEn: '原文节选（英文）',
+  fullTextEn: '英文原文',
   hansardSource: 'Hansard 原始记录',
   controversyLevel: '争议度',
 
@@ -317,7 +317,7 @@ export const en: Partial<Record<keyof typeof zh, string>> = {
   governmentStance: 'Government Position',
   oppositionStance: 'Opposition Position',
   keyPoints: 'Key Points',
-  fullTextEn: 'Original transcript (English)',
+  fullTextEn: 'Original Text (English)',
   hansardSource: 'Hansard Source',
   controversyLevel: 'Controversy',
 

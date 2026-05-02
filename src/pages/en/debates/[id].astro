@@ -7,6 +7,7 @@ import JsonLd from '~/components/common/JsonLd.astro';
 import RelatedRail from '~/components/data/RelatedRail.astro';
 import { Icon } from 'astro-icon/components';
 import { debates } from '~/data/debates';
+import { getDebateTranscript, getDebateTranscriptParagraphs } from '~/data/debate-transcripts';
 import { findPersonId, getPerson } from '~/utils/people';
 import { t, pickLocalized } from '~/i18n';
 
@@ -18,6 +19,9 @@ export const getStaticPaths = (() =>
   debates.map((debate) => ({ params: { id: debate.id }, props: { debate } }))) satisfies GetStaticPaths;
 
 const { debate } = Astro.props;
+const transcript = getDebateTranscript(debate.id);
+const transcriptEn = getDebateTranscriptParagraphs(debate.id, 'en');
+const originalParagraphs = transcriptEn.length ? transcriptEn : debate.summary ? [debate.summary] : [];
 
 const typeMap: Record<string, string> = {
   'Oral Answers to Questions': 'Oral Answer',
@@ -197,18 +201,24 @@ const breadcrumbs = [{ label: t(lang, 'navParliament'), href: '/en/debates/' }, 
       )
     }
 
-    <details class="my-8 border border-subtle rounded-lg">
-      <summary
-        class="cursor-pointer px-4 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-primary"
-      >
-        {t(lang, 'fullTextEn')}
-      </summary>
-      <div
-        class="px-4 pb-4 text-sm text-gray-600 dark:text-gray-400 whitespace-pre-wrap leading-relaxed max-h-[60vh] overflow-y-auto"
-      >
-        {debate.summary}
-      </div>
-    </details>
+    {
+      originalParagraphs.length > 0 && (
+        <section class="my-8 border border-subtle rounded-xl p-5" data-i18n-allow-cjk="hansard-original">
+          <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
+            <h2 class="font-serif text-xl font-semibold text-gray-900 dark:text-white">{t(lang, 'fullTextEn')}</h2>
+            <p class="text-xs text-gray-500 dark:text-gray-400">
+              SPRS Hansard
+              {transcript?.fetchedAt && ` · Fetched: ${transcript.fetchedAt}`}
+            </p>
+          </div>
+          <div class="space-y-4 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+            {originalParagraphs.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </div>
+        </section>
+      )
+    }
 
     <div class="mt-10 flex flex-wrap gap-3">
       {

@@ -13,7 +13,7 @@ sgai.md 的核心资产不是少数导航页，而是每一个可被引用的实
 
 | 模块         | 中文 URL                  | 英文 URL                     | 数据来源                          | 主要 schema                     |
 | ------------ | ------------------------- | ---------------------------- | --------------------------------- | ------------------------------- |
-| 国会辩论     | `/debates/[id]/`          | `/en/debates/[id]/`          | `src/data/debates.ts`             | `Article`                       |
+| 国会辩论     | `/debates/[id]/`          | `/en/debates/[id]/`          | `src/data/debates.ts` + transcript | `Article`                       |
 | 人物观点     | `/voices/[id]/`           | `/en/voices/[id]/`           | `src/data/people.ts`              | `Person`                        |
 | 视频观点     | `/videos/[id]/`           | `/en/videos/[id]/`           | `src/data/videos.ts` + transcript | `VideoObject`                   |
 | 国际对标     | `/benchmarking/[region]/` | `/en/benchmarking/[region]/` | `src/data/benchmarking.ts`        | `Article`                       |
@@ -83,7 +83,32 @@ npm run check:video-transcripts
 
 数据字段遵守 i18n 约定：`paragraphs` 是默认中文 transcript，`paragraphsEn` 是英文 transcript。抓到英文字幕后必须运行 `translate:video-transcripts`，不能让中文页直接展示英文原文。
 
-## 7. LLM / GEO 可读面
+## 7. 国会辩论 transcript 刷新
+
+国会辩论详情页必须让搜索引擎和 LLM 直接看到完整正文，不再把原文藏在折叠区。英文页展示完整 Hansard 原文；中文页同时展示完整中文译文和英文原文。
+
+```bash
+npm run fetch:debate-transcripts
+npm run fetch:debate-transcripts -- --ids=written-answer-21161
+npm run fetch:debate-transcripts -- --force
+npm run fetch:debate-transcripts -- --emit-only
+npm run translate:debate-transcripts
+npm run check:debate-transcripts
+```
+
+脚本位置：
+
+- `scripts/hansard/fetch-debate-transcripts.ts`：从 SPRS API 抓完整 Hansard 原文，并生成页面数据
+- `scripts/hansard/translate-debate-transcripts.ts`：把英文原文翻译成默认中文，支持缓存、并发、5xx/429 重试
+- `scripts/hansard/check-debate-transcript-i18n.ts`：检查每场辩论都有英文原文和中文译文
+
+输出文件：`src/data/debate-transcripts.ts`
+
+缓存目录：`scripts/hansard/data/transcripts/`、`scripts/hansard/data/translations/`，已被 git ignore。少数站内自定义 id（如 `cos-moh-2026`）不是 SPRS report id，脚本会从 `sourceUrl` 的 `reportid=` 解析真实 ID。
+
+数据字段遵守 i18n 约定：`paragraphs` 是默认中文完整译文，`paragraphsEn` 是英文完整原文。非英文页面不得只展示英文原文；英文页不需要显示中文译文。
+
+## 8. LLM / GEO 可读面
 
 GEO 的重点是让模型能低成本理解站点结构和引用具体页面。
 
@@ -94,7 +119,7 @@ GEO 的重点是让模型能低成本理解站点结构和引用具体页面。
 
 新增大型模块后，同步更新 `/llms.txt` 或 `/llms-full.txt` 的生成逻辑。
 
-## 8. 验收命令
+## 9. 验收命令
 
 涉及详情页、共享组件、数据字段、EN 页面时，至少跑：
 
@@ -110,6 +135,15 @@ npm run check:i18n
 npm run fetch:video-transcripts
 npm run translate:video-transcripts
 npm run check:video-transcripts
+npm run check
+```
+
+如果改了国会辩论数据或 transcript：
+
+```bash
+npm run fetch:debate-transcripts
+npm run translate:debate-transcripts
+npm run check:debate-transcripts
 npm run check
 ```
 

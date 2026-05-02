@@ -28,6 +28,11 @@ OpenAI GPT-4.1-mini（中文摘要 + 观点提炼）
 04_analyze_patterns.py   → debate_analysis.json（规律分析）
         ↓
 05_generate_ts.py        → src/data/debates.ts（前端数据文件）
+        ↓
+fetch-debate-transcripts.ts
+translate-debate-transcripts.ts
+check-debate-transcript-i18n.ts
+                         → src/data/debate-transcripts.ts（详情页完整原文 + 译文）
 ```
 
 ## 脚本说明
@@ -50,9 +55,9 @@ playwright install chromium
 
 **SPRS API 端点**：
 ```
-POST https://sprs.parl.gov.sg/search/getHansardTopic
+POST https://sprs.parl.gov.sg/search/getHansardTopic/?id=<report_id>
 Content-Type: application/json
-Body: {"reportid": "<report_id>"}
+Body: {}
 ```
 
 **输出**：`data/all_ai_debates.json`（完整原始数据，~3.8MB）
@@ -98,6 +103,42 @@ export OPENAI_API_KEY=your_key
 
 **输出**：`../../src/data/debates.ts`（~234KB）
 
+### `fetch-debate-transcripts.ts` — 详情页全文抓取
+
+从 `src/data/debates.ts` 读取当前 150 条辩论，调用 SPRS API 抓取完整 Hansard 原文，生成 `src/data/debate-transcripts.ts`。
+
+```bash
+npm run fetch:debate-transcripts
+npm run fetch:debate-transcripts -- --ids=written-answer-21161
+npm run fetch:debate-transcripts -- --force
+npm run fetch:debate-transcripts -- --emit-only
+```
+
+注意：少数站内 id 是便于 SEO 的自定义 id（如 `cos-moh-2026`），不是 SPRS report id。脚本会优先从 `sourceUrl` 的 `reportid=` 解析真实 report id，再回退到 `debate.id`。
+
+### `translate-debate-transcripts.ts` — 详情页全文翻译
+
+读取 `scripts/hansard/data/transcripts/` 中的英文原文缓存，用 OpenAI 翻译为默认中文，缓存到 `scripts/hansard/data/translations/`，再重建 `src/data/debate-transcripts.ts`。
+
+```bash
+export OPENAI_API_KEY=your_key
+npm run translate:debate-transcripts
+HANSARD_TRANSLATION_CONCURRENCY=2 npm run translate:debate-transcripts
+HANSARD_TRANSLATION_BATCH_CHARS=12000 npm run translate:debate-transcripts
+```
+
+默认并发为 3；遇到 429 / 5xx 会自动重试。翻译可以续跑，已有缓存会跳过。
+
+### `check-debate-transcript-i18n.ts` — 详情页全文检查
+
+检查每场辩论都有英文原文 `paragraphsEn` 和默认中文译文 `paragraphs`。该检查已并入 `npm run check`。
+
+```bash
+npm run check:debate-transcripts
+```
+
+页面规则：英文详情页只展示英文原文；中文详情页必须同时展示完整中文译文和完整英文原文，且两者都直接展开，不使用 `<details>` 折叠。
+
 ## 数据目录
 
 ```
@@ -108,6 +149,7 @@ data/
 ```
 
 > **注意**：`all_ai_debates.json`（3.8MB）和 `enriched_debates.json`（4MB）因体积较大未纳入版本控制，可通过运行 `01` → `02` → `03` 脚本重新生成。
+> `transcripts/` 和 `translations/` 也是缓存目录，已被 git ignore；前端提交的是生成后的 `src/data/debate-transcripts.ts`。
 
 ## 重新运行
 
@@ -131,6 +173,12 @@ python 04_analyze_patterns.py
 
 # 5. 生成 TS 文件
 python 05_generate_ts.py
+
+# 6. 更新详情页完整原文和中文译文
+cd ../..
+npm run fetch:debate-transcripts
+npm run translate:debate-transcripts
+npm run check:debate-transcripts
 ```
 
 ## API 协议说明
@@ -141,23 +189,22 @@ python 05_generate_ts.py
 
 ```
 # 获取单条辩论完整内容
-POST https://sprs.parl.gov.sg/search/getHansardTopic
+POST https://sprs.parl.gov.sg/search/getHansardTopic/?id=oral-answer-4023
 Content-Type: application/json
 
-{"reportid": "oral-answer-4023"}
+{}
 
 # 响应结构
 {
-  "takesSectionVOList": [
-    {
-      "title": "辩论标题",
-      "date": "2026-02-18",
-      "parliament": "15",
-      "type": "Oral Answers to Questions",
-      "content": "<html>完整逐字稿</html>",
-      "speakerList": ["Gerald Giam Yean Song", "Josephine Teo"]
-    }
-  ]
+  "resultHTML": {
+    "title": "辩论标题",
+    "sittingDate": "18-2-2026",
+    "parlNo": "15",
+    "reportType": "Oral Answers to Questions",
+    "content": "<p>完整逐字稿 HTML</p>",
+    "mpNames": "Gerald Giam Yean Song, Josephine Teo"
+  },
+  "resultData": null
 }
 ```
 

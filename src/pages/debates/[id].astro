@@ -12,6 +12,7 @@ import JsonLd from '~/components/common/JsonLd.astro';
 import RelatedRail from '~/components/data/RelatedRail.astro';
 import { Icon } from 'astro-icon/components';
 import { debates } from '~/data/debates';
+import { getDebateTranscript, getDebateTranscriptParagraphs } from '~/data/debate-transcripts';
 import { findPersonId, getPerson, personDisplayName } from '~/utils/people';
 import { getPermalink } from '~/utils/permalinks';
 
@@ -24,6 +25,10 @@ export const getStaticPaths = (() =>
   }))) satisfies GetStaticPaths;
 
 const { debate } = Astro.props;
+const transcript = getDebateTranscript(debate.id);
+const transcriptZh = getDebateTranscriptParagraphs(debate.id, 'zh');
+const transcriptEn = getDebateTranscriptParagraphs(debate.id, 'en');
+const originalParagraphs = transcriptEn.length ? transcriptEn : debate.summary ? [debate.summary] : [];
 
 const typeMap: Record<string, string> = {
   'Oral Answers to Questions': '口头答复',
@@ -199,18 +204,43 @@ const breadcrumbs = [{ label: '国会 AI 焦点', href: getPermalink('/debates')
       )
     }
 
-    <details class="my-8 border border-subtle rounded-lg">
-      <summary
-        class="cursor-pointer px-4 py-3 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-primary"
-      >
-        原文节选（英文）
-      </summary>
-      <div
-        class="px-4 pb-4 text-sm text-gray-600 dark:text-gray-400 whitespace-pre-wrap leading-relaxed max-h-[60vh] overflow-y-auto"
-      >
-        {debate.summary}
-      </div>
-    </details>
+    {
+      transcriptZh.length > 0 && (
+        <section class="my-8 border border-primary/20 bg-primary/5 rounded-xl p-5">
+          <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
+            <h2 class="font-serif text-xl font-semibold text-gray-900 dark:text-white">完整译文（中文）</h2>
+            <p class="text-xs text-gray-500 dark:text-gray-400">
+              Hansard 英文原文译文
+              {transcript?.translatedAt && ` · 翻译日期：${transcript.translatedAt}`}
+            </p>
+          </div>
+          <div class="space-y-4 text-base text-gray-700 dark:text-gray-300 leading-[1.9]">
+            {transcriptZh.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      originalParagraphs.length > 0 && (
+        <section class="my-8 border border-subtle rounded-xl p-5">
+          <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-4">
+            <h2 class="font-serif text-xl font-semibold text-gray-900 dark:text-white">英文原文</h2>
+            <p class="text-xs text-gray-500 dark:text-gray-400">
+              SPRS Hansard 原始记录
+              {transcript?.fetchedAt && ` · 抓取日期：${transcript.fetchedAt}`}
+            </p>
+          </div>
+          <div class="space-y-4 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+            {originalParagraphs.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </div>
+        </section>
+      )
+    }
 
     <div class="mt-10 flex flex-wrap gap-3">
       {

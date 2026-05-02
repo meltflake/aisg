@@ -36,6 +36,8 @@ __pycache__/
 scripts/auto_update_config.py
 scripts/logs/
 scripts/data/
+scripts/hansard/data/transcripts/
+scripts/hansard/data/translations/
 scripts/videos/data/
 scripts/voices/data/
 

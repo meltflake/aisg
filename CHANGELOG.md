@@ -4,6 +4,16 @@
 
 ---
 
+## 0.6.8 — 2026-05-02
+
+### 国会辩论：完整原文与中文译文
+
+- 辩论详情页不再折叠 Hansard 原文；英文原文直接展开，方便读者、搜索引擎和 LLM crawler 读取。
+- 中文详情页新增“完整译文（中文）”区域，同时保留“英文原文”；英文详情页只展示英文原文。
+- 新增 `src/data/debate-transcripts.ts`，用完整 Hansard transcript 替代此前被截断的 `debate.summary` 片段。
+- 新增 `npm run fetch:debate-transcripts`、`npm run translate:debate-transcripts`、`npm run check:debate-transcripts`，并把检查并入 `npm run check`。
+- 本轮已为 150 条国会辩论生成完整英文原文和中文译文。
+
 ## 0.6.7 — 2026-05-02
 
 ### Logo：暗色模式颜色微调
