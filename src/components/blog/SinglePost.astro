@@ -7,6 +7,7 @@ import SocialShare from '~/components/common/SocialShare.astro';
 
 import { getPermalink } from '~/utils/permalinks';
 import { getFormattedDate } from '~/utils/utils';
+import { getLangFromPath } from '~/i18n';
 
 import type { Post } from '~/types';
 
@@ -16,6 +17,7 @@ export interface Props {
 }
 
 const { post, url } = Astro.props;
+const lang = getLangFromPath(new URL(Astro.url).pathname);
 ---
 
 <section class="py-8 sm:py-16 lg:py-20 mx-auto">
@@ -28,7 +30,9 @@ const { post, url } = Astro.props;
       <div class="flex justify-between flex-col sm:flex-row max-w-3xl mx-auto mt-0 mb-2 px-4 sm:px-6 sm:items-center">
         <p>
           <Icon name="tabler:clock" class="w-4 h-4 inline-block -mt-0.5 dark:text-gray-400" />
-          <time datetime={String(post.publishDate)} class="inline-block">{getFormattedDate(post.publishDate)}</time>
+          <time datetime={String(post.publishDate)} class="inline-block"
+            >{getFormattedDate(post.publishDate, lang)}</time
+          >
           {
             post.author && (
               <>

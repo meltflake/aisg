@@ -1,4 +1,4 @@
-# SG AI 观察 — SEO 优化实施计划
+# 新加坡 AI 观察 — SEO 优化实施计划
 
 > 文档创建：2026-03-22
 > 站点地址：https://sgai.md/
@@ -92,7 +92,7 @@ analytics:
 {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "SG AI 观察",
+  "name": "新加坡 AI 观察",
   "url": "https://sgai.md/",
   "logo": "https://sgai.md/favicon.svg",
   "description": "持续整理新加坡 AI 相关政策、治理框架与落地执行情况",
@@ -112,8 +112,8 @@ analytics:
   "@type": "Article",
   "headline": "文章标题",
   "datePublished": "2026-03-20",
-  "author": { "@type": "Organization", "name": "SG AI 观察" },
-  "publisher": { "@type": "Organization", "name": "SG AI 观察" },
+  "author": { "@type": "Organization", "name": "新加坡 AI 观察" },
+  "publisher": { "@type": "Organization", "name": "新加坡 AI 观察" },
   "description": "摘要文字",
   "inLanguage": "zh-CN"
 }
@@ -180,7 +180,7 @@ analytics:
 | `/benchmarking`         | 新加坡 AI 战略国际对标——与美国、英国、中国、欧盟等主要经济体的对比分析。              |
 | `/fieldnotes`           | 在新加坡从事 AI 工作的一线观察与实战经验分享。                                        |
 | `/references`           | 新加坡 AI 参考资源——报告、论文、数据集、工具与推荐阅读。                              |
-| `/blog`                 | SG AI 观察深度分析——新加坡 AI 生态的研究文章与评论。                                  |
+| `/blog`                 | 新加坡 AI 观察深度分析——新加坡 AI 生态的研究文章与评论。                                  |
 
 **涉及文件**：各 `src/pages/*/index.astro` 的 `metadata` 对象
 
@@ -236,7 +236,7 @@ analytics:
 
 ```json
 {
-  "name": "SG AI 观察",
+  "name": "新加坡 AI 观察",
   "short_name": "SG AI",
   "start_url": "/",
   "display": "standalone",

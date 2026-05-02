@@ -1,5 +1,5 @@
 site:
-  name: SG AI 观察
+  name: 新加坡 AI 观察
   site: 'https://sgai.md'
   base: '/'
   # Cloudflare Pages serves /debates/ for /debates/index.html and 308-redirects
@@ -9,14 +9,14 @@ site:
 
 metadata:
   title:
-    default: SG AI 观察
-    template: '%s — SG AI 观察'
+    default: 新加坡 AI 观察
+    template: '%s — 新加坡 AI 观察'
   description: '持续整理新加坡 AI 相关政策、治理框架与落地执行情况。'
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: SG AI 观察
+    site_name: 新加坡 AI 观察
     images:
       - url: '~/assets/images/default.png'
         width: 1200

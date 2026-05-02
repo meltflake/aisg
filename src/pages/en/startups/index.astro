@@ -73,7 +73,7 @@ const lang = 'en' as const;
                       {u.name} ↗
                     </a>
                   </td>
-                  <td class="p-3 border border-subtle">{u.sector}</td>
+                  <td class="p-3 border border-subtle">{u.sectorEn || u.sector}</td>
                   <td class="p-3 border border-subtle font-semibold">{u.raised}</td>
                   <td class="p-3 border border-subtle font-semibold text-green-600 dark:text-green-400">
                     {u.valuation}
@@ -85,7 +85,7 @@ const lang = 'en' as const;
                       </span>
                     ) : (
                       <span class="text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded">
-                        {u.status}
+                        {u.statusEn || u.status}
                       </span>
                     )}
                   </td>
@@ -105,7 +105,7 @@ const lang = 'en' as const;
           verticals.map((v) => (
             <div>
               <h3 class="text-lg font-bold mb-3">
-                {v.icon} {v.name}
+                {v.icon} {v.nameEn || v.name}
               </h3>
               <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {v.startups.map((s) => (
@@ -125,13 +125,13 @@ const lang = 'en' as const;
                           s.name
                         )}
                       </h4>
-                      {s.highlight && (
+                      {(s.highlightEn || s.highlight) && (
                         <span class="text-xs font-medium bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200 px-2 py-0.5 rounded whitespace-nowrap ml-2">
-                          {s.highlight}
+                          {s.highlightEn || s.highlight}
                         </span>
                       )}
                     </div>
-                    <p class="text-sm text-muted mb-2">{s.description}</p>
+                    <p class="text-sm text-muted mb-2">{s.descriptionEn || s.description}</p>
                     <div class="flex gap-3 text-xs text-muted">
                       {s.raised && <span class="font-semibold text-green-600 dark:text-green-400">💰 {s.raised}</span>}
                       {s.investors && <span>🏛️ {s.investors}</span>}
@@ -165,11 +165,11 @@ const lang = 'en' as const;
               exits.map((e) => (
                 <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
                   <td class="p-3 border border-subtle font-semibold">{e.name}</td>
-                  <td class="p-3 border border-subtle">{e.description}</td>
-                  <td class="p-3 border border-subtle">{e.acquirer}</td>
+                  <td class="p-3 border border-subtle">{e.descriptionEn || e.description}</td>
+                  <td class="p-3 border border-subtle">{e.acquirerEn || e.acquirer}</td>
                   <td class="p-3 border border-subtle font-semibold text-green-600 dark:text-green-400">{e.amount}</td>
                   <td class="p-3 border border-subtle">{e.year || '—'}</td>
-                  <td class="p-3 border border-subtle text-muted">{e.note}</td>
+                  <td class="p-3 border border-subtle text-muted">{e.noteEn || e.note}</td>
                 </tr>
               ))
             }
@@ -187,15 +187,15 @@ const lang = 'en' as const;
             <div class="bg-surface rounded-lg shadow-sm border border-subtle p-4">
               <h4 class="font-bold text-lg mb-1">{inv.name}</h4>
               <span class="text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-0.5 rounded">
-                {inv.type}
+                {inv.typeEn || inv.type}
               </span>
               <p class="text-sm mt-2">
                 <span class="text-muted">Track record: </span>
-                {inv.stats}
+                {inv.statsEn || inv.stats}
               </p>
               <p class="text-sm">
                 <span class="text-muted">Focus: </span>
-                {inv.focus}
+                {inv.focusEn || inv.focus}
               </p>
             </div>
           ))

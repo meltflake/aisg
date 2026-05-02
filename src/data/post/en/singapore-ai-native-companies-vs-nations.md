@@ -11,7 +11,7 @@ tags:
   - Singapore
   - Budget 2026
   - YC
-author: 'SG AI Observatory'
+author: 'Singapore AI Observatory'
 relatedPolicyIds:
   - budget-2026-national-ai-acceleration
   - public-ai-research-investment-2026-2030

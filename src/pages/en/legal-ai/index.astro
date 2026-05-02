@@ -53,9 +53,9 @@ This is one of the structural reasons OpenAI, Anthropic, DeepMind, Mistral and o
       sections.map((section, sectionIdx) => (
         <div class="mb-16">
           <h2 class="text-2xl font-bold mb-3 border-b-2 border-blue-600 dark:border-blue-400 pb-2">
-            {sectionIdx + 1}. {section.title}
+            {sectionIdx + 1}. {section.titleEn || section.title}
           </h2>
-          <p class="text-sm italic text-muted mb-6">{section.philosophy}</p>
+          <p class="text-sm italic text-muted mb-6">{section.philosophyEn || section.philosophy}</p>
 
           <div class="space-y-4">
             {section.items.map((item) => (
@@ -66,10 +66,9 @@ This is one of the structural reasons OpenAI, Anthropic, DeepMind, Mistral and o
                     {scopeLabel[item.scope].label}
                   </span>
                   <span class="text-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-1 rounded shrink-0">
-                    {item.status}
+                    {item.statusEn || item.status}
                   </span>
                 </div>
-                <p class="text-sm text-muted mb-3">{item.title}</p>
                 <div class="flex gap-2 mb-3 flex-wrap text-xs">
                   {item.authorityUrl ? (
                     <a
@@ -78,19 +77,19 @@ This is one of the structural reasons OpenAI, Anthropic, DeepMind, Mistral and o
                       rel="noopener"
                       class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded hover:underline"
                     >
-                      {item.authority}
+                      {item.authorityEn || item.authority}
                     </a>
                   ) : (
                     <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded">
-                      {item.authority}
+                      {item.authorityEn || item.authority}
                     </span>
                   )}
                   <span class="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-2 py-1 rounded">
                     {item.date}
                   </span>
                 </div>
-                <p class="text-sm font-medium mb-2">{item.summary}</p>
-                <p class="text-sm text-muted mb-3">{item.body}</p>
+                <p class="text-sm font-medium mb-2">{item.summaryEn || item.summary}</p>
+                <p class="text-sm text-muted mb-3">{item.bodyEn || item.body}</p>
                 {item.sourceUrl && (
                   <a
                     href={item.sourceUrl}

@@ -17,11 +17,11 @@ const lang = getLangFromPath(new URL(Astro.url).pathname);
 <button
   id="search-trigger"
   type="button"
-  class="text-muted dark:text-gray-400 hover:text-primary dark:hover:text-white inline-flex items-center gap-1.5 p-2 rounded-md text-sm border border-subtle hover:border-primary transition-colors"
+  class="text-muted dark:text-gray-400 hover:text-primary dark:hover:text-white inline-flex items-center gap-1.5 p-1.5 rounded-md text-sm transition-colors"
   aria-label={t(lang, 'search')}
   aria-keyshortcuts="/"
 >
-  <Icon name="tabler:search" class="w-4 h-4" />
+  <Icon name="tabler:search" class="w-5 h-5" />
   <kbd
     class="hidden xl:inline-flex items-center font-mono text-[0.65rem] text-gray-400 dark:text-gray-500 border border-subtle rounded px-1.5 py-0.5"
     >/</kbd

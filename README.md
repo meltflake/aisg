@@ -1,4 +1,4 @@
-# SG AI 观察
+# 新加坡 AI 观察
 
 深度观察新加坡 AI 生态与战略。不只是信息整理，更是独立视角的深度分析。
 
@@ -6,7 +6,7 @@
 
 ## 项目简介
 
-SG AI 观察追踪新加坡 AI 战略的政策文件、执行数据、国会辩论、创业生态和国际对标，并基于这些一手资料提出独立分析。
+新加坡 AI 观察追踪新加坡 AI 战略的政策文件、执行数据、国会辩论、创业生态和国际对标，并基于这些一手资料提出独立分析。
 
 核心内容：
 
@@ -60,7 +60,7 @@ scripts/
 
 ---
 
-# SG AI Observatory
+# Singapore AI Observatory
 
 In-depth analysis of Singapore's AI ecosystem and strategy. More than information aggregation — independent analytical perspectives.
 
@@ -68,7 +68,7 @@ In-depth analysis of Singapore's AI ecosystem and strategy. More than informatio
 
 ## About
 
-SG AI Observatory tracks Singapore's AI strategy through policy documents, execution data, parliamentary debates, startup ecosystem, and international benchmarking, offering independent analysis based on primary sources.
+Singapore AI Observatory tracks Singapore's AI strategy through policy documents, execution data, parliamentary debates, startup ecosystem, and international benchmarking, offering independent analysis based on primary sources.
 
 Key sections:
 

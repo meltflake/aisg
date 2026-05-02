@@ -7,9 +7,12 @@ import {
   startupProjects,
   summary,
   dataDisclaimer,
+  dataDisclaimerEn,
 } from '~/data/community-opensource';
 
 const lang = 'en' as const;
+const note = summary.noteEn || summary.note;
+const disclaimer = dataDisclaimerEn || dataDisclaimer;
 ---
 
 <Layout
@@ -31,7 +34,7 @@ const lang = 'en' as const;
     <div
       class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-12 text-sm text-blue-800 dark:text-blue-200"
     >
-      💡 {summary.note}
+      💡 {note}
     </div>
 
     <!-- Universities and research institutions -->
@@ -48,7 +51,7 @@ const lang = 'en' as const;
                 )}
               </div>
               <p class="text-xs text-blue-600 dark:text-blue-400 mb-2">{proj.org}</p>
-              <p class="text-sm text-muted mb-3">{proj.description}</p>
+              <p class="text-sm text-muted mb-3">{proj.descriptionEn || proj.description}</p>
               <div class="flex items-center gap-2 flex-wrap">
                 {proj.papers &&
                   proj.papers.map((p) => (
@@ -89,7 +92,7 @@ const lang = 'en' as const;
                 )}
               </div>
               <p class="text-xs text-blue-600 dark:text-blue-400 mb-2">{proj.org}</p>
-              <p class="text-sm text-muted mb-3">{proj.description}</p>
+              <p class="text-sm text-muted mb-3">{proj.descriptionEn || proj.description}</p>
               <div class="flex items-center gap-2 flex-wrap">
                 {proj.papers &&
                   proj.papers.map((p) => (
@@ -128,7 +131,7 @@ const lang = 'en' as const;
                 )}
               </div>
               <p class="text-xs text-blue-600 dark:text-blue-400 mb-2">{proj.org}</p>
-              <p class="text-sm text-muted mb-3">{proj.description}</p>
+              <p class="text-sm text-muted mb-3">{proj.descriptionEn || proj.description}</p>
               {proj.url && (
                 <a
                   href={proj.url}
@@ -146,6 +149,6 @@ const lang = 'en' as const;
     </div>
 
     <!-- Data note -->
-    <p class="mt-12 text-sm text-muted text-center">{dataDisclaimer}</p>
+    <p class="mt-12 text-sm text-muted text-center">{disclaimer}</p>
   </section>
 </Layout>

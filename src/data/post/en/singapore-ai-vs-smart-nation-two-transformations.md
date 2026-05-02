@@ -10,7 +10,7 @@ tags:
   - Singapore
   - Smart Nation
   - Budget 2026
-author: 'SG AI Observatory'
+author: 'Singapore AI Observatory'
 ---
 
 > This piece is a cross-cut comparison: putting Budget 2026's AI strategy side by side with the 2014 Smart Nation Initiative, to see what's the same and what's different about Singapore's two national transformations.

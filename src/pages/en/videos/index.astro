@@ -1,8 +1,13 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import { videos, VIDEO_CATEGORIES, SPEAKER_TYPE_LABELS } from '~/data/videos';
+import { videos, VIDEO_CATEGORIES, SPEAKER_TYPE_LABELS_EN } from '~/data/videos';
+import { pickLocalized } from '~/i18n';
 
 const lang = 'en' as const;
+
+// Helper: pick EN sibling from VideoCategory / VideoItem with safe zh fallback.
+const pickName = (cat: { name: string; nameEn?: string }) => cat.nameEn || cat.name;
+const pickDesc = (cat: { description: string; descriptionEn?: string }) => cat.descriptionEn || cat.description;
 
 const meta = {
   title: 'AI Video Library — Singapore Government, Academia and Industry',
@@ -76,7 +81,7 @@ const allYears = [...new Set(videos.map((v) => v.date.slice(0, 4)))].sort().reve
                   data-value={cat.name}
                   class="filter-btn px-3 py-1.5 rounded-full text-sm border transition-all cursor-pointer"
                 >
-                  {cat.name}
+                  {pickName(cat)}
                   <span class="text-xs opacity-60 ml-1">({count})</span>
                 </button>
               );
@@ -126,7 +131,7 @@ const allYears = [...new Set(videos.map((v) => v.date.slice(0, 4)))].sort().reve
             All
           </button>
           {
-            Object.entries(SPEAKER_TYPE_LABELS).map(([key, label]) => {
+            Object.entries(SPEAKER_TYPE_LABELS_EN).map(([key, label]) => {
               const count = videos.filter((v) => v.speakerType === key).length;
               return (
                 <button
@@ -160,10 +165,10 @@ const allYears = [...new Set(videos.map((v) => v.date.slice(0, 4)))].sort().reve
         videosByTopic.map((group) => (
           <section class="mb-10" data-topic-section={group.name}>
             <div class="flex items-center gap-3 mb-4">
-              <h2 class="text-xl font-bold text-gray-800 dark:text-white">{group.name}</h2>
+              <h2 class="text-xl font-bold text-gray-800 dark:text-white">{pickName(group)}</h2>
               <span class="text-sm text-gray-400">({group.videos.length})</span>
             </div>
-            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">{group.description}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">{pickDesc(group)}</p>
             <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {group.videos.map((video) => (
                 <a
@@ -178,7 +183,7 @@ const allYears = [...new Set(videos.map((v) => v.date.slice(0, 4)))].sort().reve
                 >
                   <div class="flex items-start justify-between mb-2">
                     <h3 class="font-semibold text-gray-800 dark:text-white text-sm leading-snug group-hover:text-blue-600 transition-colors flex-1">
-                      {video.title}
+                      {pickLocalized(video, 'title', 'titleEn', lang)}
                     </h3>
                     <svg
                       class="w-4 h-4 text-gray-400 group-hover:text-blue-500 transition-colors shrink-0 ml-2 mt-0.5"
@@ -197,9 +202,11 @@ const allYears = [...new Set(videos.map((v) => v.date.slice(0, 4)))].sort().reve
                   <div class="text-xs text-gray-500 dark:text-gray-400 mb-2">
                     <span class="font-medium text-gray-700 dark:text-gray-300">{video.speaker}</span>
                     <span class="mx-1">&middot;</span>
-                    {video.speakerTitle}
+                    {pickLocalized(video, 'speakerTitle', 'speakerTitleEn', lang)}
                   </div>
-                  <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-3">{video.summary}</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-3">
+                    {pickLocalized(video, 'summary', 'summaryEn', lang)}
+                  </p>
                   <div class="flex items-center justify-between text-xs text-gray-400">
                     <div class="flex items-center gap-2">
                       <span>{video.date}</span>

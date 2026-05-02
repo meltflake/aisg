@@ -27,6 +27,11 @@ interface Props {
 
 const { headings = [], minHeadings = 3, maxDepth = 3, id = 'toc', class: extraClass = '' } = Astro.props;
 
+import { getLangFromPath } from '~/i18n';
+const lang = getLangFromPath(new URL(Astro.url).pathname);
+const tocLabel = lang === 'en' ? 'Contents' : '目录';
+const tocSummary = (n: number) => (lang === 'en' ? `📑 Contents (${n} sections)` : `📑 目录（${n} 节）`);
+
 const items = (headings || []).filter((h) => h.depth >= 2 && h.depth <= maxDepth && h.slug && h.text);
 
 if (items.length < minHeadings) {
@@ -46,9 +51,13 @@ if (items.length < minHeadings) {
 }
 {
   items.length >= minHeadings && (
-    <details class={`toc-mobile not-prose mb-6 mx-auto max-w-3xl px-4 sm:px-6 ${extraClass}`} id={id} aria-label="目录">
+    <details
+      class={`toc-mobile not-prose mb-6 mx-auto max-w-3xl px-4 sm:px-6 ${extraClass}`}
+      id={id}
+      aria-label={tocLabel}
+    >
       <summary class="cursor-pointer text-sm font-semibold text-gray-700 dark:text-gray-300 py-2 border-y border-subtle select-none">
-        📑 目录（{items.length} 节）
+        {tocSummary(items.length)}
       </summary>
       <ol class="mt-3 space-y-1.5 text-sm border-l border-subtle pl-3">
         {items.map((h) => (

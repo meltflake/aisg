@@ -4,14 +4,18 @@ import { AstroSeo } from '@astrolib/seo';
 
 import type { Props as AstroSeoProps } from '@astrolib/seo';
 
-import { SITE, METADATA, I18N } from 'astrowind:config';
+import { METADATA, I18N } from 'astrowind:config';
 import type { MetaData } from '~/types';
 import { getCanonical } from '~/utils/permalinks';
+import { getLangFromPath, t, type Lang } from '~/i18n';
 
 import { adaptOpenGraphImages } from '~/utils/images';
 
 export interface Props extends MetaData {
   dontUseTitleTemplate?: boolean;
+  /** Override detected lang. Layout passes this so /en/* pages get the
+   *  English siteName, og:locale, and title template. */
+  lang?: Lang;
 }
 
 const {
@@ -22,7 +26,16 @@ const {
   description,
   openGraph = {},
   twitter = {},
+  lang: langOverride,
 } = Astro.props;
+
+const lang: Lang = langOverride ?? getLangFromPath(String(Astro.url.pathname));
+const siteName = t(lang, 'siteName');
+const ogLocale = lang === 'en' ? 'en_US' : 'zh_CN';
+// Localized title template + default. Falls back to config when missing.
+const defaultTitle = lang === 'en' ? siteName : (METADATA?.title?.default ?? siteName);
+const titleTemplate = lang === 'en' ? `%s — ${siteName}` : (METADATA?.title?.template ?? `%s — ${siteName}`);
+const localizedDescription = lang === 'en' ? t('en', 'siteDescription') : (METADATA?.description ?? '');
 
 const seoProps: AstroSeoProps = merge(
   {
@@ -34,9 +47,9 @@ const seoProps: AstroSeoProps = merge(
     description: undefined,
     openGraph: {
       url: canonical,
-      site_name: SITE?.name,
+      site_name: siteName,
       images: [],
-      locale: I18N?.language || 'en',
+      locale: ogLocale || I18N?.language || 'en',
       type: 'website',
     },
     twitter: {
@@ -44,12 +57,12 @@ const seoProps: AstroSeoProps = merge(
     },
   },
   {
-    title: METADATA?.title?.default,
-    titleTemplate: METADATA?.title?.template,
+    title: defaultTitle,
+    titleTemplate: titleTemplate,
     noindex: typeof METADATA?.robots?.index !== 'undefined' ? !METADATA.robots.index : undefined,
     nofollow: typeof METADATA?.robots?.follow !== 'undefined' ? !METADATA.robots.follow : undefined,
-    description: METADATA?.description,
-    openGraph: METADATA?.openGraph,
+    description: localizedDescription,
+    openGraph: METADATA?.openGraph ? { ...METADATA.openGraph, site_name: siteName, locale: ogLocale } : undefined,
     twitter: METADATA?.twitter,
   },
   {
@@ -59,7 +72,7 @@ const seoProps: AstroSeoProps = merge(
     noindex: typeof robots?.index !== 'undefined' ? !robots.index : undefined,
     nofollow: typeof robots?.follow !== 'undefined' ? !robots.follow : undefined,
     description: description,
-    openGraph: { url: canonical, ...openGraph },
+    openGraph: { url: canonical, site_name: siteName, locale: ogLocale, ...openGraph },
     twitter: twitter,
   }
 );

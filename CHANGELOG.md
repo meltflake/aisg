@@ -4,6 +4,51 @@
 
 ---
 
+## 0.4.0 — 2026-05-02
+
+### Brand: 全名 + 新 Logo + 红色主色调
+
+- **品牌全名**：`SG AI 观察` → `新加坡 AI 观察`；`SG AI Observatory` → `Singapore AI Observatory`。不再用 SG 缩写，关键词"新加坡 / Singapore"前置利于搜索抓取。同步刷新所有页面 title、og 标签、blog 文章 author 字段、CHANGELOG / README / docs。
+- **新 Logo**：换成红色环抱 `ai` 字标，替换原 🚀 emoji。新增 favicon（多尺寸 ico + svg + 32px PNG）、apple-touch-icon (180px)、PWA manifest icons (192/512px)。`favicon.svg` 用 `<image>` 包装 PNG 保兼容。
+- **主色调**：`theme-color` 与 manifest `theme_color` 从紫色 `#8D46E7` 改为红色 `#dc2626`，匹配新 logo。
+- **Header 视觉收紧**：右上角搜索按钮去掉外框（`border border-subtle hover:border-primary` 这套），改纯图标按钮，视觉显著变小，与"中/EN"切换按钮的视觉重量对齐。
+
+### i18n 大整顿：清零所有 EN 页面的中文残留
+
+#### 问题
+
+随手抽查 `/en/debates/`、`/en/voices/`、`/en/videos/` 页面，发现大量中文残留：
+
+- 调研下来 366 个 EN 页面有 1970 处 CJK 字符意外显示给英文读者
+- 共享组件（Header / Footer / RelatedRail / AuthorBio / TableOfContents / NextPrevPost / blog ListItem & SinglePost）和 Metadata 都是 zh 硬编码
+- 数据文件已经有 `*En` 兄弟字段，但页面没用 `pickLocalized()`
+- `og:site_name` 在 EN 页面输出 "SG AI 观察"；`og:locale` 一律 `zh-CN`；title 模板硬编码中文站名
+
+#### 解决方案
+
+1. **i18n 规范文档**：[`docs/i18n.md`](docs/i18n.md) — 数据双字段约定、页面渲染规则、共享组件 lang 推断、SEO metadata、新增内容/页面/组件清单。CLAUDE.md 加章节链接到规范。
+2. **自动验证**：`scripts/i18n-check.mjs` 扫 `dist/en/**/*.html` 寻找 CJK 残留。`npm run check:i18n` 调用。0 残留通过。
+3. **共享 chrome 修复**：
+   - `Footer.astro` 用 `t(lang, 'siteName')` 输出本地化品牌名
+   - `Metadata.astro` 接受 `lang` prop，按 lang 输出 `og:site_name`、`og:locale`、title 模板和 description 兜底
+   - `Layout.astro` 把 `currentLang` 传给 Metadata
+4. **共享组件 lang-aware**：
+   - `AuthorBio` / `TableOfContents` / `NextPrevPost` / `RelatedRail` / `blog/ListItem` / `blog/SinglePost` 全部从 URL 推断 lang，按 lang 取字段、生成链接、渲染文案
+   - `getRelatedPosts` 限定同语言邻居，EN 文章不再显示 zh 相关阅读
+   - `utils/utils.ts` 的 `getFormattedDate(date, lang)` 加 lang 参数，分别用 zh-CN 和 en-US locale
+5. **EN 页面修复（17 个）**：debates index/[id]、videos、voices、people/[id]、benchmarking、legal-ai、tracker、fieldnotes、ecosystem、talent、community-opensource、opensource、startups、timeline、references。一律走 `pickLocalized` 或 `*En` 兜底；drop EN 页面下的 zh 副标题。
+6. **数据文件补 EN 兄弟字段**：`SocialChannel` 接口新增 `labelEn?: string`，CJK label 全部配对（voices.ts / people.ts 6 处）
+7. **新增共享 helper**：`channelLabel(ch, lang)` 在 `src/i18n/index.ts`
+
+#### 产出
+
+- 1970 → 0 处 CJK 残留（`npm run check:i18n` 通过）
+- 366 → 0 个污染页面
+- `docs/i18n.md` 长期规范文档
+- 新增内容 / 页面 / 组件按规范执行，自动验证防回归
+
+---
+
 ## 0.3.1 — 2026-05-02
 
 ### Fix: 多语言切换 + Header 重排

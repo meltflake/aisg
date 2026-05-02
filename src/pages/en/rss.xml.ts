@@ -12,7 +12,7 @@ export const GET = async () => {
   const posts = (await fetchPosts()).filter((p) => p.lang === 'en');
 
   const rss = await getRssString({
-    title: `SG AI Observatory`,
+    title: `Singapore AI Observatory`,
     description: 'Independent analysis of Singapore’s AI strategy.',
     site: import.meta.env.SITE,
 

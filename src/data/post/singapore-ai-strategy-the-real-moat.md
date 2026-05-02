@@ -8,7 +8,7 @@ tags:
   - 观点
   - 新加坡
   - AI治理
-author: 'SG AI 观察'
+author: '新加坡 AI 观察'
 relatedPolicyIds:
   - national-ai-strategy-20-nais-20
   - smart-nation-20
@@ -27,7 +27,7 @@ relatedPersonIds:
   - vivian-balakrishnan
 ---
 
-> 本文是 SG AI 观察的核心观点，代表我们观察新加坡 AI 生态的核心视角。我们会持续修正这个判断。
+> 本文是 新加坡 AI 观察的核心观点，代表我们观察新加坡 AI 生态的核心视角。我们会持续修正这个判断。
 
 ---
 

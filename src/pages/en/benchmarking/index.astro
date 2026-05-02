@@ -1,9 +1,11 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import Headline from '~/components/ui/Headline.astro';
-import { regions, regionDetails, insights, dataDate, dataDisclaimer } from '~/data/benchmarking';
+import { regions, regionDetails, insights, dataDate, dataDisclaimerEn, dataDisclaimer } from '~/data/benchmarking';
+import { pickLocalized } from '~/i18n';
 
 const lang = 'en' as const;
+const disclaimer = dataDisclaimerEn || dataDisclaimer;
 ---
 
 <Layout
@@ -45,13 +47,13 @@ const lang = 'en' as const;
                   }
                 >
                   <td class="p-3 border border-subtle whitespace-nowrap">
-                    {r.flag} {r.name}
+                    {r.flag} {r.nameEn || r.name}
                   </td>
-                  <td class="p-3 border border-subtle">{r.strategy}</td>
+                  <td class="p-3 border border-subtle">{r.strategyEn || r.strategy}</td>
                   <td class="p-3 border border-subtle">{r.strategyYear}</td>
-                  <td class="p-3 border border-subtle">{r.investment}</td>
-                  <td class="p-3 border border-subtle">{r.governance}</td>
-                  <td class="p-3 border border-subtle">{r.strength}</td>
+                  <td class="p-3 border border-subtle">{r.investmentEn || r.investment}</td>
+                  <td class="p-3 border border-subtle">{r.governanceEn || r.governance}</td>
+                  <td class="p-3 border border-subtle">{r.strengthEn || r.strength}</td>
                   <td class="p-3 border border-subtle text-muted">{r.aiRanking || '—'}</td>
                 </tr>
               ))
@@ -68,8 +70,8 @@ const lang = 'en' as const;
         {
           insights.map((insight) => (
             <div class="p-5 rounded-lg border border-subtle bg-surface">
-              <h3 class="font-bold text-lg mb-2">{insight.title}</h3>
-              <p class="text-muted text-sm">{insight.text}</p>
+              <h3 class="font-bold text-lg mb-2">{pickLocalized(insight, 'title', 'titleEn', lang)}</h3>
+              <p class="text-muted text-sm">{pickLocalized(insight, 'text', 'textEn', lang)}</p>
             </div>
           ))
         }
@@ -84,11 +86,11 @@ const lang = 'en' as const;
           regionDetails.map((region) => (
             <details class="border border-subtle rounded-lg overflow-hidden">
               <summary class="p-4 bg-slate-50 dark:bg-slate-800 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 font-bold text-lg">
-                {region.flag} {region.name} — {region.fullName}
+                {region.flag} {region.nameEn || region.name} — {region.fullNameEn || region.fullName}
               </summary>
               <div class="p-5 space-y-5">
                 {/* Overview */}
-                <p class="text-muted">{region.overview}</p>
+                <p class="text-muted">{region.overviewEn || region.overview}</p>
 
                 {/* Core strategies */}
                 <div>
@@ -98,7 +100,7 @@ const lang = 'en' as const;
                       <div class="flex gap-2 text-sm">
                         <span class="font-mono text-blue-600 dark:text-blue-400 whitespace-nowrap">{s.year}</span>
                         <span>
-                          <strong>{s.name}</strong> — {s.description}
+                          <strong>{s.nameEn || s.name}</strong> — {s.descriptionEn || s.description}
                         </span>
                       </div>
                     ))}
@@ -120,9 +122,9 @@ const lang = 'en' as const;
                       <tbody>
                         {region.investment.map((inv) => (
                           <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                            <td class="p-2 border border-subtle">{inv.item}</td>
-                            <td class="p-2 border border-subtle font-semibold">{inv.amount}</td>
-                            <td class="p-2 border border-subtle text-muted">{inv.note}</td>
+                            <td class="p-2 border border-subtle">{inv.itemEn || inv.item}</td>
+                            <td class="p-2 border border-subtle font-semibold">{inv.amountEn || inv.amount}</td>
+                            <td class="p-2 border border-subtle text-muted">{inv.noteEn || inv.note}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -133,14 +135,17 @@ const lang = 'en' as const;
                 {/* Governance */}
                 <div>
                   <h4 class="font-semibold mb-2">⚖️ Governance Model</h4>
-                  <p class="text-sm text-muted">{region.governance}</p>
+                  <p class="text-sm text-muted">{region.governanceEn || region.governance}</p>
                 </div>
 
                 {/* Key initiatives */}
                 <div>
                   <h4 class="font-semibold mb-2">🎯 Key Initiatives</h4>
                   <ul class="list-disc list-inside text-sm space-y-1">
-                    {region.keyInitiatives.map((item) => (
+                    {(region.keyInitiativesEn && region.keyInitiativesEn.length
+                      ? region.keyInitiativesEn
+                      : region.keyInitiatives
+                    ).map((item) => (
                       <li>{item}</li>
                     ))}
                   </ul>
@@ -151,15 +156,20 @@ const lang = 'en' as const;
                   <div>
                     <h4 class="font-semibold mb-2 text-green-600 dark:text-green-400">✅ Strengths vs Singapore</h4>
                     <ul class="text-sm space-y-1">
-                      {region.strengths.map((s) => (
-                        <li class="text-green-700 dark:text-green-300">• {s}</li>
-                      ))}
+                      {(region.strengthsEn && region.strengthsEn.length ? region.strengthsEn : region.strengths).map(
+                        (s) => (
+                          <li class="text-green-700 dark:text-green-300">• {s}</li>
+                        )
+                      )}
                     </ul>
                   </div>
                   <div>
                     <h4 class="font-semibold mb-2 text-red-600 dark:text-red-400">❌ Weaknesses vs Singapore</h4>
                     <ul class="text-sm space-y-1">
-                      {region.weaknesses.map((w) => (
+                      {(region.weaknessesEn && region.weaknessesEn.length
+                        ? region.weaknessesEn
+                        : region.weaknesses
+                      ).map((w) => (
                         <li class="text-red-700 dark:text-red-300">• {w}</li>
                       ))}
                     </ul>
@@ -172,7 +182,7 @@ const lang = 'en' as const;
                   <div class="space-y-1 text-sm">
                     {region.keyBodies.map((body) => (
                       <div>
-                        <strong>{body.name}</strong> — {body.role}
+                        <strong>{body.nameEn || body.name}</strong> — {body.roleEn || body.role}
                       </div>
                     ))}
                   </div>
@@ -182,7 +192,7 @@ const lang = 'en' as const;
                 <div>
                   <h4 class="font-semibold mb-2 text-muted">📚 Sources</h4>
                   <ul class="text-xs text-muted space-y-0.5">
-                    {region.sources.map((src) => (
+                    {(region.sourcesEn && region.sourcesEn.length ? region.sourcesEn : region.sources).map((src) => (
                       <li>• {src}</li>
                     ))}
                   </ul>
@@ -196,7 +206,7 @@ const lang = 'en' as const;
 
     <!-- Data note -->
     <div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-800 border border-subtle">
-      <p class="text-sm text-muted">⚠️ {dataDisclaimer}</p>
+      <p class="text-sm text-muted">⚠️ {disclaimer}</p>
       <p class="text-xs text-muted mt-1">Last updated: {dataDate}</p>
     </div>
   </section>

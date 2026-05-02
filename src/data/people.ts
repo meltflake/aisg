@@ -53,7 +53,12 @@ export type Affiliation =
 export interface SocialChannel {
   platform: string; // 'twitter' | 'linkedin' | 'facebook' | 'website' | 'newsletter' | 'github'
   url: string;
+  /** Display label in zh. May be Latin (e.g. "@handle") if the label is
+   *  language-neutral. When `label` contains CJK characters, callers MUST
+   *  also set `labelEn` so EN pages can display the English equivalent. */
   label?: string;
+  /** English sibling of `label`. Required if `label` contains CJK. */
+  labelEn?: string;
   primary?: boolean;
 }
 
@@ -105,7 +110,7 @@ export const people: Person[] = [
         primary: true,
       },
       { platform: 'facebook', url: 'https://www.facebook.com/JosephineTeoYLM/' },
-      { platform: 'website', url: 'https://www.mddi.gov.sg/', label: 'MDDI 官网' },
+      { platform: 'website', url: 'https://www.mddi.gov.sg/', label: 'MDDI 官网', labelEn: 'MDDI website' },
     ],
   },
   {
@@ -128,7 +133,7 @@ export const people: Person[] = [
         url: 'https://www.facebook.com/lawrencewongst/',
         primary: true,
       },
-      { platform: 'website', url: 'https://www.pmo.gov.sg/', label: 'PMO 官网' },
+      { platform: 'website', url: 'https://www.pmo.gov.sg/', label: 'PMO 官网', labelEn: 'PMO website' },
     ],
   },
   {
@@ -151,7 +156,7 @@ export const people: Person[] = [
         url: 'https://www.facebook.com/VivianBalakrishnan/',
         primary: true,
       },
-      { platform: 'website', url: 'https://www.mfa.gov.sg/', label: 'MFA 官网' },
+      { platform: 'website', url: 'https://www.mfa.gov.sg/', label: 'MFA 官网', labelEn: 'MFA website' },
     ],
   },
   {
@@ -168,7 +173,15 @@ export const people: Person[] = [
     summary: '在国际论坛频繁发声谈 AI 治理与社会影响，推动全球 AI 安全对话。',
     summaryEn:
       'A frequent voice at international forums on AI governance and societal impact; advances the global AI safety dialogue.',
-    channels: [{ platform: 'website', url: 'https://www.istana.gov.sg/', label: 'Istana 官网', primary: true }],
+    channels: [
+      {
+        platform: 'website',
+        url: 'https://www.istana.gov.sg/',
+        label: 'Istana 官网',
+        labelEn: 'Istana website',
+        primary: true,
+      },
+    ],
   },
   {
     id: 'tan-kiat-how',
@@ -212,6 +225,7 @@ export const people: Person[] = [
         platform: 'website',
         url: 'https://www.ntu.edu.sg/about-us/university-leadership/profiles/professor-ho-teck-hua',
         label: 'NTU 官方档案',
+        labelEn: 'NTU official profile',
         primary: true,
       },
     ],
@@ -236,7 +250,12 @@ export const people: Person[] = [
         url: 'https://www.linkedin.com/in/laurenceliew/',
         primary: true,
       },
-      { platform: 'website', url: 'https://aifirstnation.org/', label: 'AI-First Nation 博客' },
+      {
+        platform: 'website',
+        url: 'https://aifirstnation.org/',
+        label: 'AI-First Nation 博客',
+        labelEn: 'AI-First Nation blog',
+      },
     ],
   },
 ];

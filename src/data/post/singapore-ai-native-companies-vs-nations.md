@@ -10,7 +10,7 @@ tags:
   - 新加坡
   - Budget 2026
   - YC
-author: 'SG AI 观察'
+author: '新加坡 AI 观察'
 relatedPolicyIds:
   - budget-2026-national-ai-acceleration
   - public-ai-research-investment-2026-2030

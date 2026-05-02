@@ -9,7 +9,7 @@ tags:
   - 新加坡
   - Smart Nation
   - Budget 2026
-author: 'SG AI 观察'
+author: '新加坡 AI 观察'
 ---
 
 > 本文是一次横切对比：把 Budget 2026 的 AI 战略和 2014 年的 Smart Nation 倡议并排放，看新加坡两次国家级转型的同与不同。

@@ -46,7 +46,13 @@ export const institutions: Institution[] = [
     roleEn:
       "The lead ministry for top-level design and coordination of Singapore's AI policy; publishes speeches, policy documents and official responses.",
     channels: [
-      { platform: 'website', url: 'https://www.mddi.gov.sg/', label: '官网 (含演讲稿全文)', primary: true },
+      {
+        platform: 'website',
+        url: 'https://www.mddi.gov.sg/',
+        label: '官网 (含演讲稿全文)',
+        labelEn: 'Website (full speech archive)',
+        primary: true,
+      },
       { platform: 'linkedin', url: 'https://www.linkedin.com/company/mddisg/' },
       { platform: 'facebook', url: 'https://www.facebook.com/mdaboremdisg/' },
     ],
@@ -60,10 +66,15 @@ export const institutions: Institution[] = [
     roleEn:
       'The executive agency responsible for AI governance frameworks and industry adoption; publisher of AI Verify and the Model AI Governance Framework.',
     channels: [
-      { platform: 'website', url: 'https://www.imda.gov.sg/', label: '官网', primary: true },
+      { platform: 'website', url: 'https://www.imda.gov.sg/', label: '官网', labelEn: 'Website', primary: true },
       { platform: 'linkedin', url: 'https://www.linkedin.com/company/imda-sg/' },
       { platform: 'facebook', url: 'https://www.facebook.com/IMDAsg/' },
-      { platform: 'newsletter', url: 'https://www.imda.gov.sg/', label: '月度 Newsletter' },
+      {
+        platform: 'newsletter',
+        url: 'https://www.imda.gov.sg/',
+        label: '月度 Newsletter',
+        labelEn: 'Monthly newsletter',
+      },
     ],
   },
   {
@@ -75,7 +86,7 @@ export const institutions: Institution[] = [
     roleEn:
       'The national platform for AI research and talent development; operates flagship programmes including SEA-LION, AIAP, 100E and LADP.',
     channels: [
-      { platform: 'website', url: 'https://aisingapore.org/', label: '官网', primary: true },
+      { platform: 'website', url: 'https://aisingapore.org/', label: '官网', labelEn: 'Website', primary: true },
       { platform: 'linkedin', url: 'https://www.linkedin.com/company/aisingapore/' },
       { platform: 'facebook', url: 'https://www.facebook.com/aisingaporepage/' },
       { platform: 'youtube', url: 'https://www.youtube.com/@AISingapore' },
@@ -92,7 +103,7 @@ export const institutions: Institution[] = [
     roleEn:
       "The overarching framework for Singapore's digital transformation, covering AI, digital infrastructure and digital inclusion.",
     channels: [
-      { platform: 'website', url: 'https://www.smartnation.gov.sg/', label: '官网', primary: true },
+      { platform: 'website', url: 'https://www.smartnation.gov.sg/', label: '官网', labelEn: 'Website', primary: true },
       { platform: 'youtube', url: 'https://www.youtube.com/@smartnationsingapore' },
       { platform: 'facebook', url: 'https://www.facebook.com/SmartNationSG/' },
     ],
@@ -105,7 +116,7 @@ export const institutions: Institution[] = [
     role: '开源 AI 治理测试工具，推动 AI 可信赖性的国际标准。',
     roleEn: 'Open-source AI governance testing toolkit; advances international standards for trustworthy AI.',
     channels: [
-      { platform: 'website', url: 'https://aiverifyfoundation.sg/', label: '官网', primary: true },
+      { platform: 'website', url: 'https://aiverifyfoundation.sg/', label: '官网', labelEn: 'Website', primary: true },
       { platform: 'github', url: 'https://github.com/aiverify-foundation' },
     ],
   },
@@ -116,7 +127,9 @@ export const institutions: Institution[] = [
     zhName: '个人数据保护委员会',
     role: '数据保护与 AI 伦理治理的监管机构，发布 Model AI Governance Framework。',
     roleEn: 'Regulator for data protection and AI ethics governance; publisher of the Model AI Governance Framework.',
-    channels: [{ platform: 'website', url: 'https://www.pdpc.gov.sg/', label: '官网', primary: true }],
+    channels: [
+      { platform: 'website', url: 'https://www.pdpc.gov.sg/', label: '官网', labelEn: 'Website', primary: true },
+    ],
   },
 ];
 

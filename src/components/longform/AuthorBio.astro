@@ -14,6 +14,7 @@
 
 import { getPerson, findPersonId } from '~/utils/people';
 import type { Person } from '~/data/people';
+import { getLangFromPath, localizedHref, channelLabel, pickLocalized } from '~/i18n';
 
 interface Props {
   author?: string;
@@ -22,6 +23,7 @@ interface Props {
 }
 
 const { author, relatedPersonIds = [], class: extraClass = '' } = Astro.props;
+const lang = getLangFromPath(new URL(Astro.url).pathname);
 
 let person: Person | undefined;
 if (relatedPersonIds.length > 0) {
@@ -35,9 +37,14 @@ if (!person && author) {
 const hasContent = !!person || !!author;
 const isStub = person && (!person.summary || person.summary.startsWith('[需补充]'));
 
-const initials = person
-  ? (person.zhName || person.name).slice(0, 2)
-  : (author || '').replace(/[A-Za-z]+\s*/g, '').slice(0, 2) || (author || '').slice(0, 2);
+const personName = person ? (lang === 'en' ? person.name : person.zhName || person.name) : '';
+const personTitle = person ? pickLocalized(person, 'zhTitle', 'title', lang) : '';
+const personSummary = person ? pickLocalized(person, 'summary', 'summaryEn', lang) : '';
+const initialsSeed = person ? personName : author || '';
+const authorLabel = lang === 'en' ? 'Author' : '作者';
+
+const initials =
+  initialsSeed.replace(/[A-Za-z]+\s*/g, '').slice(0, 2) || initialsSeed.replace(/\s+/g, '').slice(0, 2) || '·';
 ---
 
 {
@@ -51,20 +58,20 @@ const initials = person
           {initials}
         </div>
         <div class="flex-1 min-w-0">
-          <p class="text-xs uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-1">作者</p>
+          <p class="text-xs uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-1">{authorLabel}</p>
           {person ? (
             <a
-              href={`/people/${person.id}/`}
+              href={localizedHref(`/people/${person.id}/`, lang)}
               class="text-base font-bold text-gray-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             >
-              {person.zhName || person.name}
+              {personName}
             </a>
           ) : (
             <p class="text-base font-bold text-gray-800 dark:text-white">{author}</p>
           )}
-          {person && person.zhTitle && <p class="text-sm text-gray-600 dark:text-gray-300 mt-0.5">{person.zhTitle}</p>}
-          {person && !isStub && person.summary && (
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-2 leading-relaxed">{person.summary}</p>
+          {person && personTitle && <p class="text-sm text-gray-600 dark:text-gray-300 mt-0.5">{personTitle}</p>}
+          {person && !isStub && personSummary && (
+            <p class="text-sm text-gray-600 dark:text-gray-400 mt-2 leading-relaxed">{personSummary}</p>
           )}
           {person && person.channels && person.channels.length > 0 && (
             <div class="flex flex-wrap gap-1.5 mt-3">
@@ -75,7 +82,7 @@ const initials = person
                   rel="noopener noreferrer"
                   class="text-xs text-blue-600 dark:text-blue-400 hover:underline"
                 >
-                  {ch.label || ch.platform}
+                  {channelLabel(ch, lang)}
                 </a>
               ))}
             </div>

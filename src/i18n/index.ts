@@ -50,6 +50,39 @@ export function pickLocalized(record: any, zhKey: string, enKey: string, lang: L
   return record?.[zhKey] as string | null | undefined;
 }
 
+/** Default English labels for known social-channel platforms. Pages may
+ *  augment this map locally if they want platform-specific labels. */
+const PLATFORM_LABELS_EN: Record<string, string> = {
+  twitter: 'X (Twitter)',
+  x: 'X',
+  linkedin: 'LinkedIn',
+  facebook: 'Facebook',
+  website: 'Website',
+  newsletter: 'Newsletter',
+  github: 'GitHub',
+  youtube: 'YouTube',
+};
+
+/** Resolve a SocialChannel display label for the given lang.
+ *  EN: prefer labelEn → platform map → label fallback only if Latin-only.
+ *  zh: prefer label → platform map.
+ *  Never emits CJK on EN pages as long as channels with zh `label` also
+ *  set `labelEn`. */
+export function channelLabel(
+  ch: { platform: string; label?: string; labelEn?: string },
+  lang: Lang,
+  platformLabelsOverride?: Record<string, string>
+): string {
+  const platformMap = platformLabelsOverride ?? PLATFORM_LABELS_EN;
+  if (lang === 'en') {
+    if (ch.labelEn) return ch.labelEn;
+    if (platformMap[ch.platform]) return platformMap[ch.platform];
+    if (ch.label && !/[一-鿿]/.test(ch.label)) return ch.label; // Latin label is safe
+    return ch.platform;
+  }
+  return ch.label || platformMap[ch.platform] || ch.platform;
+}
+
 /** Dictionary lookup. Returns a stable string. */
 export function t(lang: Lang, key: keyof typeof zh): string {
   const dict = lang === 'en' ? en : zh;
@@ -60,7 +93,7 @@ export function t(lang: Lang, key: keyof typeof zh): string {
 
 export const zh = {
   // Site identity
-  siteName: 'SG AI 观察',
+  siteName: '新加坡 AI 观察',
   siteTagline: '深度观察新加坡 AI 生态与战略',
   siteDescription: '深度观察新加坡 AI 生态与战略——独立视角的中文分析平台。追踪政策、辩论、抓手与生态。',
 
@@ -115,7 +148,7 @@ export const zh = {
   controversyLevel: '争议度',
 
   // Homepage chrome
-  heroEyebrow: 'SG AI 观察',
+  heroEyebrow: '新加坡 AI 观察',
   heroHeadline: '新加坡的 AI 战略，',
   heroHeadline2: '真正的护城河不在技术，在制度。',
   heroSubtitle:
@@ -164,7 +197,7 @@ export const zh = {
 };
 
 export const en: Partial<Record<keyof typeof zh, string>> = {
-  siteName: 'SG AI Observatory',
+  siteName: 'Singapore AI Observatory',
   siteTagline: 'In-depth coverage of Singapore’s AI strategy and ecosystem',
   siteDescription:
     'Independent analysis of Singapore’s AI strategy — tracking policies, parliamentary debates, levers, and the startup ecosystem.',
@@ -216,7 +249,7 @@ export const en: Partial<Record<keyof typeof zh, string>> = {
   hansardSource: 'Hansard Source',
   controversyLevel: 'Controversy',
 
-  heroEyebrow: 'SG AI Observatory',
+  heroEyebrow: 'Singapore AI Observatory',
   heroHeadline: 'Singapore’s AI strategy:',
   heroHeadline2: 'the real moat is institutional, not technical.',
   heroSubtitle:

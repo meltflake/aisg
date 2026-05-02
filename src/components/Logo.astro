@@ -1,11 +1,14 @@
 ---
 import { getLangFromPath, t } from '~/i18n';
+import logoUrl from '~/assets/favicons/logo.png';
 
 const lang = getLangFromPath(new URL(Astro.url).pathname);
+const siteName = t(lang, 'siteName');
 ---
 
 <span
-  class="self-center ml-2 rtl:ml-0 rtl:mr-2 text-2xl md:text-xl font-bold text-gray-900 whitespace-nowrap dark:text-white"
+  class="inline-flex items-center gap-2 self-center ml-2 rtl:ml-0 rtl:mr-2 text-2xl md:text-xl font-bold text-gray-900 whitespace-nowrap dark:text-white"
 >
-  🚀 {t(lang, 'siteName')}
+  <img src={logoUrl.src} alt="" width="32" height="32" class="h-7 w-7 md:h-6 md:w-6 shrink-0" />
+  {siteName}
 </span>

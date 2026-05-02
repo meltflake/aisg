@@ -290,7 +290,10 @@ export const getStaticPathsBlogTag = async ({ paginate }: { paginate: PaginateFu
 
 /** */
 export async function getRelatedPosts(originalPost: Post, maxResults: number = 4): Promise<Post[]> {
-  const allPosts = await fetchPosts();
+  // Constrain related posts to the same lang as the host post so EN posts
+  // never surface zh siblings (and vice versa).
+  const targetLang = originalPost.lang ?? 'zh';
+  const allPosts = (await fetchPosts()).filter((p) => (p.lang ?? 'zh') === targetLang);
   const originalTagsSet = new Set(originalPost.tags ? originalPost.tags.map((tag) => tag.slug) : []);
 
   const postsWithScores = allPosts.reduce((acc: { post: Post; score: number }[], iteratedPost: Post) => {

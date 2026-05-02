@@ -1,15 +1,22 @@
 {
-  "name": "SG AI 观察",
-  "short_name": "SG AI",
+  "name": "新加坡 AI 观察 / Singapore AI Observatory",
+  "short_name": "新加坡 AI 观察",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#8D46E7",
+  "theme_color": "#dc2626",
   "icons": [
     {
-      "src": "/favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml"
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }

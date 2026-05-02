@@ -9,7 +9,7 @@ tags:
   - Opinion
   - Singapore
   - AI Governance
-author: 'SG AI Observatory'
+author: 'Singapore AI Observatory'
 relatedPolicyIds:
   - national-ai-strategy-20-nais-20
   - smart-nation-20
@@ -28,7 +28,7 @@ relatedPersonIds:
   - vivian-balakrishnan
 ---
 
-> This piece lays out SG AI Observatory's core thesis — the lens we use to look at Singapore's AI ecosystem. We will keep refining this judgement over time.
+> This piece lays out Singapore AI Observatory's core thesis — the lens we use to look at Singapore's AI ecosystem. We will keep refining this judgement over time.
 
 ---
 

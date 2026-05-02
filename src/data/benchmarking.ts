@@ -1354,6 +1354,6 @@ export const insights: InsightItem[] = [
 
 export const dataDate = '2026-02-17';
 export const dataDisclaimer =
-  '本页数据综合自各国政府官方文件、国际组织报告及公开报道，由 SG AI 观察独立整理。数据截至 2026 年 2 月。';
+  '本页数据综合自各国政府官方文件、国际组织报告及公开报道，由 新加坡 AI 观察独立整理。数据截至 2026 年 2 月。';
 export const dataDisclaimerEn =
-  'Data on this page is compiled from official government documents, international organisation reports and public sources, independently curated by SG AI Observatory. Data as of February 2026.';
+  'Data on this page is compiled from official government documents, international organisation reports and public sources, independently curated by Singapore AI Observatory. Data as of February 2026.';

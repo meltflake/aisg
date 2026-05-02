@@ -4,7 +4,7 @@
 import Layout from '~/layouts/PageLayout.astro';
 import { allPeople, type Person } from '~/data/people';
 import { getRelated, getPersonCounts } from '~/utils/graph';
-import { t, pickLocalized } from '~/i18n';
+import { t, pickLocalized, channelLabel } from '~/i18n';
 
 const lang = 'en' as const;
 
@@ -24,7 +24,7 @@ const summary = pickLocalized(person, 'summary', 'summaryEn', lang) || '';
 const isStub = !summary || summary === 'Profile pending.' || summary.startsWith('[需补充]');
 
 const meta = {
-  title: `${person.name} — SG AI Observatory`,
+  title: `${person.name} — Singapore AI Observatory`,
   description: summary || `${person.name}'s positions in Singapore's AI policy debates.`,
 };
 
@@ -58,11 +58,7 @@ const categoryColors: Record<Person['category'], string> = {
         </span>
       </div>
       {person.title && <p class="text-gray-700 dark:text-gray-300 mt-2 font-medium">{person.title}</p>}
-      {
-        person.zhTitle && person.zhTitle !== person.title && (
-          <p class="text-sm text-gray-500 dark:text-gray-400 italic">{person.zhTitle}</p>
-        )
-      }
+      {/* zhTitle intentionally hidden on EN page */}
     </div>
 
     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
@@ -117,7 +113,7 @@ const categoryColors: Record<Person['category'], string> = {
                     : 'bg-gray-50 border-gray-200 text-gray-600 hover:border-gray-300 dark:bg-slate-700 dark:border-slate-600 dark:text-gray-300'
                 }`}
               >
-                {ch.label || ch.platform}
+                {channelLabel(ch, lang)}
               </a>
             ))}
           </div>
@@ -142,7 +138,7 @@ const categoryColors: Record<Person['category'], string> = {
                 <div class="flex items-start justify-between gap-3 flex-wrap">
                   <div class="flex-1 min-w-0">
                     <h3 class="font-semibold text-gray-800 dark:text-white text-sm leading-snug">{d.title}</h3>
-                    {d.zhTitle && <p class="text-xs text-gray-400 mt-0.5">{d.zhTitle}</p>}
+                    {/* d.zhTitle intentionally hidden on EN page */}
                   </div>
                   <div class="text-xs text-gray-500 shrink-0 text-right">
                     <div>{d.date}</div>

@@ -26,7 +26,7 @@ const lang = 'en' as const;
         sections.map((section) => (
           <div>
             <h2 class="text-xl font-bold mb-4">
-              {section.icon} {section.title}
+              {section.icon} {section.titleEn || section.title}
             </h2>
             <div class="overflow-x-auto">
               <table class="w-full text-sm border-collapse">
@@ -40,8 +40,8 @@ const lang = 'en' as const;
                 <tbody>
                   {section.rows.map((row) => (
                     <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                      <td class="p-3 border border-subtle">{row.name}</td>
-                      <td class="p-3 border border-subtle font-semibold">{row.value}</td>
+                      <td class="p-3 border border-subtle">{row.nameEn || row.name}</td>
+                      <td class="p-3 border border-subtle font-semibold">{row.valueEn || row.value}</td>
                       <td class="p-3 border border-subtle text-muted">
                         {row.sourceUrl ? (
                           <a
@@ -50,10 +50,10 @@ const lang = 'en' as const;
                             rel="noopener"
                             class="text-blue-600 dark:text-blue-400 hover:underline"
                           >
-                            {row.source} ↗
+                            {row.sourceEn || row.source} ↗
                           </a>
                         ) : (
-                          row.source
+                          row.sourceEn || row.source
                         )}
                       </td>
                     </tr>

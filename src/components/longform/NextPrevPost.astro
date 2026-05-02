@@ -12,6 +12,7 @@
 import type { Post } from '~/types';
 import { fetchPosts } from '~/utils/blog';
 import { getPermalink } from '~/utils/permalinks';
+import { getLangFromPath, localizedHref } from '~/i18n';
 
 interface Props {
   post: Post;
@@ -19,12 +20,26 @@ interface Props {
 }
 
 const { post, class: extraClass = '' } = Astro.props;
+const lang = getLangFromPath(new URL(Astro.url).pathname);
+const isEn = lang === 'en';
+const olderLabel = isEn ? '← Previous (older)' : '← 上一篇（更早）';
+const newerLabel = isEn ? 'Next (newer) →' : '下一篇（更新） →';
 
-const allPosts = await fetchPosts();
+// Filter siblings to the same lang as the host page so EN prev/next stays EN.
+const allPosts = (await fetchPosts()).filter((p) => {
+  const postLang = (p as Post & { lang?: 'zh' | 'en' }).lang ?? 'zh';
+  return postLang === lang;
+});
 // allPosts is already sorted desc by publishDate. Index 0 = newest.
 const idx = allPosts.findIndex((p) => p.slug === post.slug);
 const newer = idx > 0 ? allPosts[idx - 1] : undefined; // earlier in array = newer
 const older = idx >= 0 && idx < allPosts.length - 1 ? allPosts[idx + 1] : undefined;
+
+const olderTitle = older?.title ?? '';
+const newerTitle = newer?.title ?? '';
+
+const localize = (href: string) => localizedHref(href, lang);
+void isEn;
 ---
 
 {
@@ -35,12 +50,12 @@ const older = idx >= 0 && idx < allPosts.length - 1 ? allPosts[idx + 1] : undefi
     >
       {older ? (
         <a
-          href={getPermalink(older.permalink, 'post')}
+          href={localize(getPermalink(older.permalink, 'post'))}
           class="block p-4 rounded-lg border border-subtle hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-sm transition-all group"
         >
-          <p class="text-xs uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-1">← 上一篇（更早）</p>
+          <p class="text-xs uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-1">{olderLabel}</p>
           <p class="text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 leading-snug">
-            {older.title}
+            {olderTitle}
           </p>
         </a>
       ) : (
@@ -48,12 +63,12 @@ const older = idx >= 0 && idx < allPosts.length - 1 ? allPosts[idx + 1] : undefi
       )}
       {newer ? (
         <a
-          href={getPermalink(newer.permalink, 'post')}
+          href={localize(getPermalink(newer.permalink, 'post'))}
           class="block p-4 rounded-lg border border-subtle hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-sm transition-all group sm:text-right"
         >
-          <p class="text-xs uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-1">下一篇（更新） →</p>
+          <p class="text-xs uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-1">{newerLabel}</p>
           <p class="text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 leading-snug">
-            {newer.title}
+            {newerTitle}
           </p>
         </a>
       ) : (

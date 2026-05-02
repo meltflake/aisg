@@ -31,29 +31,28 @@ const lang = 'en' as const;
                   <h3 class="text-xl font-bold">
                     {prog.icon} {prog.nameEn}
                   </h3>
-                  <p class="text-sm text-muted">{prog.name}</p>
                 </div>
-                {prog.status && (
+                {(prog.statusEn || prog.status) && (
                   <span class="text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded whitespace-nowrap">
-                    {prog.status}
+                    {prog.statusEn || prog.status}
                   </span>
                 )}
               </div>
-              <p class="text-sm mb-4">{prog.description}</p>
+              <p class="text-sm mb-4">{prog.descriptionEn || prog.description}</p>
 
               {/* Key stats */}
               <div class="grid grid-cols-2 gap-2 mb-4">
                 {prog.stats.map((stat) => (
                   <div class="bg-slate-50 dark:bg-slate-800 rounded p-2 text-center">
-                    <div class="text-lg font-bold text-blue-600 dark:text-blue-400">{stat.value}</div>
-                    <div class="text-xs text-muted">{stat.label}</div>
+                    <div class="text-lg font-bold text-blue-600 dark:text-blue-400">{stat.valueEn || stat.value}</div>
+                    <div class="text-xs text-muted">{stat.labelEn || stat.label}</div>
                   </div>
                 ))}
               </div>
 
               {/* Highlights */}
               <ul class="text-sm space-y-1">
-                {prog.highlights.map((h) => (
+                {(prog.highlightsEn && prog.highlightsEn.length ? prog.highlightsEn : prog.highlights).map((h) => (
                   <li class="flex items-start gap-2">
                     <span class="text-blue-600 dark:text-blue-400 mt-0.5">•</span>
                     <span>{h}</span>

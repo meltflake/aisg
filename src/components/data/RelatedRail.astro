@@ -18,7 +18,7 @@
 // no whitespace shift on the host page.
 
 import { getRelated, type EntityRef, type RelatedBundle } from '~/utils/graph';
-import { getLangFromPath, type Lang } from '~/i18n';
+import { getLangFromPath, localizedHref, type Lang } from '~/i18n';
 
 interface Props {
   /** Anchor entity. The component resolves relations via getRelated(). */
@@ -49,11 +49,45 @@ const {
   lang: langOverride,
 } = Astro.props;
 
-// Lang detection wired up; full lang-aware rendering is being incrementally
-// applied across the template. Currently the template still shows zh strings;
-// the next pass will replace them with isEn ternaries.
 const lang: Lang = langOverride ?? getLangFromPath(new URL(Astro.url).pathname);
-void lang;
+const isEn = lang === 'en';
+
+// Localized labels.
+const L = {
+  rel: isEn ? 'Related: ' : '关联：',
+  relatedReading: isEn ? 'Related Reading' : '相关阅读',
+  noneYet: isEn ? 'No related references yet.' : '尚未关联其他资源。',
+  hPeople: isEn ? 'People' : '人物',
+  hPolicies: isEn ? 'Policies' : '政策',
+  hDebates: isEn ? 'Parliamentary debates' : '国会辩论',
+  hLevers: isEn ? 'Levers' : '抓手',
+  hTimeline: isEn ? 'Timeline' : '时间节点',
+  hAnalyses: isEn ? 'Analyses' : '深度分析',
+  moreDebates: (n: number) => (isEn ? `… and ${n} more` : `…另有 ${n} 条`),
+  moreDebatesInline: (n: number) => (isEn ? `+${n} more debates` : `+${n} 条辩论`),
+  ariaPerson: (name: string) => (isEn ? `Related person: ${name}` : `相关人物：${name}`),
+  ariaPolicy: (title: string) => (isEn ? `Related policy: ${title}` : `相关政策：${title}`),
+  ariaDebate: (title: string) => (isEn ? `Related debate: ${title}` : `相关辩论：${title}`),
+  ariaLever: (n: number, name: string) => (isEn ? `Related lever: ${n} ${name}` : `相关抓手：${name}`),
+  ariaTimeline: (year: string | number, title: string) =>
+    isEn ? `Related milestone: ${year} ${title}` : `相关时间节点：${year} ${title}`,
+  ariaAnalysis: (slug: string) => (isEn ? `Related analysis: ${slug}` : `相关分析：${slug}`),
+  leverTag: (n: number, name: string) => (isEn ? `Lever ${n} · ${name}` : `抓手 ${n}：${name}`),
+};
+
+// Localized field pickers.
+const personLabel = (p: { name: string; zhName?: string }) => (isEn ? p.name : p.zhName || p.name);
+const personSub = (p: { title?: string; zhTitle?: string }) => (isEn ? p.title : p.zhTitle);
+const policyLabel = (p: { title: string; titleEn?: string }) => (isEn ? p.titleEn || p.title : p.title);
+const debateLabel = (d: { title: string; zhTitle?: string }) => (isEn ? d.title : d.zhTitle || d.title);
+const leverNameLabel = (lv: { name: string; nameEn?: string }) => (isEn ? lv.nameEn || lv.name : lv.name);
+const leverSub = (lv: { subtitle: string; subtitleEn?: string }) => (isEn ? lv.subtitleEn || lv.subtitle : lv.subtitle);
+const tlTitle = (e: { title: string; titleEn?: string }) => (isEn ? e.titleEn || e.title : e.title);
+
+const linkPolicies = localizedHref('/policies/', lang);
+const linkDebates = localizedHref('/debates/', lang);
+const linkLevers = localizedHref('/levers/', lang);
+const linkTimeline = localizedHref('/timeline/', lang);
 
 const empty = (): RelatedBundle => ({
   policies: [],
@@ -89,60 +123,75 @@ const skip = isEmpty && hideWhenEmpty;
 {
   !skip && variant === 'compact' && (
     <div class={`mt-3 pt-3 border-t border-dashed border-subtle text-xs ${extraClass}`}>
-      <span class="text-gray-400 dark:text-gray-500 font-medium mr-2">关联：</span>
+      <span class="text-gray-400 dark:text-gray-500 font-medium mr-2">{L.rel}</span>
       <div class="inline-flex flex-wrap gap-x-2 gap-y-1 align-baseline">
-        {filtered.people.map((p) => (
-          <a
-            href={`/people/${p.id}/`}
-            class="text-blue-600 dark:text-blue-400 hover:underline"
-            title={p.name}
-            aria-label={`相关人物：${p.zhName || p.name}`}
-          >
-            👤 {p.zhName || p.name}
-          </a>
-        ))}
-        {filtered.policies.map((p) => (
-          <a
-            href="/policies/"
-            class="text-purple-600 dark:text-purple-400 hover:underline"
-            aria-label={`相关政策：${p.title}`}
-          >
-            📋 {p.title}
-          </a>
-        ))}
-        {filtered.debates.slice(0, 5).map((d) => (
-          <a
-            href="/debates/"
-            class="text-amber-700 dark:text-amber-400 hover:underline"
-            aria-label={`相关辩论：${d.zhTitle}`}
-          >
-            🏛️ {d.zhTitle.length > 24 ? d.zhTitle.slice(0, 24) + '…' : d.zhTitle}
-          </a>
-        ))}
-        {filtered.debates.length > 5 && <span class="text-gray-400">+{filtered.debates.length - 5} 条辩论</span>}
-        {filtered.levers.map((lv) => (
-          <a
-            href="/levers/"
-            class="text-emerald-700 dark:text-emerald-400 hover:underline"
-            aria-label={`相关抓手：${lv.name}`}
-          >
-            🎯 抓手 {lv.number}：{lv.name}
-          </a>
-        ))}
+        {filtered.people.map((p) => {
+          const name = personLabel(p);
+          return (
+            <a
+              href={localizedHref(`/people/${p.id}/`, lang)}
+              class="text-blue-600 dark:text-blue-400 hover:underline"
+              title={p.name}
+              aria-label={L.ariaPerson(name)}
+            >
+              👤 {name}
+            </a>
+          );
+        })}
+        {filtered.policies.map((p) => {
+          const title = policyLabel(p);
+          return (
+            <a
+              href={linkPolicies}
+              class="text-purple-600 dark:text-purple-400 hover:underline"
+              aria-label={L.ariaPolicy(title)}
+            >
+              📋 {title}
+            </a>
+          );
+        })}
+        {filtered.debates.slice(0, 5).map((d) => {
+          const title = debateLabel(d);
+          const trimmed = title.length > 24 ? title.slice(0, 24) + '…' : title;
+          return (
+            <a
+              href={linkDebates}
+              class="text-amber-700 dark:text-amber-400 hover:underline"
+              aria-label={L.ariaDebate(title)}
+            >
+              🏛️ {trimmed}
+            </a>
+          );
+        })}
+        {filtered.debates.length > 5 && (
+          <span class="text-gray-400">{L.moreDebatesInline(filtered.debates.length - 5)}</span>
+        )}
+        {filtered.levers.map((lv) => {
+          const name = leverNameLabel(lv);
+          return (
+            <a
+              href={linkLevers}
+              class="text-emerald-700 dark:text-emerald-400 hover:underline"
+              aria-label={L.ariaLever(lv.number, name)}
+            >
+              🎯 {L.leverTag(lv.number, name)}
+            </a>
+          );
+        })}
         {filtered.timeline.map((e) => (
           <a
-            href="/timeline/"
+            href={linkTimeline}
             class="text-rose-700 dark:text-rose-400 hover:underline"
-            aria-label={`相关时间节点：${e.year} ${e.title}`}
+            aria-label={L.ariaTimeline(e.year, tlTitle(e))}
           >
             📅 {e.year}
           </a>
         ))}
         {filtered.postSlugs.map((slug) => (
           <a
-            href={`/${slug}/`}
+            href={localizedHref(`/${slug}/`, lang)}
             class="text-indigo-700 dark:text-indigo-400 hover:underline"
-            aria-label={`相关分析：${slug}`}
+            aria-label={L.ariaAnalysis(slug)}
           >
             📝 {slug}
           </a>
@@ -156,37 +205,47 @@ const skip = isEmpty && hideWhenEmpty;
   !skip && variant === 'full' && (
     <aside class={`mt-12 pt-8 border-t border-subtle ${extraClass}`} aria-label="Related references">
       <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-5 flex items-center gap-2">
-        <span>🔗</span> 相关阅读
+        <span>🔗</span> {L.relatedReading}
       </h2>
 
       {renderEmpty ? (
-        <p class="text-sm text-gray-400 italic">尚未关联其他资源。</p>
+        <p class="text-sm text-gray-400 italic">{L.noneYet}</p>
       ) : (
         <div class="grid gap-5 md:grid-cols-2">
           {filtered.people.length > 0 && (
             <section>
-              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">人物</h3>
+              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
+                {L.hPeople}
+              </h3>
               <ul class="space-y-1.5">
-                {filtered.people.map((p) => (
-                  <li>
-                    <a href={`/people/${p.id}/`} class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
-                      {p.zhName || p.name}
-                    </a>
-                    {p.zhTitle && <span class="text-xs text-gray-500 ml-2">{p.zhTitle}</span>}
-                  </li>
-                ))}
+                {filtered.people.map((p) => {
+                  const sub = personSub(p);
+                  return (
+                    <li>
+                      <a
+                        href={localizedHref(`/people/${p.id}/`, lang)}
+                        class="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+                      >
+                        {personLabel(p)}
+                      </a>
+                      {sub && <span class="text-xs text-gray-500 ml-2">{sub}</span>}
+                    </li>
+                  );
+                })}
               </ul>
             </section>
           )}
 
           {filtered.policies.length > 0 && (
             <section>
-              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">政策</h3>
+              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
+                {L.hPolicies}
+              </h3>
               <ul class="space-y-1.5">
                 {filtered.policies.map((p) => (
                   <li class="text-sm">
-                    <a href="/policies/" class="text-purple-600 dark:text-purple-400 hover:underline">
-                      {p.title}
+                    <a href={linkPolicies} class="text-purple-600 dark:text-purple-400 hover:underline">
+                      {policyLabel(p)}
                     </a>
                     {p.date && <span class="text-xs text-gray-500 ml-2">{p.date}</span>}
                   </li>
@@ -198,19 +257,19 @@ const skip = isEmpty && hideWhenEmpty;
           {filtered.debates.length > 0 && (
             <section>
               <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
-                国会辩论
+                {L.hDebates}
               </h3>
               <ul class="space-y-1.5">
                 {filtered.debates.slice(0, 8).map((d) => (
                   <li class="text-sm">
-                    <a href="/debates/" class="text-amber-700 dark:text-amber-400 hover:underline">
-                      {d.zhTitle}
+                    <a href={linkDebates} class="text-amber-700 dark:text-amber-400 hover:underline">
+                      {debateLabel(d)}
                     </a>
                     <span class="text-xs text-gray-500 ml-2">{d.date}</span>
                   </li>
                 ))}
                 {filtered.debates.length > 8 && (
-                  <li class="text-xs text-gray-400 italic">…另有 {filtered.debates.length - 8} 条</li>
+                  <li class="text-xs text-gray-400 italic">{L.moreDebates(filtered.debates.length - 8)}</li>
                 )}
               </ul>
             </section>
@@ -218,14 +277,16 @@ const skip = isEmpty && hideWhenEmpty;
 
           {filtered.levers.length > 0 && (
             <section>
-              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">抓手</h3>
+              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
+                {L.hLevers}
+              </h3>
               <ul class="space-y-1.5">
                 {filtered.levers.map((lv) => (
                   <li class="text-sm">
-                    <a href="/levers/" class="text-emerald-700 dark:text-emerald-400 hover:underline">
-                      抓手 {lv.number}：{lv.name}
+                    <a href={linkLevers} class="text-emerald-700 dark:text-emerald-400 hover:underline">
+                      {L.leverTag(lv.number, leverNameLabel(lv))}
                     </a>
-                    <span class="text-xs text-gray-500 ml-2">{lv.subtitle}</span>
+                    <span class="text-xs text-gray-500 ml-2">{leverSub(lv)}</span>
                   </li>
                 ))}
               </ul>
@@ -235,13 +296,13 @@ const skip = isEmpty && hideWhenEmpty;
           {filtered.timeline.length > 0 && (
             <section>
               <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
-                时间节点
+                {L.hTimeline}
               </h3>
               <ul class="space-y-1.5">
                 {filtered.timeline.map((e) => (
                   <li class="text-sm">
-                    <a href="/timeline/" class="text-rose-700 dark:text-rose-400 hover:underline">
-                      {e.year} · {e.title}
+                    <a href={linkTimeline} class="text-rose-700 dark:text-rose-400 hover:underline">
+                      {e.year} · {tlTitle(e)}
                     </a>
                   </li>
                 ))}
@@ -252,12 +313,15 @@ const skip = isEmpty && hideWhenEmpty;
           {filtered.postSlugs.length > 0 && (
             <section>
               <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
-                深度分析
+                {L.hAnalyses}
               </h3>
               <ul class="space-y-1.5">
                 {filtered.postSlugs.map((slug) => (
                   <li class="text-sm">
-                    <a href={`/${slug}/`} class="text-indigo-700 dark:text-indigo-400 hover:underline">
+                    <a
+                      href={localizedHref(`/${slug}/`, lang)}
+                      class="text-indigo-700 dark:text-indigo-400 hover:underline"
+                    >
                       {slug}
                     </a>
                   </li>

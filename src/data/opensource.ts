@@ -210,7 +210,7 @@ export const papers: Paper[] = [
 ];
 
 export const dataDisclaimer =
-  '本页数据来源：HuggingFace API、GitHub API，由 SG AI 观察独立采集，非官方数据。最后更新：2026-02-17。';
+  '本页数据来源：HuggingFace API、GitHub API，由 新加坡 AI 观察独立采集，非官方数据。最后更新：2026-02-17。';
 
 export const dataDisclaimerEn =
-  'Data on this page is sourced from the HuggingFace API and GitHub API, independently collected by SG AI Observatory and is not official. Last updated: 2026-02-17.';
+  'Data on this page is sourced from the HuggingFace API and GitHub API, independently collected by Singapore AI Observatory and is not official. Last updated: 2026-02-17.';

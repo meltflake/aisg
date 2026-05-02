@@ -6,6 +6,20 @@ import { timelineEvents } from '~/data/timeline';
 import { pickLocalized } from '~/i18n';
 
 const lang = 'en' as const;
+
+// Tag set is small and stable — translate inline rather than threading per-tag EN siblings.
+const TAG_EN: Record<string, string> = {
+  人才: 'Talent',
+  国际: 'International',
+  预算: 'Budget',
+  战略: 'Strategy',
+  医疗: 'Healthcare',
+  治理: 'Governance',
+  技术: 'Tech',
+  产业: 'Industry',
+  创新: 'Innovation',
+};
+const tagEn = (t: string) => TAG_EN[t] || t;
 ---
 
 <Layout
@@ -46,7 +60,7 @@ const lang = 'en' as const;
                       <div class="flex gap-1 flex-wrap">
                         {event.tags.map((tag) => (
                           <span class="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-0.5 rounded">
-                            {tag}
+                            {tagEn(tag)}
                           </span>
                         ))}
                       </div>
